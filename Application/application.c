@@ -22,6 +22,7 @@ void app_init(void){
 }
 
 void CheckState_handler(void){
+  EmberStatus status;
   get_state(&application.state_real);
   if(application.state_real != application.state_before){
       application.state_before = application.state_real;
@@ -30,7 +31,10 @@ void CheckState_handler(void){
       SendChange.cmd = CHANGE_STATUS;
       SendChange.data[0] = application.state_before;
       SendChange.len = 2;
-      radio_send_packet(&SendChange);
+      status = radio_send_packet(&SendChange);
+      if(status == EMBER_SUCCESS){
+          sl_led_toggle(&sl_led_led1);
+      }
   }
   emberEventControlSetDelayMS(*CheckState_control,300);
 }

@@ -40,6 +40,7 @@
 #include "poll.h"
 #include "sl_app_common.h"
 #include "app_process.h"
+#include "sl_sleeptimer.h"
 #include "app_framework_common.h"
 #if defined(SL_CATALOG_LED0_PRESENT)
 #include "sl_simple_led_instances.h"
@@ -79,9 +80,11 @@ static EmberNodeId sink_node_id = EMBER_COORDINATOR_ADDRESS;
 bool register_control;
 uint32_t press_start_time = 0;
 bool button_is_pressed = false;
+uint32_t timer_counter = 200;
 // -----------------------------------------------------------------------------
 //                          Public Function Definitions
 // -----------------------------------------------------------------------------
+
 void sl_button_on_change(const sl_button_t *handle)
 {
 
@@ -171,7 +174,7 @@ void emberAfMessageSentCallback(EmberStatus status,
 {
   (void) message;
   if (status != EMBER_SUCCESS) {
-    app_log_info("TX: 0x%02X\n", status);
+      app_log_info("TX: 0x%02X\n", status);
   }
 }
 
@@ -214,19 +217,20 @@ void emberAfTickCallback(void)
 
   uint32_t current_time = sl_sleeptimer_get_tick_count();
 
-    if(button_is_pressed){
-        if((current_time - press_start_time) > 100000){
-            sl_led_turn_off(&sl_led_led0);
-        }
-    }
-
-#if defined(SL_CATALOG_LED0_PRESENT)
-  if (emberStackIsUp()) {
-    sl_led_turn_on(&sl_led_led0);
-  } else {
-    sl_led_turn_off(&sl_led_led0);
+  if(((current_time - press_start_time) > 100000) && button_is_pressed){
+      sl_led_turn_off(&sl_led_led0);
+  }else{
+      if (emberStackIsUp()) {
+          sl_led_turn_on(&sl_led_led0);
+      }else {
+          if((current_time - timer_counter) > 7800){
+              timer_counter = current_time;
+              sl_led_toggle(&sl_led_led0);
+          }
+      }
   }
-#endif
+
+
 }
 
 /**************************************************************************//**

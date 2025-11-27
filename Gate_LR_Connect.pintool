@@ -8,9 +8,7 @@
     <property object="GPIO" propertyId="ABPeripheral.included" value="true"/>
     <property object="I2C1" propertyId="ABModule.selectedRequirement" value="i2c%T%SL_I2CSPM_SENSOR%T%sl_i2cspm_sensor_config.h"/>
     <property object="I2C1" propertyId="ABPeripheral.included" value="true"/>
-    <property object="PA07" propertyId="ABModule.selectedRequirement" value="gpio%T%SL_SIMPLE_LED_LED0%T%sl_simple_led_led0_config.h"/>
-    <property object="PA07" propertyId="pin.reserve" value="Reserved"/>
-    <property object="PA08" propertyId="ABModule.selectedRequirement" value="gpio%T%SL_SIMPLE_LED_LED1%T%sl_simple_led_led1_config.h"/>
+    <property object="PA07" propertyId="ABModule.selectedRequirement" value="gpio%T%SL_SIMPLE_LED_LED1%T%sl_simple_led_led1_config.h"/>
     <property object="PA08" propertyId="pin.name" value="Verde"/>
     <property object="PA08" propertyId="pin.reserve" value="Reserved"/>
     <property object="PB00" propertyId="ABModule.selectedRequirement" value="gpio%T%SL_BOARD_ENABLE_VCOM%T%sl_board_control_config.h"/>

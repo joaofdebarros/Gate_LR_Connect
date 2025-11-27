@@ -77,18 +77,7 @@ void emberAfInitCallback(void)
   // Ensure that psa is initialized corretly
   psa_crypto_init();
 
-  USART0->CTRL |= USART_CTRL_RXINV;
-
-  // init temperature sensor
-  if (!sl_si70xx_present(sl_i2cspm_sensor, SI7021_ADDR, &device_id)) {
-    // wait a bit before re-trying
-    // the si7021 sensor can take up to 80 ms (25 ms @25 deg C) to start up
-    sl_sleeptimer_delay_millisecond(80);
-    // init temperature sensor (2nd attempt)
-    if (!sl_si70xx_present(sl_i2cspm_sensor, SI7021_ADDR, &device_id)) {
-      app_log_error("Failed to initialize temperature sensor!\n");
-    }
-  }
+  USART0->CTRL |= USART_CTRL_RXINV;  // INVERTER RX PARA CIRCUITO COM TRANSISTORES
 
   emberAfAllocateEvent(&report_control, &report_handler);
   // CLI info message

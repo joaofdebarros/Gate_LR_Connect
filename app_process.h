@@ -58,5 +58,5 @@ extern bool enable_sleep;
  * endian 16-bits decimal.
  *****************************************************************************/
 void report_handler(void);
-
+void timer_callback();
 #endif  // APP_PROCESS_H

@@ -53,7 +53,6 @@ void connect_init(void)
 }
 
 void TimeoutStatus_handler(void){
-  sl_led_toggle(&sl_led_led1);
   gate_get_status();
   emberEventControlSetDelayMS(*TimeoutStatus_control,500);
 }
@@ -247,6 +246,7 @@ void packet_receive(uint8_t *byte_receive){
 
     if (ConnectLR.packetError == GATE_PACKET_OK) {
         if(ConnectLR.gate_packet.function == 'H'){
+//            sl_led_toggle(&sl_led_led1);
             ConnectLR.gate_info.state = ConnectLR.gate_packet.data[5];
             switch (ConnectLR.gate_info.state) {
               case ABERTO:
