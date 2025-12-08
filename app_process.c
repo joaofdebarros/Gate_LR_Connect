@@ -72,6 +72,9 @@ uint16_t sensor_report_period_ms =  (1 * MILLISECOND_TICKS_PER_SECOND);
 /// TX options set up for the network
 EmberMessageOptions tx_options = EMBER_OPTIONS_ACK_REQUESTED | EMBER_OPTIONS_SECURITY_ENABLED;
 
+extern packet_void_t sendRadio;
+extern send_queue_t radioQueue[MAX_QUEUE_PACKETS];
+
 // -----------------------------------------------------------------------------
 //                                Static Variables
 // -----------------------------------------------------------------------------
@@ -132,7 +135,7 @@ void report_handler(void)
 
 
       application.radio.LastCMD = sendRadio.cmd;
-      radio_send_packet(&sendRadio);
+      radio_send_packet(&sendRadio, false);
 
 
       enable_sleep = !enable_sleep;
@@ -172,10 +175,23 @@ bool emberAfCommonOkToEnterLowPowerCallback(bool enter_em2, uint32_t duration_ms
 void emberAfMessageSentCallback(EmberStatus status,
                                 EmberOutgoingMessage *message)
 {
-  (void) message;
-  if (status != EMBER_SUCCESS) {
-      app_log_info("TX: 0x%02X\n", status);
-  }
+  for(int i = 0; i < MAX_QUEUE_PACKETS; i++){
+            if(message->payload[0] == radioQueue[i].packet.cmd){
+                if(status == EMBER_SUCCESS){
+                    radioQueue[i].slot_used = false;
+                    radioQueue[i].attempts = 0;
+                }else{
+                    if(radioQueue[i].attempts == MAX_QUEUE_PACKET_ATTEMPTS){
+                        radioQueue[i].slot_used = false;
+                        radioQueue[i].attempts = 0;
+                    }else{
+                        radioQueue[i].slot_used = true;
+                        radioQueue[i].attempts++;
+                        radio_send_packet(&radioQueue[i].packet, true);
+                    }
+                }
+            }
+      }
 }
 
 /**************************************************************************//**

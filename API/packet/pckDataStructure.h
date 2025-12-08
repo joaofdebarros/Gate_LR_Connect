@@ -35,13 +35,16 @@ typedef enum SensorCmd_e{
 	CMD_UNKNOWN = 0xFF
 }SensorCmd_e;
 
-
-
-
 typedef struct{
 		SensorCmd_e cmd;
 		uint8_t data[8];
 		uint8_t len;
 }packet_void_t;
+
+typedef struct{
+    bool slot_used;
+    uint8_t attempts;
+    packet_void_t packet;
+}send_queue_t;
 
 #endif /* ET001_PCKDATASTRUCTURE_H_ */

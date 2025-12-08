@@ -12,6 +12,9 @@ application_t application;
 EmberEventControl *radio_control;
 EmberEventControl *CheckState_control;
 
+packet_void_t sendRadio;
+send_queue_t radioQueue[MAX_QUEUE_PACKETS];
+
 void app_init(void){
   app_log_info("Teste init");
   connect_init();
@@ -27,11 +30,10 @@ void CheckState_handler(void){
   if(application.state_real != application.state_before){
       application.state_before = application.state_real;
       app_log_info("Change status");
-      packet_void_t SendChange;
-      SendChange.cmd = CHANGE_STATUS;
-      SendChange.data[0] = application.state_before;
-      SendChange.len = 2;
-      status = radio_send_packet(&SendChange);
+      sendRadio.cmd = CHANGE_STATUS;
+      sendRadio.data[0] = application.state_before;
+      sendRadio.len = 2;
+      status = radio_send_packet(&sendRadio, false);
       if(status == EMBER_SUCCESS){
           sl_led_toggle(&sl_led_led1);
       }
@@ -52,9 +54,13 @@ void radio_handler(void){
   emberEventControlSetInactive(*radio_control);
 }
 
-EmberStatus radio_send_packet(packet_void_t *pck){
+EmberStatus radio_send_packet(packet_void_t *pck, bool retrying){
   uint8_t buffer_send[8];
   EmberStatus status;
+
+  if(!retrying){
+      Queue_manager(pck);
+  }
 
   buffer_send[0] = pck->cmd;
   for(uint8_t i = 0; i < (pck->len-1); i++){
@@ -63,6 +69,20 @@ EmberStatus radio_send_packet(packet_void_t *pck){
   status = radioMessageSend(0,pck->len,buffer_send);
 
   return status;
+}
+
+void Queue_manager(packet_void_t *pck){
+
+  if(pck->cmd != 0){
+      for(int i = 0; i < MAX_QUEUE_PACKETS; i++){
+          if(!radioQueue[i].slot_used){
+              radioQueue[i].attempts = 0;
+              radioQueue[i].slot_used = true;
+              radioQueue[i].packet = *pck;
+              break;
+          }
+      }
+  }
 }
 
 

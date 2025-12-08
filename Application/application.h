@@ -15,6 +15,9 @@
 #include "app_log.h"
 #include "API/Connect/Connect.h"
 
+#define MAX_QUEUE_PACKETS 3
+#define MAX_QUEUE_PACKET_ATTEMPTS 10
+
 typedef enum{
   SENSOR_IDLE = 0,
   SENSOR_CONFIGURANDO,
@@ -99,12 +102,12 @@ extern application_t application;
  * Prototypes
  */
 void app_init(void);
-EmberStatus radio_send_packet(packet_void_t *pck);
+EmberStatus radio_send_packet(packet_void_t *pck, bool retrying);
 void CheckState_handler(void);
 void radio_handler(void);
 void timeout_handler(void);
 void motionDetected_handler(void);
 void PeriodInstalation_handler(void);
 void TimeoutAck_handler(void);
-
+void Queue_manager(packet_void_t *pck);
 #endif /* APPLICATION_APPLICATION_H_ */
