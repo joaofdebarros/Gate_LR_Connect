@@ -204,17 +204,6 @@
             <file name="sl_device_init_dcdc.h" uri="studio:/sdk/platform/service/device_init/inc/sl_device_init_dcdc.h"/>
           </folder>
         </folder>
-        <folder name="hfxo_manager">
-          <folder name="src">
-            <file name="sl_hfxo_manager.c" uri="studio:/sdk/platform/service/hfxo_manager/src/sl_hfxo_manager.c"/>
-            <file name="sl_hfxo_manager_hal_s2.c" uri="studio:/sdk/platform/service/hfxo_manager/src/sl_hfxo_manager_hal_s2.c"/>
-            <file name="sli_hfxo_manager_internal.h" uri="studio:/sdk/platform/service/hfxo_manager/src/sli_hfxo_manager_internal.h"/>
-          </folder>
-          <folder name="inc">
-            <file name="sl_hfxo_manager.h" uri="studio:/sdk/platform/service/hfxo_manager/inc/sl_hfxo_manager.h"/>
-            <file name="sli_hfxo_manager.h" uri="studio:/sdk/platform/service/hfxo_manager/inc/sli_hfxo_manager.h"/>
-          </folder>
-        </folder>
         <folder name="interrupt_manager">
           <folder name="inc">
             <folder name="arm">
@@ -1072,7 +1061,6 @@
   <includePath uri="studio:/sdk/platform/radio/rail_lib/plugin/fem_util"/>
   <includePath uri="studio:/sdk/platform/driver/gpio/inc"/>
   <includePath uri="studio:/sdk/platform/peripheral/inc"/>
-  <includePath uri="studio:/sdk/platform/service/hfxo_manager/inc"/>
   <includePath uri="studio:/sdk/platform/driver/i2cspm/inc"/>
   <includePath uri="studio:/sdk/platform/service/interrupt_manager/inc"/>
   <includePath uri="studio:/sdk/platform/service/interrupt_manager/src"/>

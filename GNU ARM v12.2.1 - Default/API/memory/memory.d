@@ -1,5 +1,5 @@
-simplicity_sdk_2025.6.2/platform/service/power_manager/src/sleep_loop/sl_power_manager_hal_s2.o: \
- C:/Users/joao.victor/SimplicityStudio/SDKs/simplicity_sdk/platform/service/power_manager/src/sleep_loop/sl_power_manager_hal_s2.c \
+API/memory/memory.o: ../API/memory/memory.c \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\device\siliconlabs\fgm23\include\em_device.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\device\siliconlabs\fgm23\include\fgm230sa27hgn.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\cmsis\core\include\core_cm33.h \
@@ -63,26 +63,16 @@ simplicity_sdk_2025.6.2/platform/service/power_manager/src/sleep_loop/sl_power_m
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\device\siliconlabs\fgm23\include\fgm23_dma_descriptor.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\device\siliconlabs\fgm23\include\fgm23_ldmaxbar_defines.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_component_catalog.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_emu.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_bus.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3_generic.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\common\inc\ecode.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3_hal.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_assert.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_common.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_assert.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu_compat.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_gpio.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_enum.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_gpio.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\sli_em_cmu.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\power_manager\inc\sl_power_manager.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/sl_power_manager_config.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_slist.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\sleeptimer\inc\sl_sleeptimer.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\power_manager\inc\sli_power_manager.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\power_manager\inc\sl_power_manager.h \
- C:/Users/joao.victor/SimplicityStudio/SDKs/simplicity_sdk/platform/service/power_manager/src/sleep_loop/sli_power_manager_private.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\sleeptimer\inc\sli_sleeptimer.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/sl_sleeptimer_config.h
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3_default.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3_hal_flash.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3_default.h
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\device\siliconlabs\fgm23\include\em_device.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\device\siliconlabs\fgm23\include\fgm230sa27hgn.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\cmsis\core\include\core_cm33.h:
@@ -146,23 +136,12 @@ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\device\silico
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\device\siliconlabs\fgm23\include\fgm23_dma_descriptor.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\device\siliconlabs\fgm23\include\fgm23_ldmaxbar_defines.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_component_catalog.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_emu.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_bus.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3_generic.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\common\inc\ecode.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3_hal.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_assert.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_common.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_assert.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu_compat.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_gpio.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_enum.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_gpio.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\sli_em_cmu.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\power_manager\inc\sl_power_manager.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/sl_power_manager_config.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_slist.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\sleeptimer\inc\sl_sleeptimer.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\power_manager\inc\sli_power_manager.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\power_manager\inc\sl_power_manager.h:
-C:/Users/joao.victor/SimplicityStudio/SDKs/simplicity_sdk/platform/service/power_manager/src/sleep_loop/sli_power_manager_private.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\sleeptimer\inc\sli_sleeptimer.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/sl_sleeptimer_config.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3_default.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3_hal_flash.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3_default.h:

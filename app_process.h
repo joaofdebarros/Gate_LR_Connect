@@ -59,4 +59,5 @@ extern bool enable_sleep;
  *****************************************************************************/
 void report_handler(void);
 void timer_callback();
+void reset_parameters();
 #endif  // APP_PROCESS_H

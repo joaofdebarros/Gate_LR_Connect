@@ -28,7 +28,7 @@ typedef enum SensorCmd_e{
   CHANGE_STATUS = 30,
   SETUP_IVP,
 	KEEP_ALIVE,
-	STATUS_CENTRAL,
+	STATUS_CENTRAL = 43,
 	TAMPER,
 
 

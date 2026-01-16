@@ -197,7 +197,31 @@ app_init.o: ../app_init.c \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_gpio.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_i2cspm_instances.h \
  ../app_process.h ../app_init.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\app-framework-common\app_framework_common.h
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\app-framework-common\app_framework_common.h \
+ ../API/memory/memory.h ../Application/application.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/packet.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/pckDataStructure.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/privAPI/Radio.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\ember-types.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/Connect/Connect.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_simple_led_instances.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\leddrv\inc\sl_simple_led.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\leddrv\inc\sl_led.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\uartdrv\inc\uartdrv.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_peripheral.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_peripheral_types.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_clock.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_usart.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_eusart.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_eusart_compat.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\clock_manager\inc\sl_clock_manager.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_clock.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/uartdrv_config.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_uartdrv_instances.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\peripheral\inc\sl_hal_timer.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\ustimer\inc\ustimer.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/ustimer_config.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/memory/memory.h
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\app\common\util\app_log\app_log.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\iostream\inc\sl_iostream.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_component_catalog.h:
@@ -398,3 +422,28 @@ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_i2
 ../app_process.h:
 ../app_init.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\app-framework-common\app_framework_common.h:
+../API/memory/memory.h:
+../Application/application.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/packet.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/pckDataStructure.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/privAPI/Radio.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\ember-types.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/Connect/Connect.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_simple_led_instances.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\leddrv\inc\sl_simple_led.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\leddrv\inc\sl_led.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\uartdrv\inc\uartdrv.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_peripheral.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_peripheral_types.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_clock.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_usart.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_eusart.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_eusart_compat.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\clock_manager\inc\sl_clock_manager.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_clock.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/uartdrv_config.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_uartdrv_instances.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\peripheral\inc\sl_hal_timer.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\ustimer\inc\ustimer.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/ustimer_config.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/memory/memory.h:

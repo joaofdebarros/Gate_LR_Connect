@@ -18,6 +18,7 @@ C_DEPS :=
 SUBDIRS := \
 API/Connect \
 API \
+API/memory \
 API/packet \
 Application \
 . \
@@ -54,7 +55,6 @@ simplicity_sdk_2025.6.2/platform/service/device_init/src \
 simplicity_sdk_2025.6.2/platform/service/device_manager/clocks \
 simplicity_sdk_2025.6.2/platform/service/device_manager/devices \
 simplicity_sdk_2025.6.2/platform/service/device_manager/src \
-simplicity_sdk_2025.6.2/platform/service/hfxo_manager/src \
 simplicity_sdk_2025.6.2/platform/service/interrupt_manager/src \
 simplicity_sdk_2025.6.2/platform/service/iostream/src \
 simplicity_sdk_2025.6.2/platform/service/memory_manager/src \

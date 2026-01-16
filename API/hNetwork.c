@@ -59,7 +59,7 @@ void join_sleepy(uint16_t channel)
   // set default PAN ID or the one passed as parameter
   parameters.panId = SL_SENSOR_SINK_PAN_ID;
 
-  emberJoinNetwork(EMBER_STAR_END_DEVICE, &parameters);
+  emberJoinNetwork(EMBER_STAR_SLEEPY_END_DEVICE, &parameters);
   //app_log_info("join sleepy 0x%02X\n", status);
 }
 

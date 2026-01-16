@@ -9,8 +9,9 @@
 
 application_t application;
 
-EmberEventControl *radio_control;
-EmberEventControl *CheckState_control;
+extern EmberEventControl *radio_control;
+extern EmberEventControl *report_control;
+extern EmberEventControl *CheckState_control;
 
 packet_void_t sendRadio;
 send_queue_t radioQueue[MAX_QUEUE_PACKETS];
@@ -18,8 +19,7 @@ send_queue_t radioQueue[MAX_QUEUE_PACKETS];
 void app_init(void){
   app_log_info("Teste init");
   connect_init();
-  emberAfAllocateEvent(&radio_control, &radio_handler);
-  emberAfAllocateEvent(&CheckState_control, &CheckState_handler);
+
   emberEventControlSetDelayMS(*CheckState_control,2000);
   get_state(&application.state_before);
 }
@@ -46,9 +46,14 @@ void radio_handler(void){
 
   receive = &application.radio.Packet;
 
+  application.radio.LastCMD = receive->cmd;
+
   switch(receive->cmd){
     case MOTOR_CONTROL:
       gate_cmd(ACIONARMOTOR);
+      break;
+    case STATUS_CENTRAL:
+      emberEventControlSetActive(*report_control);
       break;
   }
   emberEventControlSetInactive(*radio_control);

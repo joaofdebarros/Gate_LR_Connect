@@ -35,8 +35,6 @@
 #include "stack/include/ember.h"
 #include "em_chip.h"
 #include "app_log.h"
-#include "sl_si70xx.h"
-#include "sl_i2cspm_instances.h"
 #include "poll.h"
 #include "sl_app_common.h"
 #include "app_process.h"
@@ -52,6 +50,7 @@
 #endif
 #include "API/hNetwork.h"
 #include "Application/application.h"
+#include "API/packet/pckDataStructure.h"
 // -----------------------------------------------------------------------------
 //                              Macros and Typedefs
 // -----------------------------------------------------------------------------
@@ -67,6 +66,8 @@
 bool enable_sleep = false;
 /// report timing event control
 EmberEventControl *report_control;
+EmberEventControl *radio_control;
+EmberEventControl *CheckState_control;
 /// report timing period
 uint16_t sensor_report_period_ms =  (1 * MILLISECOND_TICKS_PER_SECOND);
 /// TX options set up for the network
@@ -103,13 +104,20 @@ void sl_button_on_change(const sl_button_t *handle)
         button_is_pressed = false;
         if((current_time - press_start_time) > 100000){
             emberResetNetworkState();
+            reset_parameters();
         }else if((current_time - press_start_time) < 50000){
             emberEventControlSetActive(*report_control);
         }
     }
 }
 
-#define UNIX_HOST
+void reset_parameters(){
+  memory_erase(STATUSOP_MEMORY_KEY);
+
+  application.Status_Operation = WAIT_REGISTRATION;
+
+  memory_write(STATUSOP_MEMORY_KEY, &application.Status_Operation, sizeof(application.Status_Operation));
+}
 
 /**************************************************************************//**
  * Here we print out the first two bytes reported by the sinks as a little
@@ -125,21 +133,37 @@ void report_handler(void)
       packet_void_t sendRadio;
       volatile Register_Sensor_t Register_Sensor;
 
-      Register_Sensor.Status.Type = GATE;
-      Register_Sensor.Status.range = LONG_RANGE;
+      switch (application.Status_Operation) {
+        case WAIT_REGISTRATION:
+
+          Register_Sensor.Status.Type = GATE;
+          Register_Sensor.Status.range = LONG_RANGE;
 
 
-      sendRadio.cmd = REGISTRATION;
-      sendRadio.len = 2;
-      sendRadio.data[0] = Register_Sensor.Registerbyte;
+          sendRadio.cmd = REGISTRATION;
+          sendRadio.len = 2;
+          sendRadio.data[0] = Register_Sensor.Registerbyte;
 
 
-      application.radio.LastCMD = sendRadio.cmd;
-      radio_send_packet(&sendRadio, false);
+          application.radio.LastCMD = sendRadio.cmd;
+          radio_send_packet(&sendRadio, false);
+          break;
 
+        case OPERATION_MODE:
+          if(application.radio.LastCMD == STATUS_CENTRAL){
+              get_state(&application.state_real);
 
-      enable_sleep = !enable_sleep;
+              sendRadio.cmd = STATUS_CENTRAL;
+              sendRadio.len = 4;
+              sendRadio.data[0] = application.state_real;         //Status portao
+              sendRadio.data[1] = 0xFF;                              //NULL
+              sendRadio.data[2] = 0xFF;                              //NULL
+              radio_send_packet(&sendRadio, false);
+          }
+          break;
+      }
   }
+
   emberEventControlSetInactive(*report_control);
 }
 
@@ -147,12 +171,12 @@ void report_handler(void)
  * Entering sleep is approved or denied in this callback, depending on user
  * demand.
  *****************************************************************************/
-bool emberAfCommonOkToEnterLowPowerCallback(bool enter_em2, uint32_t duration_ms)
-{
-  (void) enter_em2;
-  (void) duration_ms;
-  return enable_sleep;
-}
+//bool emberAfCommonOkToEnterLowPowerCallback(bool enter_em2, uint32_t duration_ms)
+//{
+//  (void) enter_em2;
+//  (void) duration_ms;
+//  return enable_sleep;
+//}
 
 /**************************************************************************//**
  * This function is called when a message is received.
@@ -175,23 +199,30 @@ bool emberAfCommonOkToEnterLowPowerCallback(bool enter_em2, uint32_t duration_ms
 void emberAfMessageSentCallback(EmberStatus status,
                                 EmberOutgoingMessage *message)
 {
+  if(message->payload[0] == REGISTRATION && application.Status_Operation == WAIT_REGISTRATION && status == EMBER_SUCCESS){
+      //Estado inicial do sensor apos cadastro
+      application.Status_Operation = OPERATION_MODE;
+
+      memory_write(STATUSOP_MEMORY_KEY, &application.Status_Operation, sizeof(application.Status_Operation));
+  }
+
   for(int i = 0; i < MAX_QUEUE_PACKETS; i++){
-            if(message->payload[0] == radioQueue[i].packet.cmd){
-                if(status == EMBER_SUCCESS){
-                    radioQueue[i].slot_used = false;
-                    radioQueue[i].attempts = 0;
-                }else{
-                    if(radioQueue[i].attempts == MAX_QUEUE_PACKET_ATTEMPTS){
-                        radioQueue[i].slot_used = false;
-                        radioQueue[i].attempts = 0;
-                    }else{
-                        radioQueue[i].slot_used = true;
-                        radioQueue[i].attempts++;
-                        radio_send_packet(&radioQueue[i].packet, true);
-                    }
-                }
-            }
+      if(message->payload[0] == radioQueue[i].packet.cmd){
+          if(status == EMBER_SUCCESS){
+              radioQueue[i].slot_used = false;
+              radioQueue[i].attempts = 0;
+          }else{
+              if(radioQueue[i].attempts == MAX_QUEUE_PACKET_ATTEMPTS){
+                  radioQueue[i].slot_used = false;
+                  radioQueue[i].attempts = 0;
+              }else{
+                  radioQueue[i].slot_used = true;
+                  radioQueue[i].attempts++;
+                  radio_send_packet(&radioQueue[i].packet, true);
+              }
+          }
       }
+  }
 }
 
 /**************************************************************************//**
@@ -201,8 +232,6 @@ void emberAfStackStatusCallback(EmberStatus status)
 {
   switch (status) {
     case EMBER_NETWORK_UP:
-      app_log_info("Network up\n");
-      app_log_info("Joined to Sink with node ID: 0x%04X\n", emberGetNodeId());
       // Schedule start of periodic sensor reporting to the Sink
       emberEventControlSetDelayMS(*report_control, sensor_report_period_ms);
       break;
@@ -246,7 +275,6 @@ void emberAfTickCallback(void)
       }
   }
 
-
 }
 
 /**************************************************************************//**
@@ -262,17 +290,17 @@ void emberAfFrequencyHoppingStartClientCompleteCallback(EmberStatus status)
   }
 }
 
-/**************************************************************************//**
- * This function is called when a requested energy scan is complete.
- *****************************************************************************/
-void emberAfEnergyScanCompleteCallback(int8_t mean,
-                                       int8_t min,
-                                       int8_t max,
-                                       uint16_t variance)
-{
-  app_log_info("Energy scan complete, mean=%d min=%d max=%d var=%d\n",
-               mean, min, max, variance);
-}
+///**************************************************************************//**
+// * This function is called when a requested energy scan is complete.
+// *****************************************************************************/
+//void emberAfEnergyScanCompleteCallback(int8_t mean,
+//                                       int8_t min,
+//                                       int8_t max,
+//                                       uint16_t variance)
+//{
+//  app_log_info("Energy scan complete, mean=%d min=%d max=%d var=%d\n",
+//               mean, min, max, variance);
+//}
 
 #if defined(EMBER_AF_PLUGIN_MICRIUM_RTOS) && defined(EMBER_AF_PLUGIN_MICRIUM_RTOS_APP_TASK1)
 

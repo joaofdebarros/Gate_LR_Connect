@@ -14,6 +14,7 @@
 #include "ember-types.h"
 #include "app_log.h"
 #include "API/Connect/Connect.h"
+#include "API/memory/memory.h"
 
 #define MAX_QUEUE_PACKETS 3
 #define MAX_QUEUE_PACKET_ATTEMPTS 10
@@ -26,7 +27,6 @@ typedef enum{
 
 typedef enum{
   WAIT_REGISTRATION = 0,
-  PERIOD_INSTALATION,
   OPERATION_MODE
 }Status_Operation_t;
 

@@ -1016,31 +1016,6 @@
 			<locationURI>STUDIO_SDK_LOC/platform/service/device_manager/src/sl_device_peripheral.c</locationURI>
 		</link>
 		<link>
-			<name>simplicity_sdk_2025.6.2/platform/service/hfxo_manager/inc/sl_hfxo_manager.h</name>
-			<type>1</type>
-			<locationURI>STUDIO_SDK_LOC/platform/service/hfxo_manager/inc/sl_hfxo_manager.h</locationURI>
-		</link>
-		<link>
-			<name>simplicity_sdk_2025.6.2/platform/service/hfxo_manager/inc/sli_hfxo_manager.h</name>
-			<type>1</type>
-			<locationURI>STUDIO_SDK_LOC/platform/service/hfxo_manager/inc/sli_hfxo_manager.h</locationURI>
-		</link>
-		<link>
-			<name>simplicity_sdk_2025.6.2/platform/service/hfxo_manager/src/sl_hfxo_manager.c</name>
-			<type>1</type>
-			<locationURI>STUDIO_SDK_LOC/platform/service/hfxo_manager/src/sl_hfxo_manager.c</locationURI>
-		</link>
-		<link>
-			<name>simplicity_sdk_2025.6.2/platform/service/hfxo_manager/src/sl_hfxo_manager_hal_s2.c</name>
-			<type>1</type>
-			<locationURI>STUDIO_SDK_LOC/platform/service/hfxo_manager/src/sl_hfxo_manager_hal_s2.c</locationURI>
-		</link>
-		<link>
-			<name>simplicity_sdk_2025.6.2/platform/service/hfxo_manager/src/sli_hfxo_manager_internal.h</name>
-			<type>1</type>
-			<locationURI>STUDIO_SDK_LOC/platform/service/hfxo_manager/src/sli_hfxo_manager_internal.h</locationURI>
-		</link>
-		<link>
 			<name>simplicity_sdk_2025.6.2/platform/service/interrupt_manager/inc/sl_interrupt_manager.h</name>
 			<type>1</type>
 			<locationURI>STUDIO_SDK_LOC/platform/service/interrupt_manager/inc/sl_interrupt_manager.h</locationURI>

@@ -189,12 +189,6 @@ app_process.o: ../app_process.c \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/sl_power_manager_config.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\sleeptimer\inc\sl_sleeptimer.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/app_log_config.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\hardware\driver\si70xx\inc\sl_si70xx.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\i2cspm\inc\sl_i2cspm.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_i2c.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\gpio\inc\sl_gpio.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_gpio.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_i2cspm_instances.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\poll\poll.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\app\connect\component\sl_sensor_sink\sl_app_common.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/sl_sensor_sink_config.h \
@@ -203,6 +197,8 @@ app_process.o: ../app_process.c \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_simple_led_instances.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\leddrv\inc\sl_simple_led.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\leddrv\inc\sl_led.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\gpio\inc\sl_gpio.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_gpio.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_simple_button_instances.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\button\inc\sl_simple_button.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\button\inc\sl_button.h \
@@ -225,7 +221,9 @@ app_process.o: ../app_process.c \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_uartdrv_instances.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\peripheral\inc\sl_hal_timer.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\ustimer\inc\ustimer.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/ustimer_config.h
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/ustimer_config.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/memory/memory.h \
+ ../API/packet/pckDataStructure.h
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\legacy_hal\inc\platform-header.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_core.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_code_classification.h:
@@ -416,12 +414,6 @@ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\power
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/sl_power_manager_config.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\sleeptimer\inc\sl_sleeptimer.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/app_log_config.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\hardware\driver\si70xx\inc\sl_si70xx.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\i2cspm\inc\sl_i2cspm.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_i2c.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\gpio\inc\sl_gpio.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_gpio.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_i2cspm_instances.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\poll\poll.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\app\connect\component\sl_sensor_sink\sl_app_common.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/sl_sensor_sink_config.h:
@@ -430,6 +422,8 @@ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\app-fram
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_simple_led_instances.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\leddrv\inc\sl_simple_led.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\leddrv\inc\sl_led.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\gpio\inc\sl_gpio.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_gpio.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_simple_button_instances.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\button\inc\sl_simple_button.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\button\inc\sl_button.h:
@@ -454,3 +448,5 @@ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_ua
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\peripheral\inc\sl_hal_timer.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\ustimer\inc\ustimer.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/ustimer_config.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/memory/memory.h:
+../API/packet/pckDataStructure.h:

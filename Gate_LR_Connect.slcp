@@ -53,6 +53,7 @@ component:
 - {id: iostream_recommended_stream}
 - {id: iostream_retarget_stdio}
 - {id: mpu}
+- {id: power_manager_no_deepsleep}
 - {id: printf}
 - {id: psa_its}
 - {id: radio_config_simple_connect_singlephy}

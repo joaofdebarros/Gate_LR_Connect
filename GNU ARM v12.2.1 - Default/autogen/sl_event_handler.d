@@ -7,7 +7,6 @@ autogen/sl_event_handler.o: ../autogen/sl_event_handler.c \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_clock.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_code_classification.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sli_code_classification.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\hfxo_manager\inc\sl_hfxo_manager.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\radio\rail_lib\plugin\pa-conversions\pa_conversions_efr32.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\radio\rail_lib\plugin\pa-conversions\sl_rail_util_pa_conversions_efr32.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\radio\rail_lib\common\sl_rail_types.h \
@@ -254,7 +253,6 @@ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_clock.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_code_classification.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sli_code_classification.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\hfxo_manager\inc\sl_hfxo_manager.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\radio\rail_lib\plugin\pa-conversions\pa_conversions_efr32.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\radio\rail_lib\plugin\pa-conversions\sl_rail_util_pa_conversions_efr32.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\radio\rail_lib\common\sl_rail_types.h:
