@@ -81,15 +81,6 @@ void emberAfInitCallback(void)
   // Ensure that psa is initialized corretly
   psa_crypto_init();
 
-  emberAfPluginPollEnableShortPolling(true);
-
-  USART0->CTRL |= USART_CTRL_RXINV;  // INVERTER RX PARA CIRCUITO COM TRANSISTORES
-
-  memory_read(STATUSOP_MEMORY_KEY, &application.Status_Operation);
-
-  emberAfAllocateEvent(&radio_control, &radio_handler);
-  emberAfAllocateEvent(&CheckState_control, &CheckState_handler);
-  emberAfAllocateEvent(&report_control, &report_handler);
   // CLI info message
   app_log_info("\nSensor\n");
 

@@ -3,7 +3,7 @@
   "specVersion" : "1.6",
   "version" : 1,
   "metadata" : {
-    "timestamp" : "2026-01-15T13:50:47Z",
+    "timestamp" : "2026-01-20T19:54:12Z",
     "authors" : [ {
       "name" : "Silicon Laboratories, Inc."
     } ],
@@ -278,6 +278,18 @@
       "type" : "library",
       "bom-ref" : "simplicity_sdk:2025.6.2:mpu",
       "name" : "Simple MPU",
+      "version" : "2025.6.2",
+      "supplier" : {
+        "name" : "Silicon Laboratories, Inc."
+      },
+      "licenses" : [ {
+        "expression" : "Zlib"
+      } ]
+    }, {
+      "scope" : "required",
+      "type" : "library",
+      "bom-ref" : "simplicity_sdk:2025.6.2:power_manager_no_deepsleep",
+      "name" : "Power Manager: No Deepsleep",
       "version" : "2025.6.2",
       "supplier" : {
         "name" : "Silicon Laboratories, Inc."
@@ -2350,8 +2362,8 @@
     }, {
       "scope" : "required",
       "type" : "library",
-      "bom-ref" : "simplicity_sdk:2025.6.2:power_manager_no_deepsleep",
-      "name" : "Power Manager: No Deepsleep",
+      "bom-ref" : "simplicity_sdk:2025.6.2:gpiointerrupt",
+      "name" : "GPIOINT",
       "version" : "2025.6.2",
       "supplier" : {
         "name" : "Silicon Laboratories, Inc."

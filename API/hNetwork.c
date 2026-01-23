@@ -68,6 +68,23 @@ void leave(void)
   emberResetNetworkState();
 }
 
+void form_network(){
+  EmberStatus status;
+  EmberNetworkParameters parameters;
+  int16_t tx_power = 0;
+
+  memset(&parameters, 0, sizeof(EmberNetworkParameters));
+  parameters.radioTxPower = tx_power;
+  parameters.radioChannel = 0;
+  parameters.panId = 0x0111;
+
+  status = emberFormNetwork(&parameters);
+
+  emberClearSelectiveJoinPayload();
+
+  status = emberPermitJoining(10);
+}
+
 void set_tx(uint16_t power){
   emberSetRadioPower(power, 0);
 }

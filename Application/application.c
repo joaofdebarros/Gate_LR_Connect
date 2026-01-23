@@ -13,35 +13,40 @@ extern EmberEventControl *radio_control;
 extern EmberEventControl *report_control;
 extern EmberEventControl *CheckState_control;
 
+extern bool joining;
+
 packet_void_t sendRadio;
 send_queue_t radioQueue[MAX_QUEUE_PACKETS];
 
-void app_init(void){
-  app_log_info("Teste init");
-  connect_init();
-
-  emberEventControlSetDelayMS(*CheckState_control,2000);
-  get_state(&application.state_before);
-}
+sl_sleeptimer_timer_handle_t periodic_timer;
+uint8_t blink_count = 0;
+uint8_t blink_target = 0;
+uint8_t led_target;
 
 void CheckState_handler(void){
   EmberStatus status;
   get_state(&application.state_real);
   if(application.state_real != application.state_before){
       application.state_before = application.state_real;
-      app_log_info("Change status");
-      sendRadio.cmd = CHANGE_STATUS;
-      sendRadio.data[0] = application.state_before;
-      sendRadio.len = 2;
-      status = radio_send_packet(&sendRadio, false);
-      if(status == EMBER_SUCCESS){
-          sl_led_toggle(&sl_led_led1);
+      if(application.Module_mode == ALARM){
+          app_log_info("Change status");
+          sendRadio.cmd = CHANGE_STATUS;
+          sendRadio.data[0] = application.state_before;
+          sendRadio.len = 2;
+          status = radio_send_packet(&sendRadio, false);
+      }else if(application.Module_mode == RECEPTOR){
+          sendRadio.cmd = CHANGE_STATUS;
+          sendRadio.data[0] = application.state_before;
+          sendRadio.len = 2;
+          status = radio_send_packet(&sendRadio, false);
       }
   }
+
   emberEventControlSetDelayMS(*CheckState_control,300);
 }
 
 void radio_handler(void){
+  EmberStatus status;
   volatile packet_void_t *receive;
 
   receive = &application.radio.Packet;
@@ -55,13 +60,35 @@ void radio_handler(void){
     case STATUS_CENTRAL:
       emberEventControlSetActive(*report_control);
       break;
+    case TX_CMD_BT:
+      if(application.Module_mode == RECEPTOR){
+          if(receive->data[0] == 1){
+              gate_cmd(ACIONARMOTOR);
+          }else if(receive->data[0] == 2){
+              sendRadio.cmd = STATUS_GATE;
+              sendRadio.data[0] = application.state_real;
+              sendRadio.len = 2;
+              status = radio_send_packet(&sendRadio, false);
+          }else if(receive->data[0] == 4){
+
+          }
+      }
+      break;
   }
+
   emberEventControlSetInactive(*radio_control);
 }
 
 EmberStatus radio_send_packet(packet_void_t *pck, bool retrying){
   uint8_t buffer_send[8];
   EmberStatus status;
+  uint8_t ID_node;
+
+  if(application.Module_mode == ALARM){
+      ID_node = 0;
+  }else if(application.Module_mode == RECEPTOR){
+      ID_node = 1;
+  }
 
   if(!retrying){
       Queue_manager(pck);
@@ -71,7 +98,7 @@ EmberStatus radio_send_packet(packet_void_t *pck, bool retrying){
   for(uint8_t i = 0; i < (pck->len-1); i++){
       buffer_send[i+1] = pck->data[i];
   }
-  status = radioMessageSend(0,pck->len,buffer_send);
+  status = radioMessageSend(ID_node,pck->len,buffer_send);
 
   return status;
 }
@@ -88,6 +115,37 @@ void Queue_manager(packet_void_t *pck){
           }
       }
   }
+}
+
+void led_blink(uint8_t led, uint8_t blinks, uint16_t speed){
+  led_target = led;
+  blink_target = blinks;
+
+  sl_sleeptimer_start_periodic_timer_ms(&periodic_timer,speed,led_handler, NULL,0,SL_SLEEPTIMER_NO_HIGH_PRECISION_HF_CLOCKS_REQUIRED_FLAG);
+}
+
+void led_handler(sl_sleeptimer_timer_handle_t *handle, void *data){
+
+  (void)&handle;
+  (void)&data;
+
+  switch (led_target) {
+    case VERMELHO:
+
+      if((blink_count < (blink_target * 2))){
+          blink_count++;
+          hGpio_ledToggle(&sl_led_led0, true);
+      }else{
+          joining = false;
+          blink_count = 0;
+          hGpio_ledTurnOff(&sl_led_led0, true);
+          sl_sleeptimer_stop_timer(&periodic_timer);
+      }
+      break;
+    default:
+      break;
+  }
+
 }
 
 

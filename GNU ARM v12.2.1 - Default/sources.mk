@@ -23,6 +23,8 @@ API/packet \
 Application \
 . \
 autogen \
+boards/chipset \
+hplatform/hDriver/source \
 privAPI \
 simplicity_sdk_2025.6.2/app/common/util/app_log \
 simplicity_sdk_2025.6.2/hardware/board/src \
@@ -37,6 +39,7 @@ simplicity_sdk_2025.6.2/platform/driver/gpio/src \
 simplicity_sdk_2025.6.2/platform/driver/i2cspm/src \
 simplicity_sdk_2025.6.2/platform/driver/leddrv/src \
 simplicity_sdk_2025.6.2/platform/emdrv/dmadrv/src \
+simplicity_sdk_2025.6.2/platform/emdrv/gpiointerrupt/src \
 simplicity_sdk_2025.6.2/platform/emdrv/nvm3/src \
 simplicity_sdk_2025.6.2/platform/emdrv/uartdrv/src \
 simplicity_sdk_2025.6.2/platform/emdrv/ustimer/src \

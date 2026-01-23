@@ -12,6 +12,7 @@
 #include "sl-connect-watchdog.h"
 #include "sl_debug_swo.h"
 #include "sl_gpio.h"
+#include "gpiointerrupt.h"
 #include "sl_i2cspm_instances.h"
 #include "sl_iostream_init_eusart_instances.h"
 #include "sl_iostream_stdlib_config.h"
@@ -59,6 +60,7 @@ void sl_driver_init(void)
 {
   sl_debug_swo_init();
   sl_gpio_init();
+  GPIOINT_Init();
   sl_i2cspm_init_instances();
   sl_simple_button_init_instances();
   sl_simple_led_init_instances();

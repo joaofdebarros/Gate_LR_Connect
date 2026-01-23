@@ -666,6 +666,16 @@
 			<locationURI>STUDIO_SDK_LOC/platform/emdrv/dmadrv/src/dmadrv.c</locationURI>
 		</link>
 		<link>
+			<name>simplicity_sdk_2025.6.2/platform/emdrv/gpiointerrupt/inc/gpiointerrupt.h</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/platform/emdrv/gpiointerrupt/inc/gpiointerrupt.h</locationURI>
+		</link>
+		<link>
+			<name>simplicity_sdk_2025.6.2/platform/emdrv/gpiointerrupt/src/gpiointerrupt.c</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/platform/emdrv/gpiointerrupt/src/gpiointerrupt.c</locationURI>
+		</link>
+		<link>
 			<name>simplicity_sdk_2025.6.2/platform/emdrv/nvm3/config/nvm3_config.h</name>
 			<type>1</type>
 			<locationURI>STUDIO_SDK_LOC/platform/emdrv/nvm3/config/nvm3_config.h</locationURI>

@@ -223,6 +223,15 @@ app_process.o: ../app_process.c \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\ustimer\inc\ustimer.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/ustimer_config.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/memory/memory.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/boards/chipset/efr32.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hDriver.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hGpio.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hTimer.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_timer.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu_compat.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_gpio.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\sli_em_cmu.h \
  ../API/packet/pckDataStructure.h
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\legacy_hal\inc\platform-header.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_core.h:
@@ -449,4 +458,13 @@ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\peripheral\in
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\ustimer\inc\ustimer.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/ustimer_config.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/memory/memory.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/boards/chipset/efr32.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hDriver.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hGpio.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hTimer.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_timer.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu_compat.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_gpio.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\sli_em_cmu.h:
 ../API/packet/pckDataStructure.h:

@@ -68,6 +68,7 @@ bool enable_sleep = false;
 EmberEventControl *report_control;
 EmberEventControl *radio_control;
 EmberEventControl *CheckState_control;
+EmberEventControl *Init_control;
 /// report timing period
 uint16_t sensor_report_period_ms =  (1 * MILLISECOND_TICKS_PER_SECOND);
 /// TX options set up for the network
@@ -85,9 +86,36 @@ bool register_control;
 uint32_t press_start_time = 0;
 bool button_is_pressed = false;
 uint32_t timer_counter = 200;
+
+bool initialized = false;
+bool joining = false;
 // -----------------------------------------------------------------------------
 //                          Public Function Definitions
 // -----------------------------------------------------------------------------
+
+void app_init(){
+  emberAfAllocateEvent(&radio_control, &radio_handler);
+  emberAfAllocateEvent(&CheckState_control, &CheckState_handler);
+  emberAfAllocateEvent(&report_control, &report_handler);
+  emberAfAllocateEvent(&Init_control, &Init_handler);
+
+  connect_init();
+
+  emberEventControlSetDelayMS(*Init_control, 1000);
+}
+
+void Init_handler(){
+  emberAfPluginPollEnableShortPolling(true);
+
+  memory_read(MODULE_MODE_MEMORY_KEY, &application.Module_mode);
+  memory_read(STATUSOP_MEMORY_KEY, &application.Status_Operation);
+
+  emberEventControlSetDelayMS(*CheckState_control,2000);
+
+  initialized = true;
+
+  emberEventControlSetInactive(*Init_control);
+}
 
 void sl_button_on_change(const sl_button_t *handle)
 {
@@ -102,11 +130,38 @@ void sl_button_on_change(const sl_button_t *handle)
     if(sl_button_get_state(handle) == SL_SIMPLE_BUTTON_PRESSED){
         uint32_t current_time = sl_sleeptimer_get_tick_count();
         button_is_pressed = false;
-        if((current_time - press_start_time) > 100000){
+
+        uint32_t elapsed_time = current_time - press_start_time;
+
+        if(((elapsed_time) > 100000) && ((elapsed_time) < 150000)){
             emberResetNetworkState();
-            reset_parameters();
-        }else if((current_time - press_start_time) < 50000){
-            emberEventControlSetActive(*report_control);
+//            reset_parameters();
+
+        }else if((elapsed_time) > 150000){
+
+            if(application.Module_mode == ALARM){
+                application.Module_mode = RECEPTOR;
+                memory_write(MODULE_MODE_MEMORY_KEY, &application.Module_mode, sizeof(application.Module_mode));
+                led_blink(VERMELHO, 5, FAST_SPEED_BLINK);
+
+            }else if(application.Module_mode == RECEPTOR){
+                application.Module_mode = ALARM;
+                memory_write(MODULE_MODE_MEMORY_KEY, &application.Module_mode, sizeof(application.Module_mode));
+
+            }
+
+        }else if((elapsed_time) < 100000){
+
+            if(application.Status_Operation == WAIT_REGISTRATION){
+                if(application.Module_mode == ALARM){
+                    join_sleepy(0);
+                }else if(application.Module_mode == RECEPTOR){
+                    joining = true;
+                    form_network();
+                    led_blink(VERMELHO, 5, SLOW_SPEED_BLINK);
+                }
+
+            }
         }
     }
 }
@@ -125,43 +180,35 @@ void reset_parameters(){
  *****************************************************************************/
 void report_handler(void)
 {
-  if (!emberStackIsUp()) {
-      join_sleepy(0);
-      emberEventControlSetInactive(*report_control);
-  }
-  else {
-      packet_void_t sendRadio;
-      volatile Register_Sensor_t Register_Sensor;
+  packet_void_t sendRadio;
+  volatile Register_Sensor_t Register_Sensor;
 
-      switch (application.Status_Operation) {
-        case WAIT_REGISTRATION:
+  switch (application.Status_Operation) {
+    case WAIT_REGISTRATION:
 
-          Register_Sensor.Status.Type = GATE;
-          Register_Sensor.Status.range = LONG_RANGE;
+      Register_Sensor.Status.Type = GATE;
+      Register_Sensor.Status.range = LONG_RANGE;
 
+      sendRadio.cmd = REGISTRATION;
+      sendRadio.len = 2;
+      sendRadio.data[0] = Register_Sensor.Registerbyte;
 
-          sendRadio.cmd = REGISTRATION;
-          sendRadio.len = 2;
-          sendRadio.data[0] = Register_Sensor.Registerbyte;
+      application.radio.LastCMD = sendRadio.cmd;
+      radio_send_packet(&sendRadio, false);
+      break;
 
+    case OPERATION_MODE:
+      if(application.radio.LastCMD == STATUS_CENTRAL){
+          get_state(&application.state_real);
 
-          application.radio.LastCMD = sendRadio.cmd;
+          sendRadio.cmd = STATUS_CENTRAL;
+          sendRadio.len = 4;
+          sendRadio.data[0] = application.state_real;         //Status portao
+          sendRadio.data[1] = 0xFF;                              //NULL
+          sendRadio.data[2] = 0xFF;                              //NULL
           radio_send_packet(&sendRadio, false);
-          break;
-
-        case OPERATION_MODE:
-          if(application.radio.LastCMD == STATUS_CENTRAL){
-              get_state(&application.state_real);
-
-              sendRadio.cmd = STATUS_CENTRAL;
-              sendRadio.len = 4;
-              sendRadio.data[0] = application.state_real;         //Status portao
-              sendRadio.data[1] = 0xFF;                              //NULL
-              sendRadio.data[2] = 0xFF;                              //NULL
-              radio_send_packet(&sendRadio, false);
-          }
-          break;
       }
+      break;
   }
 
   emberEventControlSetInactive(*report_control);
@@ -233,7 +280,10 @@ void emberAfStackStatusCallback(EmberStatus status)
   switch (status) {
     case EMBER_NETWORK_UP:
       // Schedule start of periodic sensor reporting to the Sink
-      emberEventControlSetDelayMS(*report_control, sensor_report_period_ms);
+      if(application.Status_Operation == WAIT_REGISTRATION && initialized){
+          emberEventControlSetDelayMS(*report_control, sensor_report_period_ms);
+      }
+
       break;
     case EMBER_NETWORK_DOWN:
       app_log_info("Network down\n");
@@ -261,20 +311,36 @@ void emberAfTickCallback(void)
 {
 
   uint32_t current_time = sl_sleeptimer_get_tick_count();
-
-  if(((current_time - press_start_time) > 100000) && button_is_pressed){
+  uint32_t elapsed_time = current_time - press_start_time;
+  if(((elapsed_time) > 100000) && button_is_pressed && ((elapsed_time) < 150000)){
       sl_led_turn_off(&sl_led_led0);
+  }else if(button_is_pressed && ((elapsed_time) > 150000)){
+      sl_led_turn_on(&sl_led_led0);
   }else{
-      if (emberStackIsUp()) {
-          sl_led_turn_on(&sl_led_led0);
-      }else {
-          if((current_time - timer_counter) > 7800){
-              timer_counter = current_time;
-              sl_led_toggle(&sl_led_led0);
+      if(initialized){
+          if(application.Module_mode == ALARM){
+              if(emberStackIsUp()){
+                  sl_led_turn_on(&sl_led_led0);
+
+              }else {
+                  if((current_time - timer_counter) > 7800){
+                      timer_counter = current_time;
+                      sl_led_toggle(&sl_led_led0);
+                  }
+              }
+          }else if(application.Module_mode == RECEPTOR){
+              if(emberStackIsUp()){
+                  if(!joining){
+                      sl_led_turn_on(&sl_led_led0);
+                  }else{
+
+                  }
+              }else{
+
+              }
           }
       }
   }
-
 }
 
 /**************************************************************************//**

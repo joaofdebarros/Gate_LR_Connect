@@ -48,6 +48,7 @@ component:
 - {id: connect_stack_common}
 - {id: connect_stack_counters}
 - {id: device_init}
+- {id: gpiointerrupt}
 - instance: [sensor]
   id: i2cspm
 - {id: iostream_recommended_stream}

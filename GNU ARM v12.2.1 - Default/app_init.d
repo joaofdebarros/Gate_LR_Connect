@@ -221,7 +221,16 @@ app_init.o: ../app_init.c \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\peripheral\inc\sl_hal_timer.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\ustimer\inc\ustimer.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/ustimer_config.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/memory/memory.h
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/memory/memory.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/boards/chipset/efr32.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hDriver.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hGpio.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hTimer.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_timer.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu_compat.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_gpio.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\sli_em_cmu.h
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\app\common\util\app_log\app_log.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\iostream\inc\sl_iostream.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_component_catalog.h:
@@ -447,3 +456,12 @@ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\peripheral\in
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\ustimer\inc\ustimer.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/ustimer_config.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/memory/memory.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/boards/chipset/efr32.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hDriver.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hGpio.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hTimer.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_timer.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu_compat.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_gpio.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\sli_em_cmu.h:

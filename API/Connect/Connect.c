@@ -6,6 +6,7 @@
  */
 
 #include "Connect.h"
+#include "Application/application.h"
 /*******************************************************************************
  *******************************   DEFINES   ***********************************
  ******************************************************************************/
@@ -41,46 +42,83 @@ void packet_receive_PGM(uint8_t *byte_receive);
  ******************************************************************************/
 static volatile uint32_t irq_flag = 0;
 EmberEventControl *TimeoutStatus_control;
+EmberEventControl *Timeout_Connect_control;
 
 void connect_init(void)
 {
-  UARTDRV_Receive(sl_uartdrv_usart_central_handle,
-                    &ConnectLR.byte_receive, 1, rx_done_callback);
+//  USART0->CTRL |= USART_CTRL_RXINV;  // INVERTER RX PARA CIRCUITO COM TRANSISTORES
+
   USTIMER_Init();
 
+  UARTDRV_Receive(sl_uartdrv_usart_central_handle,
+                    &ConnectLR.byte_receive, 1, rx_done_callback);
+
   emberAfAllocateEvent(&TimeoutStatus_control, &TimeoutStatus_handler);
-  emberEventControlSetDelayMS(*TimeoutStatus_control,500);
+  emberAfAllocateEvent(&Timeout_Connect_control, &Timeout_Connect_handler);
+
+  emberEventControlSetDelayMS(*Timeout_Connect_control,5000);
+}
+
+void Timeout_Connect_handler(void){
+  application.Gate_mode = RX;
+  emberEventControlSetInactive(*Timeout_Connect_control);
+  emberEventControlSetDelayMS(*TimeoutStatus_control,300);
 }
 
 void TimeoutStatus_handler(void){
+  GPIO_PinOutSet(gpioPortA, 5);
+
   gate_get_status();
-  emberEventControlSetDelayMS(*TimeoutStatus_control,500);
+  emberEventControlSetDelayMS(*TimeoutStatus_control,300);
+  emberEventControlSetDelayMS(*Timeout_Connect_control,5000);
 }
 
 
 void gate_cmd(uint8_t cmd){
-  uint8_t buffer_size = 10;
-  uint8_t Buffer_TX[40];
-  uint8_t data[4] = {cmd,0,0,0};
-  montar_pacote(Buffer_TX, buffer_size, 0x02, 0x00,'C', data, 4, true);
 
-  gate_packet_transmit(Buffer_TX, buffer_size);
-  USTIMER_Delay(10000);
+  if(application.Gate_mode == PROG){
+      uint8_t buffer_size = 10;
+      uint8_t Buffer_TX[40];
+      uint8_t data[4] = {cmd,0,0,0};
+      montar_pacote(Buffer_TX, buffer_size, 0x02, 0x00,'C', data, 4, true);
+
+      gate_packet_transmit(Buffer_TX, buffer_size);
+      USTIMER_Delay(10000);
+  }else if(application.Gate_mode == RX){
+      GPIO->USARTROUTE[0].ROUTEEN &= ~GPIO_USART_ROUTEEN_TXPEN;
+      GPIO->USARTROUTE[0].ROUTEEN &= ~GPIO_USART_ROUTEEN_RXPEN;
+
+      GPIO_PinOutSet(gpioPortA, 5);
+      USART_Enable(USART0, usartDisable);
+
+      GPIO_PinModeSet(gpioPortA, 5, gpioModePushPull, 0);
+      GPIO_PinModeSet(gpioPortA, 6, gpioModeInput, 0);
+
+      emberEventControlSetDelayMS(*TimeoutStatus_control,200);
+  }
 }
 
 void gate_get_status(){
-  uint8_t buffer_size = 10;
-  uint8_t Buffer_TX[40];
-  buffer_size = 6;
-  montar_pacote(Buffer_TX, buffer_size, 0x02, 0x00,'H', 0X00, 0, true);
+  if(application.Gate_mode == PROG){
+      uint8_t buffer_size = 10;
+      uint8_t Buffer_TX[40];
+      buffer_size = 6;
+      montar_pacote(Buffer_TX, buffer_size, 0x02, 0x00,'H', 0X00, 0, true);
 
-  gate_packet_transmit(Buffer_TX, buffer_size);
-//  sl_led_toggle(&sl_led_led1);
-  USTIMER_Delay(10000);
+      gate_packet_transmit(Buffer_TX, buffer_size);
+
+      USTIMER_Delay(10000);
+  }else if(application.Gate_mode == RX){
+
+  }
 }
 
 void get_state(uint8_t *state){
-  *state = ConnectLR.gate_info.state;
+  if(application.Gate_mode == RX){
+      *state = GPIO_PinInGet(gpioPortC, 1);
+  }else if(application.Gate_mode == PROG){
+      *state = ConnectLR.gate_info.state;
+  }
 }
 
 uint8_t calculate_checksum(uint8_t *buffer, uint8_t payload_size,
@@ -245,8 +283,9 @@ void packet_receive(uint8_t *byte_receive){
         gate_packet_demount(ConnectLR.data, ConnectLR.data[0], &ConnectLR.gate_packet);
 
     if (ConnectLR.packetError == GATE_PACKET_OK) {
+        application.Gate_mode = PROG;
+        emberEventControlSetDelayMS(*TimeoutStatus_control,300);
         if(ConnectLR.gate_packet.function == 'H'){
-//            sl_led_toggle(&sl_led_led1);
             ConnectLR.gate_info.state = ConnectLR.gate_packet.data[5];
             switch (ConnectLR.gate_info.state) {
               case ABERTO:
@@ -297,10 +336,3 @@ void rx_done_callback(UARTDRV_Handle_t handle,
 {
   packet_receive(&ConnectLR.byte_receive);
 }
-
-
-
-
-
-
-

@@ -210,6 +210,10 @@ autogen/sl_event_handler.o: ../autogen/sl_event_handler.c \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\debug\inc\sl_debug_swo.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\gpio\inc\sl_gpio.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_gpio.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\gpiointerrupt\inc\gpiointerrupt.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_gpio.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_assert.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_bus.h \
  ../autogen/sl_i2cspm_instances.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\i2cspm\inc\sl_i2cspm.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_i2c.h \
@@ -241,7 +245,6 @@ autogen/sl_event_handler.o: ../autogen/sl_event_handler.c \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3_default.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3_generic.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3_hal.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_assert.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3_default.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\hardware\driver\configuration_over_swo\inc\sl_cos.h \
  ../autogen/sl_iostream_handles.h
@@ -456,6 +459,10 @@ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\co
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\debug\inc\sl_debug_swo.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\gpio\inc\sl_gpio.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_gpio.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\gpiointerrupt\inc\gpiointerrupt.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_gpio.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_assert.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_bus.h:
 ../autogen/sl_i2cspm_instances.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\i2cspm\inc\sl_i2cspm.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_i2c.h:
@@ -488,7 +495,6 @@ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\cli\i
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3_default.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3_generic.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3_hal.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_assert.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\nvm3\inc\nvm3_default.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\hardware\driver\configuration_over_swo\inc\sl_cos.h:
 ../autogen/sl_iostream_handles.h:

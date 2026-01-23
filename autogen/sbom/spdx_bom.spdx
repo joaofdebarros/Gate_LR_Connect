@@ -13,7 +13,7 @@ DocumentNamespace: https://silabs.com
 
 ## Creation Information
 Creator: Organization: Silicon Laboratories, Inc.
-Created: 2026-01-15T13:50:47Z
+Created: 2026-01-20T19:54:12Z
 ## Relationships
 Relationship: SPDXRef-DOCUMENT DESCRIBES SPDXRef-simplicity_sdk-2025.6.2
 
@@ -47,6 +47,7 @@ Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-20
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-iostream_recommended_stream
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-iostream_retarget_stdio
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-mpu
+Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-power_manager_no_deepsleep
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-printf
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-psa_its
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-radio_config_simple_connect_singlephy
@@ -195,7 +196,7 @@ Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-20
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-sl_main_init
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-sl_main_process_action
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-gpio
-Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-power_manager_no_deepsleep
+Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-gpiointerrupt
 
 ## Package Information
 PackageName: FGM230SA27HGN
@@ -438,6 +439,17 @@ PackageSupplier: Organization: Silicon Laboratories, Inc.
 PackageLicenseConcluded: Zlib
 ## Relationships
 Relationship: SPDXRef-simplicity_sdk-2025.6.2-mpu CONTAINED_BY SPDXRef-simplicity_sdk-2025.6.2
+
+## Package Information
+PackageName: Power Manager: No Deepsleep
+SPDXID: SPDXRef-simplicity_sdk-2025.6.2-power_manager_no_deepsleep
+PackageVersion: 2025.6.2
+PrimaryPackagePurpose: LIBRARY
+PackageDownloadLocation: NOASSERTION
+PackageSupplier: Organization: Silicon Laboratories, Inc.
+PackageLicenseConcluded: Zlib
+## Relationships
+Relationship: SPDXRef-simplicity_sdk-2025.6.2-power_manager_no_deepsleep CONTAINED_BY SPDXRef-simplicity_sdk-2025.6.2
 
 ## Package Information
 PackageName: Tiny printf
@@ -2279,12 +2291,12 @@ PackageLicenseConcluded: Zlib
 Relationship: SPDXRef-simplicity_sdk-2025.6.2-gpio CONTAINED_BY SPDXRef-simplicity_sdk-2025.6.2
 
 ## Package Information
-PackageName: Power Manager: No Deepsleep
-SPDXID: SPDXRef-simplicity_sdk-2025.6.2-power_manager_no_deepsleep
+PackageName: GPIOINT
+SPDXID: SPDXRef-simplicity_sdk-2025.6.2-gpiointerrupt
 PackageVersion: 2025.6.2
 PrimaryPackagePurpose: LIBRARY
 PackageDownloadLocation: NOASSERTION
 PackageSupplier: Organization: Silicon Laboratories, Inc.
 PackageLicenseConcluded: Zlib
 ## Relationships
-Relationship: SPDXRef-simplicity_sdk-2025.6.2-power_manager_no_deepsleep CONTAINED_BY SPDXRef-simplicity_sdk-2025.6.2
+Relationship: SPDXRef-simplicity_sdk-2025.6.2-gpiointerrupt CONTAINED_BY SPDXRef-simplicity_sdk-2025.6.2

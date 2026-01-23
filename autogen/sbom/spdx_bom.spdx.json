@@ -5,7 +5,7 @@
   "name" : "Silicon-Laboratories",
   "documentNamespace" : "https://silabs.com",
   "creationInfo" : {
-    "created" : "2026-01-15T13:50:47Z",
+    "created" : "2026-01-20T19:54:12Z",
     "creators" : [ "Tool: Silicon Labs Configuration Tooling" ]
   },
   "comment" : "TERMS OF USE - SILICON LABORATORIES INC.\n(With respect to Silicon Labs software components, this Software Bill of Materials (SBOM) is based upon Silicon Labs'\nreview and analysis of the code version when released.  It is provided \"AS IS\" and does not modify, change or alter\nthe terms or conditions of your use of Silicon Labs' software and/or SDKs based upon license terms and/or agreements\nassociated with this software or SDKs when distributed to you, received by you, or installed by you.  Further, no\nwarranties or obligations are created by this SBOM.  It is your obligation to comply with the terms of licenses\nreferenced in this SBOM.)",
@@ -188,6 +188,14 @@
   }, {
     "SPDXID" : "SPDXRef-simplicity_sdk-2025.6.2-mpu",
     "name" : "Simple MPU",
+    "versionInfo" : "2025.6.2",
+    "primaryPackagePurpose" : "LIBRARY",
+    "downloadLocation" : "NOASSERTION",
+    "supplier" : "Organization: Silicon Laboratories, Inc.",
+    "licenseConcluded" : "Zlib"
+  }, {
+    "SPDXID" : "SPDXRef-simplicity_sdk-2025.6.2-power_manager_no_deepsleep",
+    "name" : "Power Manager: No Deepsleep",
     "versionInfo" : "2025.6.2",
     "primaryPackagePurpose" : "LIBRARY",
     "downloadLocation" : "NOASSERTION",
@@ -1533,8 +1541,8 @@
     "supplier" : "Organization: Silicon Laboratories, Inc.",
     "licenseConcluded" : "Zlib"
   }, {
-    "SPDXID" : "SPDXRef-simplicity_sdk-2025.6.2-power_manager_no_deepsleep",
-    "name" : "Power Manager: No Deepsleep",
+    "SPDXID" : "SPDXRef-simplicity_sdk-2025.6.2-gpiointerrupt",
+    "name" : "GPIOINT",
     "versionInfo" : "2025.6.2",
     "primaryPackagePurpose" : "LIBRARY",
     "downloadLocation" : "NOASSERTION",
@@ -1632,6 +1640,10 @@
   }, {
     "spdxElementId" : "SPDXRef-simplicity_sdk-2025.6.2",
     "relatedSpdxElement" : "SPDXRef-simplicity_sdk-2025.6.2-mpu",
+    "relationshipType" : "CONTAINS"
+  }, {
+    "spdxElementId" : "SPDXRef-simplicity_sdk-2025.6.2",
+    "relatedSpdxElement" : "SPDXRef-simplicity_sdk-2025.6.2-power_manager_no_deepsleep",
     "relationshipType" : "CONTAINS"
   }, {
     "spdxElementId" : "SPDXRef-simplicity_sdk-2025.6.2",
@@ -2287,7 +2299,7 @@
     "relationshipType" : "CONTAINS"
   }, {
     "spdxElementId" : "SPDXRef-simplicity_sdk-2025.6.2",
-    "relatedSpdxElement" : "SPDXRef-simplicity_sdk-2025.6.2-power_manager_no_deepsleep",
+    "relatedSpdxElement" : "SPDXRef-simplicity_sdk-2025.6.2-gpiointerrupt",
     "relationshipType" : "CONTAINS"
   } ]
 }

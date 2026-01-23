@@ -204,7 +204,23 @@ API/Connect/Connect.o: ../API/Connect/Connect.c ../API/Connect/Connect.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_iostream_init_eusart_instances.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\iostream\inc\sl_iostream_uart.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\iostream\inc\sl_iostream.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/app_log_config.h
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/app_log_config.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/Application/application.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/packet.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/pckDataStructure.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/privAPI/Radio.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/Connect/Connect.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/memory/memory.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/boards/chipset/efr32.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hDriver.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hGpio.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hTimer.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_timer.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_bus.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu_compat.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_gpio.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\sli_em_cmu.h
 ../API/Connect/Connect.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_simple_led_instances.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\leddrv\inc\sl_simple_led.h:
@@ -412,3 +428,19 @@ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_io
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\iostream\inc\sl_iostream_uart.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\iostream\inc\sl_iostream.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/app_log_config.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/Application/application.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/packet.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/pckDataStructure.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/privAPI/Radio.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/Connect/Connect.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/memory/memory.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/boards/chipset/efr32.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hDriver.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hGpio.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hTimer.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_timer.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_bus.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu_compat.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_gpio.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\sli_em_cmu.h:

@@ -361,6 +361,14 @@
             <file name="ecode.h" uri="studio:/sdk/platform/emdrv/common/inc/ecode.h"/>
           </folder>
         </folder>
+        <folder name="gpiointerrupt">
+          <folder name="src">
+            <file name="gpiointerrupt.c" uri="studio:/sdk/platform/emdrv/gpiointerrupt/src/gpiointerrupt.c"/>
+          </folder>
+          <folder name="inc">
+            <file name="gpiointerrupt.h" uri="studio:/sdk/platform/emdrv/gpiointerrupt/inc/gpiointerrupt.h"/>
+          </folder>
+        </folder>
         <folder name="nvm3">
           <folder name="inc">
             <file name="nvm3_default.h" uri="studio:/sdk/platform/emdrv/nvm3/inc/nvm3_default.h"/>
@@ -1060,6 +1068,7 @@
   <includePath uri="studio:/sdk/platform/emlib/inc"/>
   <includePath uri="studio:/sdk/platform/radio/rail_lib/plugin/fem_util"/>
   <includePath uri="studio:/sdk/platform/driver/gpio/inc"/>
+  <includePath uri="studio:/sdk/platform/emdrv/gpiointerrupt/inc"/>
   <includePath uri="studio:/sdk/platform/peripheral/inc"/>
   <includePath uri="studio:/sdk/platform/driver/i2cspm/inc"/>
   <includePath uri="studio:/sdk/platform/service/interrupt_manager/inc"/>

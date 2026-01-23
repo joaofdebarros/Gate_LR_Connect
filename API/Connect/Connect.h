@@ -40,6 +40,7 @@ typedef enum{
   LENDO_ABRE,
   LENDO_FECHA,
   INICIAL,
+  ERROR = 0xFF,
 } gate_status_t;
 
 typedef enum{
@@ -93,6 +94,7 @@ typedef struct {
 
 void connect_init(void);
 void TimeoutStatus_handler(void);
+void Timeout_Connect_handler(void);
 
 packet_errorGATE_e gate_packet_demount(uint8_t *datain, uint16_t len,
                                            gate_packet_t *packet);
