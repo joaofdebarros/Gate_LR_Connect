@@ -32,7 +32,8 @@ typedef enum{
 
 typedef enum{
   WAIT_REGISTRATION = 0,
-  OPERATION_MODE
+  PERIOD_INSTALATION,
+  OPERATION_MODE,
 }Status_Operation_t;
 
 typedef enum{
@@ -89,6 +90,7 @@ Register_Sensor_t;
 typedef struct{
   packet_void_t Packet;
   uint8_t LastCMD;
+  uint8_t RSSI;
 }application_radio_t;
 
 typedef enum{
@@ -115,6 +117,7 @@ typedef struct{
   Status_Central_t Status_Central;
   gate_status_t state_real;
   gate_status_t state_before;
+  uint16_t LR_key;
 }application_t;
 
 extern application_t application;

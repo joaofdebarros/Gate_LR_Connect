@@ -98,7 +98,7 @@ void app_init(){
   emberAfAllocateEvent(&CheckState_control, &CheckState_handler);
   emberAfAllocateEvent(&report_control, &report_handler);
   emberAfAllocateEvent(&Init_control, &Init_handler);
-
+  hGpio_ledTurnOn(&sl_led_led0,true);
   connect_init();
 
   emberEventControlSetDelayMS(*Init_control, 1000);
@@ -109,6 +109,7 @@ void Init_handler(){
 
   memory_read(MODULE_MODE_MEMORY_KEY, &application.Module_mode);
   memory_read(STATUSOP_MEMORY_KEY, &application.Status_Operation);
+  memory_read(LR_KEY_MEMORY_KEY, &application.LR_key);
 
   emberEventControlSetDelayMS(*CheckState_control,2000);
 
@@ -133,11 +134,11 @@ void sl_button_on_change(const sl_button_t *handle)
 
         uint32_t elapsed_time = current_time - press_start_time;
 
-        if(((elapsed_time) > 100000) && ((elapsed_time) < 150000)){
+        if(((elapsed_time) > 100000) && ((elapsed_time) < 200000)){
             emberResetNetworkState();
-//            reset_parameters();
+            reset_parameters();
 
-        }else if((elapsed_time) > 150000){
+        }else if((elapsed_time) > 200000){
 
             if(application.Module_mode == ALARM){
                 application.Module_mode = RECEPTOR;
@@ -150,7 +151,7 @@ void sl_button_on_change(const sl_button_t *handle)
 
             }
 
-        }else if((elapsed_time) < 100000){
+        }else if((elapsed_time) <= 100000){
 
             if(application.Status_Operation == WAIT_REGISTRATION){
                 if(application.Module_mode == ALARM){
@@ -168,10 +169,14 @@ void sl_button_on_change(const sl_button_t *handle)
 
 void reset_parameters(){
   memory_erase(STATUSOP_MEMORY_KEY);
+  memory_erase(LR_KEY_MEMORY_KEY);
+
+  application.LR_key = 0;
 
   application.Status_Operation = WAIT_REGISTRATION;
 
   memory_write(STATUSOP_MEMORY_KEY, &application.Status_Operation, sizeof(application.Status_Operation));
+  memory_write(LR_KEY_MEMORY_KEY, &application.LR_key, sizeof(application.LR_key));
 }
 
 /**************************************************************************//**
@@ -202,10 +207,11 @@ void report_handler(void)
           get_state(&application.state_real);
 
           sendRadio.cmd = STATUS_CENTRAL;
-          sendRadio.len = 4;
+          sendRadio.len = 5;
           sendRadio.data[0] = application.state_real;         //Status portao
           sendRadio.data[1] = 0xFF;                              //NULL
           sendRadio.data[2] = 0xFF;                              //NULL
+          sendRadio.data[3] = application.radio.RSSI;
           radio_send_packet(&sendRadio, false);
       }
       break;
@@ -213,31 +219,6 @@ void report_handler(void)
 
   emberEventControlSetInactive(*report_control);
 }
-
-/**************************************************************************//**
- * Entering sleep is approved or denied in this callback, depending on user
- * demand.
- *****************************************************************************/
-//bool emberAfCommonOkToEnterLowPowerCallback(bool enter_em2, uint32_t duration_ms)
-//{
-//  (void) enter_em2;
-//  (void) duration_ms;
-//  return enable_sleep;
-//}
-
-/**************************************************************************//**
- * This function is called when a message is received.
- *****************************************************************************/
-//void emberAfIncomingMessageCallback(EmberIncomingMessage *message)
-//{
-//  if (message->endpoint == SL_SENSOR_SINK_ENDPOINT) {
-//    app_log_info("RX: Data from 0x%04X:", message->source);
-//    for (uint8_t i = SL_SENSOR_SINK_DATA_OFFSET; i < message->length; i++) {
-//      app_log_info(" %x", message->payload[i]);
-//    }
-//    app_log_info("\n");
-//  }
-//}
 
 /**************************************************************************//**
  * This function is called to indicate whether an outgoing message was
@@ -270,6 +251,12 @@ void emberAfMessageSentCallback(EmberStatus status,
           }
       }
   }
+
+  application.radio.RSSI = -(message->ackRssi);
+}
+void emberAfChildJoinCallback(EmberNodeType nodeType,
+                              EmberNodeId nodeId){
+  hGpio_ledTurnOn(&sl_led_led0,true);
 }
 
 /**************************************************************************//**
@@ -312,9 +299,9 @@ void emberAfTickCallback(void)
 
   uint32_t current_time = sl_sleeptimer_get_tick_count();
   uint32_t elapsed_time = current_time - press_start_time;
-  if(((elapsed_time) > 100000) && button_is_pressed && ((elapsed_time) < 150000)){
+  if(((elapsed_time) > 100000) && button_is_pressed && ((elapsed_time) <= 200000)){
       sl_led_turn_off(&sl_led_led0);
-  }else if(button_is_pressed && ((elapsed_time) > 150000)){
+  }else if(button_is_pressed && ((elapsed_time) > 200000)){
       sl_led_turn_on(&sl_led_led0);
   }else{
       if(initialized){
@@ -342,59 +329,3 @@ void emberAfTickCallback(void)
       }
   }
 }
-
-/**************************************************************************//**
- * This function is called when a frequency hopping client completed the start
- * procedure.
- *****************************************************************************/
-void emberAfFrequencyHoppingStartClientCompleteCallback(EmberStatus status)
-{
-  if (status != EMBER_SUCCESS) {
-    app_log_error("FH Client sync failed, status=0x%02X\n", status);
-  } else {
-    app_log_info("FH Client Sync Success\n");
-  }
-}
-
-///**************************************************************************//**
-// * This function is called when a requested energy scan is complete.
-// *****************************************************************************/
-//void emberAfEnergyScanCompleteCallback(int8_t mean,
-//                                       int8_t min,
-//                                       int8_t max,
-//                                       uint16_t variance)
-//{
-//  app_log_info("Energy scan complete, mean=%d min=%d max=%d var=%d\n",
-//               mean, min, max, variance);
-//}
-
-#if defined(EMBER_AF_PLUGIN_MICRIUM_RTOS) && defined(EMBER_AF_PLUGIN_MICRIUM_RTOS_APP_TASK1)
-
-/**************************************************************************//**
- * This function is called from the Micrium RTOS plugin before the
- * Application (1) task is created.
- *****************************************************************************/
-void emberAfPluginMicriumRtosAppTask1InitCallback(void)
-{
-  app_log_info("app task init\n");
-}
-
-#include <kernel/include/os.h>
-#define TICK_INTERVAL_MS 1000
-
-/**************************************************************************//**
- * This function implements the Application (1) task main loop.
- *****************************************************************************/
-void emberAfPluginMicriumRtosAppTask1MainLoopCallback(void *p_arg)
-{
-  RTOS_ERR err;
-  OS_TICK yield_time_ticks = (OSCfg_TickRate_Hz * TICK_INTERVAL_MS) / 1000;
-
-  while (true) {
-    app_log_info("app task tick\n");
-
-    OSTimeDly(yield_time_ticks, OS_OPT_TIME_DLY, &err);
-  }
-}
-
-#endif // EMBER_AF_PLUGIN_MICRIUM_RTOS && EMBER_AF_PLUGIN_MICRIUM_RTOS_APP_TASK1

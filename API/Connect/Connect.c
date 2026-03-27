@@ -69,6 +69,7 @@ void TimeoutStatus_handler(void){
   GPIO_PinOutSet(gpioPortA, 5);
 
   gate_get_status();
+
   emberEventControlSetDelayMS(*TimeoutStatus_control,300);
   emberEventControlSetDelayMS(*Timeout_Connect_control,5000);
 }

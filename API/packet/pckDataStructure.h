@@ -32,7 +32,7 @@ typedef enum SensorCmd_e{
 	KEEP_ALIVE,
 	STATUS_CENTRAL = 43,
 	TAMPER,
-
+	LR_KEY = 47,
 
 	CMD_UNKNOWN = 0xFF
 }SensorCmd_e;

@@ -30,9 +30,12 @@ void CheckState_handler(void){
       application.state_before = application.state_real;
       if(application.Module_mode == ALARM){
           app_log_info("Change status");
+
           sendRadio.cmd = CHANGE_STATUS;
+          sendRadio.len = 3;
           sendRadio.data[0] = application.state_before;
-          sendRadio.len = 2;
+          sendRadio.data[1] = application.radio.RSSI;
+
           status = radio_send_packet(&sendRadio, false);
       }else if(application.Module_mode == RECEPTOR){
           sendRadio.cmd = CHANGE_STATUS;
@@ -55,7 +58,14 @@ void radio_handler(void){
 
   switch(receive->cmd){
     case MOTOR_CONTROL:
-      gate_cmd(ACIONARMOTOR);
+      if(application.state_real == ABERTO){
+          gate_cmd(FECHAR);
+      }else if(application.state_real == FECHADO){
+          gate_cmd(ABRIR);
+      }else{
+          gate_cmd(ACIONARMOTOR);
+      }
+
       break;
     case STATUS_CENTRAL:
       emberEventControlSetActive(*report_control);
@@ -73,6 +83,11 @@ void radio_handler(void){
 
           }
       }
+      break;
+    case LR_KEY:
+      application.LR_key = (receive->data[1] << 8) | (receive->data[0]);
+
+      memory_write(LR_KEY_MEMORY_KEY, &application.LR_key, sizeof(application.LR_key));
       break;
   }
 
@@ -98,7 +113,10 @@ EmberStatus radio_send_packet(packet_void_t *pck, bool retrying){
   for(uint8_t i = 0; i < (pck->len-1); i++){
       buffer_send[i+1] = pck->data[i];
   }
-  status = radioMessageSend(ID_node,pck->len,buffer_send);
+  buffer_send[pck->len] = application.LR_key;
+  buffer_send[(pck->len)+1] = application.LR_key >> 8;
+
+  status = radioMessageSend(ID_node,(pck->len)+2,buffer_send);
 
   return status;
 }
@@ -147,7 +165,3 @@ void led_handler(sl_sleeptimer_timer_handle_t *handle, void *data){
   }
 
 }
-
-
-
-
