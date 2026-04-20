@@ -10,9 +10,12 @@
 // -----------------------------------------------------------------------------
 #include "hNetwork.h"
 
-#define SL_SENSOR_SINK_PAN_ID_JB    (0x1234)
-#define SL_SENSOR_SINK_PAN_ID_WS    (0x1FFF)
-#define SL_SENSOR_SINK_PAN_ID_PROT  (0x4321)
+#define SL_SENSOR_SINK_PAN_ID_76     (0x1234)
+#define SL_SENSOR_SINK_PAN_ID_WS     (0x1FFF)
+#define SL_SENSOR_SINK_PAN_ID_PROT   (0x4321)
+#define SL_SENSOR_SINK_PAN_ID_15     (0x4224)
+#define SL_SENSOR_SINK_PAN_ID_25     (0x4334)
+#define SL_SENSOR_SINK_PAN_ID_26     (0x4216)
 
 // -----------------------------------------------------------------------------
 //                          Variables Definitions
@@ -58,7 +61,7 @@ void join_sleepy(uint16_t channel)
   parameters.radioChannel = channel;
 
   // set default PAN ID or the one passed as parameter
-  parameters.panId = SL_SENSOR_SINK_PAN_ID_PROT;
+  parameters.panId = SL_SENSOR_SINK_PAN_ID_26;
 
   emberJoinNetwork(EMBER_STAR_RANGE_EXTENDER, &parameters);
   //app_log_info("join sleepy 0x%02X\n", status);

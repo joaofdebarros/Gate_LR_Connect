@@ -13,6 +13,8 @@ extern EmberEventControl *radio_control;
 extern EmberEventControl *report_control;
 extern EmberEventControl *CheckState_control;
 
+EmberKeyData connect_network_key;
+
 extern bool joining;
 
 packet_void_t sendRadio;
@@ -31,14 +33,17 @@ void CheckState_handler(void){
       if(application.Module_mode == ALARM){
           app_log_info("Change status");
 
-          sendRadio.cmd = CHANGE_STATUS;
-          sendRadio.len = 3;
-          sendRadio.data[0] = application.state_before;
-          sendRadio.data[1] = application.radio.RSSI;
+          sendRadio.cmd = LRCMD_GATE_CHANGE_STATUS;
+          sendRadio.len = 6;
+          sendRadio.data[0] = application.state_real;         //Status portao
+          sendRadio.data[1] = 0xFF;                              //NULL
+          sendRadio.data[2] = 0xFF;                              //NULL
+          sendRadio.data[3] = 0xFF;                              //NULL
+          sendRadio.data[4] = application.radio.RSSI;
 
           status = radio_send_packet(&sendRadio, false);
       }else if(application.Module_mode == RECEPTOR){
-          sendRadio.cmd = CHANGE_STATUS;
+          sendRadio.cmd = LRCMD_GATE_CHANGE_STATUS;
           sendRadio.data[0] = application.state_before;
           sendRadio.len = 2;
           status = radio_send_packet(&sendRadio, false);
@@ -57,7 +62,7 @@ void radio_handler(void){
   application.radio.LastCMD = receive->cmd;
 
   switch(receive->cmd){
-    case MOTOR_CONTROL:
+    case LRCMD_WRITE_CONTROL_GATE:
       if(application.state_real == ABERTO){
           gate_cmd(FECHAR);
       }else if(application.state_real == FECHADO){
@@ -67,15 +72,15 @@ void radio_handler(void){
       }
 
       break;
-    case STATUS_CENTRAL:
+    case LRCMD_STATUS_CENTRAL:
       emberEventControlSetActive(*report_control);
       break;
-    case TX_CMD_BT:
+    case LRCMD_BUTTON:
       if(application.Module_mode == RECEPTOR){
           if(receive->data[0] == 1){
               gate_cmd(ACIONARMOTOR);
           }else if(receive->data[0] == 2){
-              sendRadio.cmd = STATUS_GATE;
+              sendRadio.cmd = LRCMD_STATUS_CENTRAL;
               sendRadio.data[0] = application.state_real;
               sendRadio.len = 2;
               status = radio_send_packet(&sendRadio, false);
@@ -84,10 +89,7 @@ void radio_handler(void){
           }
       }
       break;
-    case LR_KEY:
-      application.LR_key = (receive->data[1] << 8) | (receive->data[0]);
-
-      memory_write(LR_KEY_MEMORY_KEY, &application.LR_key, sizeof(application.LR_key));
+    case LRCMD_SEND_KEY:
       break;
   }
 
@@ -113,10 +115,8 @@ EmberStatus radio_send_packet(packet_void_t *pck, bool retrying){
   for(uint8_t i = 0; i < (pck->len-1); i++){
       buffer_send[i+1] = pck->data[i];
   }
-  buffer_send[pck->len] = application.LR_key;
-  buffer_send[(pck->len)+1] = application.LR_key >> 8;
 
-  status = radioMessageSend(ID_node,(pck->len)+2,buffer_send);
+  status = radioMessageSend(ID_node,(pck->len),buffer_send);
 
   return status;
 }

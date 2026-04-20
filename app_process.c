@@ -74,6 +74,8 @@ uint16_t sensor_report_period_ms =  (1 * MILLISECOND_TICKS_PER_SECOND);
 /// TX options set up for the network
 EmberMessageOptions tx_options = EMBER_OPTIONS_ACK_REQUESTED | EMBER_OPTIONS_SECURITY_ENABLED;
 
+extern EmberKeyData connect_network_key;
+
 extern packet_void_t sendRadio;
 extern send_queue_t radioQueue[MAX_QUEUE_PACKETS];
 
@@ -109,7 +111,7 @@ void Init_handler(){
 
   memory_read(MODULE_MODE_MEMORY_KEY, &application.Module_mode);
   memory_read(STATUSOP_MEMORY_KEY, &application.Status_Operation);
-  memory_read(LR_KEY_MEMORY_KEY, &application.LR_key);
+  memory_read(SECURITY_KEY_MEMORY_KEY, &connect_network_key.contents);
 
   emberEventControlSetDelayMS(*CheckState_control,2000);
 
@@ -169,14 +171,11 @@ void sl_button_on_change(const sl_button_t *handle)
 
 void reset_parameters(){
   memory_erase(STATUSOP_MEMORY_KEY);
-  memory_erase(LR_KEY_MEMORY_KEY);
-
-  application.LR_key = 0;
+  memory_erase(SECURITY_KEY_MEMORY_KEY);
 
   application.Status_Operation = WAIT_REGISTRATION;
 
   memory_write(STATUSOP_MEMORY_KEY, &application.Status_Operation, sizeof(application.Status_Operation));
-  memory_write(LR_KEY_MEMORY_KEY, &application.LR_key, sizeof(application.LR_key));
 }
 
 /**************************************************************************//**
@@ -194,7 +193,7 @@ void report_handler(void)
       Register_Sensor.Status.Type = GATE;
       Register_Sensor.Status.range = LONG_RANGE;
 
-      sendRadio.cmd = REGISTRATION;
+      sendRadio.cmd = LRCMD_JOINED_NETWORK_GATE;
       sendRadio.len = 2;
       sendRadio.data[0] = Register_Sensor.Registerbyte;
 
@@ -203,15 +202,29 @@ void report_handler(void)
       break;
 
     case OPERATION_MODE:
-      if(application.radio.LastCMD == STATUS_CENTRAL){
+      if(application.radio.LastCMD == LRCMD_GATE_CHANGE_STATUS){
           get_state(&application.state_real);
 
-          sendRadio.cmd = STATUS_CENTRAL;
-          sendRadio.len = 5;
+          sendRadio.cmd = LRCMD_GATE_CHANGE_STATUS;
+          sendRadio.len = 6;
           sendRadio.data[0] = application.state_real;         //Status portao
           sendRadio.data[1] = 0xFF;                              //NULL
           sendRadio.data[2] = 0xFF;                              //NULL
-          sendRadio.data[3] = application.radio.RSSI;
+          sendRadio.data[3] = 0xFF;                              //NULL
+          sendRadio.data[4] = application.radio.RSSI;
+          radio_send_packet(&sendRadio, false);
+      }
+
+      if(application.radio.LastCMD == LRCMD_STATUS_CENTRAL){
+          get_state(&application.state_real);
+
+          sendRadio.cmd = LRCMD_STATUS_CENTRAL;
+          sendRadio.len = 6;
+          sendRadio.data[0] = application.state_real;         //Status portao
+          sendRadio.data[1] = 0xFF;                              //NULL
+          sendRadio.data[2] = 0xFF;                              //NULL
+          sendRadio.data[3] = 0xFF;                              //NULL
+          sendRadio.data[4] = application.radio.RSSI;
           radio_send_packet(&sendRadio, false);
       }
       break;
@@ -227,7 +240,7 @@ void report_handler(void)
 void emberAfMessageSentCallback(EmberStatus status,
                                 EmberOutgoingMessage *message)
 {
-  if(message->payload[0] == REGISTRATION && application.Status_Operation == WAIT_REGISTRATION && status == EMBER_SUCCESS){
+  if(message->payload[0] == LRCMD_JOINED_NETWORK_GATE && application.Status_Operation == WAIT_REGISTRATION && status == EMBER_SUCCESS){
       //Estado inicial do sensor apos cadastro
       application.Status_Operation = OPERATION_MODE;
 
@@ -267,9 +280,9 @@ void emberAfStackStatusCallback(EmberStatus status)
   switch (status) {
     case EMBER_NETWORK_UP:
       // Schedule start of periodic sensor reporting to the Sink
-      if(application.Status_Operation == WAIT_REGISTRATION && initialized){
-          emberEventControlSetDelayMS(*report_control, sensor_report_period_ms);
-      }
+//      if(application.Status_Operation == WAIT_REGISTRATION && initialized){
+//          emberEventControlSetDelayMS(*report_control, sensor_report_period_ms);
+//      }
 
       break;
     case EMBER_NETWORK_DOWN:
