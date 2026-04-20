@@ -117,7 +117,6 @@ typedef struct{
   Status_Central_t Status_Central;
   gate_status_t state_real;
   gate_status_t state_before;
-  uint16_t LR_key;
 }application_t;
 
 extern application_t application;

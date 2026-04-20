@@ -82,12 +82,12 @@
 // [TIMER4]$
 
 // $[USART0]
-// USART0 RX on PC01
+// USART0 RX on PA04
 #ifndef USART0_RX_PORT                          
-#define USART0_RX_PORT                           SL_GPIO_PORT_C
+#define USART0_RX_PORT                           SL_GPIO_PORT_A
 #endif
 #ifndef USART0_RX_PIN                           
-#define USART0_RX_PIN                            1
+#define USART0_RX_PIN                            4
 #endif
 
 // USART0 TX on PA05
