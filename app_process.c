@@ -89,6 +89,7 @@ uint32_t press_start_time = 0;
 bool button_is_pressed = false;
 uint32_t timer_counter = 200;
 
+bool ok_to_blink = true;
 bool initialized = false;
 bool joining = false;
 // -----------------------------------------------------------------------------
@@ -100,7 +101,6 @@ void app_init(){
   emberAfAllocateEvent(&CheckState_control, &CheckState_handler);
   emberAfAllocateEvent(&report_control, &report_handler);
   emberAfAllocateEvent(&Init_control, &Init_handler);
-  hGpio_ledTurnOn(&sl_led_led0,true);
   connect_init();
 
   emberEventControlSetDelayMS(*Init_control, 1000);
@@ -137,11 +137,12 @@ void sl_button_on_change(const sl_button_t *handle)
         uint32_t elapsed_time = current_time - press_start_time;
 
         if(((elapsed_time) > 100000) && ((elapsed_time) < 200000)){
+            //RESET NETWORK
             emberResetNetworkState();
             reset_parameters();
 
         }else if((elapsed_time) > 200000){
-
+            //CHANGE MODE
             if(application.Module_mode == ALARM){
                 application.Module_mode = RECEPTOR;
                 memory_write(MODULE_MODE_MEMORY_KEY, &application.Module_mode, sizeof(application.Module_mode));
@@ -150,14 +151,16 @@ void sl_button_on_change(const sl_button_t *handle)
             }else if(application.Module_mode == RECEPTOR){
                 application.Module_mode = ALARM;
                 memory_write(MODULE_MODE_MEMORY_KEY, &application.Module_mode, sizeof(application.Module_mode));
-
+                led_blink(VERMELHO, 5, FAST_SPEED_BLINK);
             }
 
         }else if((elapsed_time) <= 100000){
-
+            //ACTION
             if(application.Status_Operation == WAIT_REGISTRATION){
                 if(application.Module_mode == ALARM){
                     join_sleepy(0);
+                    ok_to_blink = false;
+                    sl_led_turn_on(&sl_led_blue);
                 }else if(application.Module_mode == RECEPTOR){
                     joining = true;
                     form_network();
@@ -269,7 +272,7 @@ void emberAfMessageSentCallback(EmberStatus status,
 }
 void emberAfChildJoinCallback(EmberNodeType nodeType,
                               EmberNodeId nodeId){
-  hGpio_ledTurnOn(&sl_led_led0,true);
+
 }
 
 /**************************************************************************//**
@@ -277,28 +280,34 @@ void emberAfChildJoinCallback(EmberNodeType nodeType,
  *****************************************************************************/
 void emberAfStackStatusCallback(EmberStatus status)
 {
+  hGpio_ledTurnOff(&sl_led_blue);
   switch (status) {
     case EMBER_NETWORK_UP:
       // Schedule start of periodic sensor reporting to the Sink
 //      if(application.Status_Operation == WAIT_REGISTRATION && initialized){
 //          emberEventControlSetDelayMS(*report_control, sensor_report_period_ms);
 //      }
-
+      led_blink(VERDE,2,MED_SPEED_BLINK);
       break;
     case EMBER_NETWORK_DOWN:
       app_log_info("Network down\n");
+      led_blink(VERMELHO,5,FAST_SPEED_BLINK);
       break;
     case EMBER_JOIN_SCAN_FAILED:
       app_log_error("Scanning during join failed\n");
+      led_blink(VERMELHO,2,SLOW_SPEED_BLINK);
       break;
     case EMBER_JOIN_DENIED:
       app_log_error("Joining to the network rejected!\n");
+      led_blink(VERMELHO,2,SLOW_SPEED_BLINK);
       break;
     case EMBER_JOIN_TIMEOUT:
       app_log_info("Join process timed out!\n");
+      led_blink(VERMELHO,2,SLOW_SPEED_BLINK);
       break;
     default:
       app_log_info("Stack status: 0x%02X\n", status);
+      led_blink(VERMELHO,2,SLOW_SPEED_BLINK);
       break;
   }
 }
@@ -313,25 +322,30 @@ void emberAfTickCallback(void)
   uint32_t current_time = sl_sleeptimer_get_tick_count();
   uint32_t elapsed_time = current_time - press_start_time;
   if(((elapsed_time) > 100000) && button_is_pressed && ((elapsed_time) <= 200000)){
-      sl_led_turn_off(&sl_led_led0);
+      sl_led_turn_off(&sl_led_red);
+      sl_led_turn_off(&sl_led_green);
+      sl_led_turn_off(&sl_led_blue);
   }else if(button_is_pressed && ((elapsed_time) > 200000)){
-      sl_led_turn_on(&sl_led_led0);
+      hGpio_ledTurnOn(&sl_led_red, false);
   }else{
       if(initialized){
           if(application.Module_mode == ALARM){
               if(emberStackIsUp()){
-                  sl_led_turn_on(&sl_led_led0);
-
+                  hGpio_ledTurnOn(&sl_led_green, false);
               }else {
-                  if((current_time - timer_counter) > 7800){
-                      timer_counter = current_time;
-                      sl_led_toggle(&sl_led_led0);
+                  if(ok_to_blink){
+                      if((current_time - timer_counter) > 7800){
+                          timer_counter = current_time;
+                          sl_led_toggle(&sl_led_blue);
+                          sl_led_turn_off(&sl_led_red);
+                          sl_led_turn_off(&sl_led_green);
+                      }
                   }
               }
           }else if(application.Module_mode == RECEPTOR){
               if(emberStackIsUp()){
                   if(!joining){
-                      sl_led_turn_on(&sl_led_led0);
+                      sl_led_turn_on(&sl_led_red);
                   }else{
 
                   }

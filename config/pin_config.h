@@ -230,6 +230,27 @@
 #define Verde_PIN                                8
 #endif
 
+#ifndef AZUL_PORT                               
+#define AZUL_PORT                                SL_GPIO_PORT_B
+#endif
+#ifndef AZUL_PIN                                
+#define AZUL_PIN                                 2
+#endif
+
+#ifndef VERDE_PORT                              
+#define VERDE_PORT                               SL_GPIO_PORT_B
+#endif
+#ifndef VERDE_PIN                               
+#define VERDE_PIN                                3
+#endif
+
+#ifndef VERMELHO_PORT                           
+#define VERMELHO_PORT                            SL_GPIO_PORT_B
+#endif
+#ifndef VERMELHO_PIN                            
+#define VERMELHO_PIN                             4
+#endif
+
 // [CUSTOM_PIN_NAME]$
 
 #endif // PIN_CONFIG_H

@@ -62,7 +62,7 @@ component:
 - {id: si70xx_driver}
 - instance: [btn0]
   id: simple_button
-- instance: [led0, led1]
+- instance: [blue, green, red]
   id: simple_led
 - {id: sl_main}
 - {id: sl_rail_util_pti}

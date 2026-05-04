@@ -13,9 +13,12 @@ extern EmberEventControl *radio_control;
 extern EmberEventControl *report_control;
 extern EmberEventControl *CheckState_control;
 
+extern EmberMessageOptions tx_options;
+
 EmberKeyData connect_network_key;
 
 extern bool joining;
+extern bool ok_to_blink;
 
 packet_void_t sendRadio;
 send_queue_t radioQueue[MAX_QUEUE_PACKETS];
@@ -116,6 +119,12 @@ EmberStatus radio_send_packet(packet_void_t *pck, bool retrying){
       buffer_send[i+1] = pck->data[i];
   }
 
+  if(pck->cmd == LRCMD_JOINED_NETWORK_GATE){
+      tx_options = EMBER_OPTIONS_NONE;
+  }else{
+      tx_options = EMBER_OPTIONS_SECURITY_ENABLED | EMBER_OPTIONS_ACK_REQUESTED;
+  }
+
   status = radioMessageSend(ID_node,(pck->len),buffer_send);
 
   return status;
@@ -138,6 +147,7 @@ void Queue_manager(packet_void_t *pck){
 void led_blink(uint8_t led, uint8_t blinks, uint16_t speed){
   led_target = led;
   blink_target = blinks;
+  ok_to_blink = false;
 
   sl_sleeptimer_start_periodic_timer_ms(&periodic_timer,speed,led_handler, NULL,0,SL_SLEEPTIMER_NO_HIGH_PRECISION_HF_CLOCKS_REQUIRED_FLAG);
 }
@@ -152,14 +162,41 @@ void led_handler(sl_sleeptimer_timer_handle_t *handle, void *data){
 
       if((blink_count < (blink_target * 2))){
           blink_count++;
-          hGpio_ledToggle(&sl_led_led0, true);
+          hGpio_ledToggle(&sl_led_red, true);
       }else{
           joining = false;
           blink_count = 0;
-          hGpio_ledTurnOff(&sl_led_led0, true);
+          hGpio_ledTurnOff(&sl_led_red);
+          ok_to_blink = true;
           sl_sleeptimer_stop_timer(&periodic_timer);
       }
       break;
+    case VERDE:
+
+          if((blink_count < (blink_target * 2))){
+              blink_count++;
+              hGpio_ledToggle(&sl_led_green, true);
+          }else{
+              joining = false;
+              blink_count = 0;
+              hGpio_ledTurnOff(&sl_led_green);
+              ok_to_blink = true;
+              sl_sleeptimer_stop_timer(&periodic_timer);
+          }
+          break;
+    case AZUL:
+
+          if((blink_count < (blink_target * 2))){
+              blink_count++;
+              hGpio_ledToggle(&sl_led_blue, true);
+          }else{
+              joining = false;
+              blink_count = 0;
+              hGpio_ledTurnOff(&sl_led_blue);
+              ok_to_blink = true;
+              sl_sleeptimer_stop_timer(&periodic_timer);
+          }
+          break;
     default:
       break;
   }

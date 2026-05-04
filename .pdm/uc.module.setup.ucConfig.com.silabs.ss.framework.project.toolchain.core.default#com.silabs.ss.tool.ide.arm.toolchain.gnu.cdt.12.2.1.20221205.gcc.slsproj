@@ -18,8 +18,6 @@
     <file name="stack-common-config.h" generated="true" linked="false"/>
     <file name="sl_i2cspm_sensor_config.h" generated="true" linked="false"/>
     <file name="sl_simple_button_btn0_config.h" generated="true" linked="false"/>
-    <file name="sl_simple_led_led0_config.h" generated="true" linked="false"/>
-    <file name="sl_simple_led_led1_config.h" generated="true" linked="false"/>
     <file name="sl_sensor_sink_config.h" generated="true" linked="false"/>
     <file name="sl_token_manager_config.h" generated="true" linked="false"/>
     <file name="sl_custom_token_header.h" generated="true" linked="false"/>
@@ -47,6 +45,9 @@
     <file name="sl_sleeptimer_config.h" generated="true" linked="false"/>
     <file name="sl_mbedtls_config.h" generated="true" linked="false"/>
     <file name="sl_mbedtls_device_config.h" generated="true" linked="false"/>
+    <file name="sl_simple_led_blue_config.h" generated="true" linked="false"/>
+    <file name="sl_simple_led_green_config.h" generated="true" linked="false"/>
+    <file name="sl_simple_led_red_config.h" generated="true" linked="false"/>
   </folder>
   <includePath uri="studio:/project/config"/>
   <includePath uri="studio:/project/config/rail"/>

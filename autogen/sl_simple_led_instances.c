@@ -31,31 +31,46 @@
 #include "sl_simple_led.h"
 #include "sl_gpio.h"
 
-#include "sl_simple_led_led0_config.h"
-#include "sl_simple_led_led1_config.h"
+#include "sl_simple_led_blue_config.h"
+#include "sl_simple_led_green_config.h"
+#include "sl_simple_led_red_config.h"
 
-sl_simple_led_context_t simple_led0_context = {
-  .port = SL_SIMPLE_LED_LED0_PORT,
-  .pin = SL_SIMPLE_LED_LED0_PIN,
-  .polarity = SL_SIMPLE_LED_LED0_POLARITY,
+sl_simple_led_context_t simple_blue_context = {
+  .port = SL_SIMPLE_LED_BLUE_PORT,
+  .pin = SL_SIMPLE_LED_BLUE_PIN,
+  .polarity = SL_SIMPLE_LED_BLUE_POLARITY,
 };
 
-const sl_led_t sl_led_led0 = {
-  .context = &simple_led0_context,
+const sl_led_t sl_led_blue = {
+  .context = &simple_blue_context,
   .init = sl_simple_led_init,
   .turn_on = sl_simple_led_turn_on,
   .turn_off = sl_simple_led_turn_off,
   .toggle = sl_simple_led_toggle,
   .get_state = sl_simple_led_get_state,
 };
-sl_simple_led_context_t simple_led1_context = {
-  .port = SL_SIMPLE_LED_LED1_PORT,
-  .pin = SL_SIMPLE_LED_LED1_PIN,
-  .polarity = SL_SIMPLE_LED_LED1_POLARITY,
+sl_simple_led_context_t simple_green_context = {
+  .port = SL_SIMPLE_LED_GREEN_PORT,
+  .pin = SL_SIMPLE_LED_GREEN_PIN,
+  .polarity = SL_SIMPLE_LED_GREEN_POLARITY,
 };
 
-const sl_led_t sl_led_led1 = {
-  .context = &simple_led1_context,
+const sl_led_t sl_led_green = {
+  .context = &simple_green_context,
+  .init = sl_simple_led_init,
+  .turn_on = sl_simple_led_turn_on,
+  .turn_off = sl_simple_led_turn_off,
+  .toggle = sl_simple_led_toggle,
+  .get_state = sl_simple_led_get_state,
+};
+sl_simple_led_context_t simple_red_context = {
+  .port = SL_SIMPLE_LED_RED_PORT,
+  .pin = SL_SIMPLE_LED_RED_PIN,
+  .polarity = SL_SIMPLE_LED_RED_POLARITY,
+};
+
+const sl_led_t sl_led_red = {
+  .context = &simple_red_context,
   .init = sl_simple_led_init,
   .turn_on = sl_simple_led_turn_on,
   .turn_off = sl_simple_led_turn_off,
@@ -64,12 +79,14 @@ const sl_led_t sl_led_led1 = {
 };
 
 const sl_led_t *sl_simple_led_array[] = {
-  &sl_led_led0,
-  &sl_led_led1
+  &sl_led_blue,
+  &sl_led_green,
+  &sl_led_red
 };
 
 void sl_simple_led_init_instances(void)
 {
-  sl_led_init(&sl_led_led0);
-  sl_led_init(&sl_led_led1);
+  sl_led_init(&sl_led_blue);
+  sl_led_init(&sl_led_green);
+  sl_led_init(&sl_led_red);
 }

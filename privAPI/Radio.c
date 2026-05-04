@@ -27,7 +27,7 @@ status_radio_t radioMessageSend(uint8_t destination, uint8_t messageLength, uint
  *****************************************************************************/
 void emberAfIncomingMessageCallback(EmberIncomingMessage *message)
 {
-  if(message->payload[0] == LRCMD_SEND_KEY && application.Status_Operation == WAIT_REGISTRATION){
+  if(message->payload[0] == LRCMD_SEND_KEY && (application.Status_Operation == WAIT_REGISTRATION || application.Status_Operation == PERIOD_INSTALATION)){
         memcpy(connect_network_key.contents,message->payload + 1,EMBER_ENCRYPTION_KEY_SIZE);
 
         if (set_security_key(connect_network_key.contents, (size_t)EMBER_ENCRYPTION_KEY_SIZE) == true) {

@@ -50,14 +50,26 @@ void hGpio_ledToggle(const sl_led_t *led_handle, bool uEconomic){
 }
 
 void hGpio_ledTurnOn(const sl_led_t *led_handle, bool uEconomic){
-  if(uEconomic){
-      sl_led_turn_on(led_handle);
+  if(!uEconomic){
+      if(led_handle == &sl_led_red){
+          sl_led_turn_on(&sl_led_red);
+          sl_led_turn_off(&sl_led_green);
+          sl_led_turn_off(&sl_led_blue);
+      }else if(led_handle == &sl_led_green){
+          sl_led_turn_off(&sl_led_red);
+          sl_led_turn_on(&sl_led_green);
+          sl_led_turn_off(&sl_led_blue);
+      }else if(led_handle == &sl_led_blue){
+          sl_led_turn_off(&sl_led_red);
+          sl_led_turn_off(&sl_led_green);
+          sl_led_turn_on(&sl_led_blue);
+      }
   }else{
       sl_led_turn_off(led_handle);
   }
 }
 
-void hGpio_ledTurnOff(const sl_led_t *led_handle, bool uEconomic){
+void hGpio_ledTurnOff(const sl_led_t *led_handle){
   sl_led_turn_off(led_handle);
 }
 

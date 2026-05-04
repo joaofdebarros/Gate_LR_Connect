@@ -56,7 +56,7 @@ void hGpio_ledToggle(const sl_led_t *led_handle, bool uEconomic);
 
 void hGpio_ledTurnOn(const sl_led_t *led_handle, bool uEconomic);
 
-void hGpio_ledTurnOff(const sl_led_t *led_handle, bool uEconomic);
+void hGpio_ledTurnOff(const sl_led_t *led_handle);
 
 void hGpio_write(uint32_t gpio, uint32_t pin, hGPIO_PIN_STATE_e e);
 

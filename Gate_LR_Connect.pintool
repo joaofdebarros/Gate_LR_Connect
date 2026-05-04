@@ -9,13 +9,18 @@
     <property object="I2C1" propertyId="ABModule.selectedRequirement" value="i2c%T%SL_I2CSPM_SENSOR%T%sl_i2cspm_sensor_config.h"/>
     <property object="I2C1" propertyId="ABPeripheral.included" value="true"/>
     <property object="PA02" propertyId="pin.reserve" value="Reserved"/>
-    <property object="PA07" propertyId="ABModule.selectedRequirement" value="gpio%T%SL_SIMPLE_LED_LED0%T%sl_simple_led_led0_config.h"/>
-    <property object="PA07" propertyId="pin.reserve" value="Reserved"/>
-    <property object="PA08" propertyId="ABModule.selectedRequirement" value="gpio%T%SL_SIMPLE_LED_LED1%T%sl_simple_led_led1_config.h"/>
     <property object="PA08" propertyId="pin.name" value="Verde"/>
     <property object="PB00" propertyId="ABModule.selectedRequirement" value="gpio%T%SL_SIMPLE_BUTTON_BTN0%T%sl_simple_button_btn0_config.h"/>
     <property object="PB00" propertyId="pin.name" value=""/>
     <property object="PB00" propertyId="pin.reserve" value="Reserved"/>
+    <property object="PB02" propertyId="ABModule.selectedRequirement" value="gpio%T%SL_SIMPLE_LED_BLUE%T%sl_simple_led_blue_config.h"/>
+    <property object="PB02" propertyId="pin.name" value="AZUL"/>
+    <property object="PB03" propertyId="ABModule.selectedRequirement" value="gpio%T%SL_SIMPLE_LED_GREEN%T%sl_simple_led_green_config.h"/>
+    <property object="PB03" propertyId="pin.name" value="VERDE"/>
+    <property object="PB03" propertyId="pin.reserve" value="Reserved"/>
+    <property object="PB04" propertyId="ABModule.selectedRequirement" value="gpio%T%SL_SIMPLE_LED_RED%T%sl_simple_led_red_config.h"/>
+    <property object="PB04" propertyId="pin.name" value="VERMELHO"/>
+    <property object="PB04" propertyId="pin.reserve" value="Reserved"/>
     <property object="PC04" propertyId="ABModule.selectedRequirement" value="gpio%T%SL_MX25_FLASH_SHUTDOWN_CS%T%sl_mx25_flash_shutdown_eusart_config.h"/>
     <property object="PC04" propertyId="pin.reserve" value="Reserved"/>
     <property object="PC09" propertyId="ABModule.selectedRequirement" value="gpio%T%SL_BOARD_ENABLE_DISPLAY%T%sl_board_control_config.h"/>
