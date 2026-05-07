@@ -1,23 +1,4 @@
-privAPI/Radio.o: ../privAPI/Radio.c ../privAPI/Radio.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\ember.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\ember-types.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_common.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_assert.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\cmsis\core\include\cmsis_compiler.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\cmsis\core\include\cmsis_gcc.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\config\ember-configuration-defaults.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_component_catalog.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/stack-common-config.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/frequency-hopping-config.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/parent-support-config.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/mac-queue-config.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\config\sl_connect_radio_priority_config.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\error.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\error-def.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\memory-buffer.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\event.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\network-management.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\stack-info.h \
+API/Crypto/Crypto.o: ../API/Crypto/Crypto.c ../API/Crypto/Crypto.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\util\third_party\mbedtls\include\psa\crypto.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\util\third_party\mbedtls\include\psa\crypto_platform.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\util\third_party\mbedtls\include\mbedtls\private_access.h \
@@ -26,11 +7,13 @@ privAPI/Radio.o: ../privAPI/Radio.c ../privAPI/Radio.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/sl_mbedtls_config.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sli_mbedtls_config_autogen.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\security\sl_component\sl_mbedtls_support\config\sli_mbedtls_omnipresent.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_component_catalog.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\device\siliconlabs\fgm23\include\em_device.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\device\siliconlabs\fgm23\include\fgm230sa27hgn.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\cmsis\core\include\core_cm33.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\cmsis\core\include\cmsis_version.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\cmsis\core\include\cmsis_compiler.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\cmsis\core\include\cmsis_gcc.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\interrupt_manager\inc\arm\cmsis_nvic_virtual.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\interrupt_manager\inc\sl_interrupt_manager.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_core.h \
@@ -126,6 +109,8 @@ privAPI/Radio.o: ../privAPI/Radio.c ../privAPI/Radio.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\security\sl_component\se_manager\inc\sl_se_manager_config.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\security\sl_component\se_manager\inc\sl_se_manager_check_config.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\security\sl_component\se_manager\inc\sli_se_manager_mailbox.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_common.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_assert.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\security\sl_component\sl_psa_driver\inc\sli_se_driver_aead.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\security\sl_component\sl_psa_driver\inc\sli_se_driver_mac.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\security\sl_component\se_manager\inc\sl_se_manager.h \
@@ -163,85 +148,14 @@ privAPI/Radio.o: ../privAPI/Radio.c ../privAPI/Radio.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\util\third_party\mbedtls\include\psa\crypto_builtin_key_derivation.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\util\third_party\mbedtls\include\psa\crypto_extra.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\util\third_party\mbedtls\include\psa\crypto_compat.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\message.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\byte-utilities.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\radio-stream.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\app\common\util\app_log\app_log.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\iostream\inc\sl_iostream.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_enum.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_slist.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_iostream_handles.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_iostream_init_eusart_instances.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\iostream\inc\sl_iostream_uart.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\iostream\inc\sl_iostream.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\dmadrv\inc\dmadrv.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\common\inc\ecode.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\dmadrv\inc\s2_signals\dmadrv_signals.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_ldma.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/dmadrv_config.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\power_manager\inc\sl_power_manager.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/sl_power_manager_config.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\sleeptimer\inc\sl_sleeptimer.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/app_log_config.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/Application/application.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/packet.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/pckDataStructure.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/privAPI/Radio.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\app-framework-common\app_framework_common.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\ember-types.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/Connect/Connect.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_simple_led_instances.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\leddrv\inc\sl_simple_led.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\leddrv\inc\sl_led.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\gpio\inc\sl_gpio.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_gpio.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\uartdrv\inc\uartdrv.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_peripheral.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_peripheral_types.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_clock.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_usart.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_eusart.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_eusart_compat.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\clock_manager\inc\sl_clock_manager.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_clock.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/uartdrv_config.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_uartdrv_instances.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\peripheral\inc\sl_hal_timer.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_assert.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\ustimer\inc\ustimer.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/ustimer_config.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/memory/memory.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/boards/chipset/efr32.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hDriver.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hGpio.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hTimer.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_timer.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_bus.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu_compat.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_gpio.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\sli_em_cmu.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/Crypto/Crypto.h
-../privAPI/Radio.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\ember.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\ember-types.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_common.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_assert.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\cmsis\core\include\cmsis_compiler.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\cmsis\core\include\cmsis_gcc.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\config\ember-configuration-defaults.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_component_catalog.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/stack-common-config.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/frequency-hopping-config.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/parent-support-config.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/mac-queue-config.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\config\sl_connect_radio_priority_config.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\error.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\error-def.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\memory-buffer.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\event.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\network-management.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\stack-info.h:
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\config\ember-configuration-defaults.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/stack-common-config.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/frequency-hopping-config.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/parent-support-config.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/mac-queue-config.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\config\sl_connect_radio_priority_config.h
+../API/Crypto/Crypto.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\util\third_party\mbedtls\include\psa\crypto.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\util\third_party\mbedtls\include\psa\crypto_platform.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\util\third_party\mbedtls\include\mbedtls\private_access.h:
@@ -250,11 +164,13 @@ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\util\third_party\mbedt
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/sl_mbedtls_config.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sli_mbedtls_config_autogen.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\security\sl_component\sl_mbedtls_support\config\sli_mbedtls_omnipresent.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_component_catalog.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\device\siliconlabs\fgm23\include\em_device.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\device\siliconlabs\fgm23\include\fgm230sa27hgn.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\cmsis\core\include\core_cm33.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\cmsis\core\include\cmsis_version.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\cmsis\core\include\cmsis_compiler.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\cmsis\core\include\cmsis_gcc.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\interrupt_manager\inc\arm\cmsis_nvic_virtual.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\interrupt_manager\inc\sl_interrupt_manager.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_core.h:
@@ -350,6 +266,8 @@ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\security\sl_c
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\security\sl_component\se_manager\inc\sl_se_manager_config.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\security\sl_component\se_manager\inc\sl_se_manager_check_config.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\security\sl_component\se_manager\inc\sli_se_manager_mailbox.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_common.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_assert.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\security\sl_component\sl_psa_driver\inc\sli_se_driver_aead.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\security\sl_component\sl_psa_driver\inc\sli_se_driver_mac.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\security\sl_component\se_manager\inc\sl_se_manager.h:
@@ -387,62 +305,10 @@ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\util\third_party\mbedt
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\util\third_party\mbedtls\include\psa\crypto_builtin_key_derivation.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\util\third_party\mbedtls\include\psa\crypto_extra.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\util\third_party\mbedtls\include\psa\crypto_compat.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\message.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\byte-utilities.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\radio-stream.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\app\common\util\app_log\app_log.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\iostream\inc\sl_iostream.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_enum.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_slist.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_iostream_handles.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_iostream_init_eusart_instances.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\iostream\inc\sl_iostream_uart.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\iostream\inc\sl_iostream.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\dmadrv\inc\dmadrv.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\common\inc\ecode.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\dmadrv\inc\s2_signals\dmadrv_signals.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_ldma.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/dmadrv_config.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\power_manager\inc\sl_power_manager.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/sl_power_manager_config.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\sleeptimer\inc\sl_sleeptimer.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/app_log_config.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/Application/application.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/packet.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/pckDataStructure.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/privAPI/Radio.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\app-framework-common\app_framework_common.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\ember-types.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/Connect/Connect.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_simple_led_instances.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\leddrv\inc\sl_simple_led.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\leddrv\inc\sl_led.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\gpio\inc\sl_gpio.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_gpio.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\uartdrv\inc\uartdrv.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_peripheral.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_peripheral_types.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_clock.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_usart.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_eusart.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_eusart_compat.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\clock_manager\inc\sl_clock_manager.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\device_manager\inc\sl_device_clock.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/uartdrv_config.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_uartdrv_instances.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\peripheral\inc\sl_hal_timer.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_assert.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\ustimer\inc\ustimer.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/ustimer_config.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/memory/memory.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/boards/chipset/efr32.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hDriver.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hGpio.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hTimer.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_timer.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_bus.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu_compat.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_gpio.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\sli_em_cmu.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/Crypto/Crypto.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\config\ember-configuration-defaults.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/stack-common-config.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/frequency-hopping-config.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/parent-support-config.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/mac-queue-config.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\config\sl_connect_radio_priority_config.h:

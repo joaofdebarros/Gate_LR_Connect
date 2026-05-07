@@ -7,12 +7,14 @@
 
 #include "Radio.h"
 #include "Application/application.h"
+#include "API/Crypto/Crypto.h"
 
 extern EmberMessageOptions tx_options;
 
 extern EmberKeyData connect_network_key;
 extern bool initialized;
 extern EmberEventControl *report_control;
+extern uint8_t transport_key[16];
 
 void SL_WEAK privcallback_Radio_Receive(uint8_t *data,uint8_t length);
 
@@ -28,8 +30,11 @@ status_radio_t radioMessageSend(uint8_t destination, uint8_t messageLength, uint
 void emberAfIncomingMessageCallback(EmberIncomingMessage *message)
 {
   if(message->payload[0] == LRCMD_SEND_KEY && (application.Status_Operation == WAIT_REGISTRATION || application.Status_Operation == PERIOD_INSTALATION)){
-        memcpy(connect_network_key.contents,message->payload + 1,EMBER_ENCRYPTION_KEY_SIZE);
+      EmberKeyData encrypted_key;
 
+      memcpy(encrypted_key.contents,message->payload + 1,EMBER_ENCRYPTION_KEY_SIZE);
+
+      aes_ecb_decrypt_key(transport_key, encrypted_key.contents, connect_network_key.contents);
         if (set_security_key(connect_network_key.contents, (size_t)EMBER_ENCRYPTION_KEY_SIZE) == true) {
             memory_write(SECURITY_KEY_MEMORY_KEY, connect_network_key.contents, sizeof(connect_network_key.contents));
             if(application.Status_Operation == WAIT_REGISTRATION && initialized){
