@@ -47,21 +47,21 @@ bool hcheck_channel(uint16_t channel)
  * CLI - Join as Sleepy End Device
  * Joins the network on the specified channel.
  *****************************************************************************/
-void join_sleepy(uint16_t channel)
+void join_sleepy(uint16_t panId)
 {
   EmberNetworkParameters parameters;
   //uint16_t channel = sl_cli_get_argument_uint8(arguments, 0);
   // Abort if the channel is invalid for this PHY
-  if (hcheck_channel(channel) == false) {
+  if (hcheck_channel(0) == false) {
     return;
   }
 
   memset(&parameters, 0, sizeof(EmberNetworkParameters));
   parameters.radioTxPower = tx_power;
-  parameters.radioChannel = channel;
+  parameters.radioChannel = 0;
 
   // set default PAN ID or the one passed as parameter
-  parameters.panId = SL_SENSOR_SINK_PAN_ID_WS;
+  parameters.panId = panId;
 
   emberJoinNetwork(EMBER_STAR_RANGE_EXTENDER, &parameters);
   //app_log_info("join sleepy 0x%02X\n", status);

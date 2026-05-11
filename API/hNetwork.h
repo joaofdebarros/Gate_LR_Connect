@@ -22,7 +22,7 @@
 // -----------------------------------------------------------------------------
 bool check_channel(uint16_t channel);
 
-void join_sleepy(uint16_t channel);
+void join_sleepy(uint16_t panId);
 void form_network();
 void leave(void);
 void set_tx(uint16_t channel);

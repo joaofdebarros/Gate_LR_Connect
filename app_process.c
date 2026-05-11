@@ -76,6 +76,11 @@ EmberMessageOptions tx_options = EMBER_OPTIONS_ACK_REQUESTED | EMBER_OPTIONS_SEC
 
 extern EmberKeyData connect_network_key;
 
+//NETWORK_SCAN
+network_scan_t network_scan_result[12];
+uint8_t network_count = 0;
+
+
 extern packet_void_t sendRadio;
 extern send_queue_t radioQueue[MAX_QUEUE_PACKETS];
 
@@ -158,7 +163,7 @@ void sl_button_on_change(const sl_button_t *handle)
             //ACTION
             if(application.Status_Operation == WAIT_REGISTRATION){
                 if(application.Module_mode == ALARM){
-                    join_sleepy(0);
+                    startActiveScanCommand();
                     ok_to_blink = false;
                     sl_led_turn_on(&sl_led_blue);
                 }else if(application.Module_mode == RECEPTOR){
@@ -355,4 +360,49 @@ void emberAfTickCallback(void)
           }
       }
   }
+}
+
+void startActiveScanCommand(void){
+  EmberStatus status;
+  uint8_t channelToScan = 0;
+  status = emberStartActiveScan(channelToScan);
+
+  if (status != EMBER_SUCCESS) {
+      app_log_error("Start active scanning failed, status=0x%x", status);
+  } else {
+      app_log_error("Start active scanning: channel %d", channelToScan);
+  }
+}
+
+void emberAfIncomingBeaconCallback(panId, source, rssi, permitJoining, beaconFieldsLength, beaconFields, beaconPayloadLength, beaconPayload){
+  network_scan_result[network_count].PanID = panId;
+  network_scan_result[network_count].rssi = rssi;
+  network_scan_result[network_count].permitJoining = permitJoining;
+  network_count++;
+}
+
+void emberAfActiveScanCompleteCallback(){
+  int8_t best_rssi = -128;  // Valor mínimo de RSSI
+  uint8_t best_index = 0xFF;  // Índice inválido
+  bool found_network = false;
+
+  // Percorre todas as redes encontradas
+  for(uint8_t i = 0; i < 12; i++){
+      if(network_scan_result[i].permitJoining){
+          // Se é a primeira rede válida ou tem RSSI melhor que a anterior
+          if(!found_network || network_scan_result[i].rssi > best_rssi){
+              best_rssi = network_scan_result[i].rssi;
+              best_index = i;
+              found_network = true;
+          }
+      }
+  }
+
+  // Se encontrou pelo menos uma rede com permit join, conecta na melhor
+  if(found_network && best_index != 0xFF){
+      join_sleepy(network_scan_result[best_index].PanID);
+  }
+
+  // Limpa o contador para o próximo scan
+  network_count = 0;
 }

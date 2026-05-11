@@ -59,6 +59,14 @@ typedef enum{
   MID_RANGE
 }Range_t;
 
+typedef struct{
+  EmberPanId PanID;
+  int8_t rssi;
+  bool permitJoining;
+}network_scan_t;
+
+extern network_scan_t network_scan_result[12];
+
 typedef union
 {
     uint8_t Statusbyte;
