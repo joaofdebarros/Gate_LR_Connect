@@ -29,6 +29,10 @@
 #define start_byte 0x7E
 #define stop_byte 0x81
 
+typedef enum{
+  GATE,
+  CERCA,
+} device_type_t;
 
 typedef enum{
   ABERTO = 1,
@@ -52,6 +56,19 @@ typedef enum{
   ACIONARMOTOR = 12,
 } gate_cmd_t;
 
+typedef enum{
+  ARMA_CHOQUE = 1,
+  DESARMA_CHOQUE,
+  ARMA_SETOR,
+  DESARMA_SETOR,
+  LIGAR_PANICO,
+  DESLIGAR_PANICO,
+  LIGA_PGM = 17,
+  DESLIGA_PGM = 18,
+  STTS_ON = 21,
+  STTS_OFF = 22
+} cerca_cmd_t;
+
 typedef struct{
   uint8_t state;
   uint8_t action;
@@ -65,6 +82,18 @@ typedef struct {
   uint8_t checksum;
   uint8_t tail;
 } gate_packet_t;
+
+typedef struct {
+  uint8_t len;
+  uint8_t id;
+  uint8_t Status_1;
+  uint8_t Status_2;
+  uint8_t Status_3;
+  uint8_t tx[4];
+  uint8_t wifi;
+  uint8_t checksum;
+  uint8_t tail;
+} cerca_packet_t;
 
 typedef enum {
   START_ST = 0,
@@ -83,9 +112,20 @@ typedef enum {
   GATE_PACKET_FAIL_UNKNOWN = 0xFF
 } packet_errorGATE_e;
 
+typedef enum {
+  CERCA_PACKET_OK,
+  CERCA_PACKET_FAIL_HEADER,
+  CERCA_PACKET_FAIL_TAIL,
+  CERCA_PACKET_FAIL_LENGHT,
+  CERCA_PACKET_FAIL_CHECKSUM,
+  CERCA_PACKET_FAIL_UNKNOWN = 0xFF
+} packet_errorCERCA_e;
+
 typedef struct {
-  packet_errorGATE_e packetError;
+  packet_errorGATE_e packetError_Gate;
+  packet_errorCERCA_e packetError_Cerca;
   gate_packet_t gate_packet;
+  cerca_packet_t  cerca_packet;
   gate_info_t gate_info;
   uint8_t byte_receive;
   uint8_t data[40];
@@ -98,13 +138,16 @@ void Timeout_Connect_handler(void);
 
 packet_errorGATE_e gate_packet_demount(uint8_t *datain, uint16_t len,
                                            gate_packet_t *packet);
+packet_errorCERCA_e cerca_packet_demount(uint8_t *datain, uint16_t len,
+                                         cerca_packet_t *packet);
 uint8_t montar_pacote(uint8_t *tx, uint8_t size, uint8_t id, uint8_t adrs,
                       uint8_t fnct, uint8_t *data, uint8_t payload_size,
-                      bool automatizador);
+                      device_type_t device_type);
 uint8_t calculate_checksum(uint8_t *buffer, uint8_t payload_size,
-                           bool automatizador);
+                           device_type_t device_type);
 void get_state(uint8_t *state);
 void gate_packet_transmit(uint8_t *byte_transmit,uint8_t len);
 void gate_cmd(uint8_t cmd);
+void cerca_cmd(cerca_cmd_t cmd);
 void gate_get_status();
 #endif /* API_CONNECT_CONNECT_H_ */

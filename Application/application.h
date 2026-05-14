@@ -32,8 +32,7 @@ typedef enum{
 
 typedef enum{
   WAIT_REGISTRATION = 0,
-  PERIOD_INSTALATION,
-  OPERATION_MODE,
+  OPERATION_MODE
 }Status_Operation_t;
 
 typedef enum{
@@ -46,7 +45,7 @@ typedef enum{
   CONTROL = 0,
   MOTION_DETECT,
   OPEN_CLOSE_DETECT,
-  GATE
+  CONNECT
 }Type;
 
 typedef enum{
@@ -102,14 +101,14 @@ typedef struct{
 }application_radio_t;
 
 typedef enum{
-  ALARM,
-  RECEPTOR
+  ALARM_MODE,
+  STANDALONE_RECEPTOR
 }Module_mode_t;
 
 typedef enum{
   PROG,
   RX
-}Gate_mode_t;
+}Gate_communication_method_t;
 
 typedef enum{
   VERMELHO = 0,
@@ -117,14 +116,62 @@ typedef enum{
   AZUL
 }LED_t;
 
+typedef union{
+  uint8_t Status1_cerca_byte;
+
+  struct{
+    uint8_t Retorno              :1;
+    uint8_t Setor                :1;
+    uint8_t Choque               :1;
+    uint8_t APRENDER             :1;
+    uint8_t PROG_WIFI            :1;
+    uint8_t Sirene               :1;
+    uint8_t Panico               :1;
+    uint8_t PGM                  :1;
+  }Status1_cerca_bits;
+}Status1_cerca_t;
+
+typedef union{
+  uint8_t Status2_cerca_byte;
+
+  struct{
+    uint8_t JP_Setor             :1;
+    uint8_t JMP5                 :1;
+    uint8_t JMP4                 :1;
+    uint8_t JP_Sensor            :1;
+    uint8_t JP_Tensao            :1;
+    uint8_t JP_Sensibilidade     :1;
+    uint8_t JP_PGM               :1;
+    uint8_t reserved             :1;
+  }Status2_cerca_bits;
+}Status2_cerca_t;
+
+typedef union{
+  uint8_t Status3_cerca_byte;
+
+  struct{
+    uint8_t JP_JB                :1;
+    uint8_t STTS                 :1;
+    uint8_t Capacitor            :1;
+    uint8_t AC                   :1;
+    uint8_t reserved             :4;
+  }Status3_cerca_bits;
+}Status3_cerca_t;
+
 typedef struct{
+  Module_mode_t Module_mode;
+
+  Gate_communication_method_t Gate_method;
+
   application_radio_t radio;
   Status_Operation_t Status_Operation;
-  Module_mode_t Module_mode;
-  Gate_mode_t Gate_mode;
-  Status_Central_t Status_Central;
+
   gate_status_t state_real;
   gate_status_t state_before;
+
+  Status1_cerca_t Status1_cerca;
+  Status2_cerca_t Status2_cerca;
+  Status3_cerca_t Status3_cerca;
 }application_t;
 
 extern application_t application;

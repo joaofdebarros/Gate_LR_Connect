@@ -221,7 +221,8 @@ privAPI/Radio.o: ../privAPI/Radio.c ../privAPI/Radio.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu_compat.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_gpio.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\sli_em_cmu.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/Crypto/Crypto.h
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/Crypto/Crypto.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/app_init.h
 ../privAPI/Radio.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\ember.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\ember-types.h:
@@ -446,3 +447,4 @@ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_gpio.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\sli_em_cmu.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/Crypto/Crypto.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/app_init.h:

@@ -9,9 +9,6 @@
 #include "nvm3_hal_flash.h"
 #include "nvm3_default.h"
 
-// Buffer for reading from NVM3
-static char buffer[100];
-
 // Use the default nvm3 handle from nvm3_default.h
 #define NVM3_DEFAULT_HANDLE nvm3_defaultHandle
 

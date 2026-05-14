@@ -8,6 +8,7 @@
 #include "Radio.h"
 #include "Application/application.h"
 #include "API/Crypto/Crypto.h"
+#include "app_init.h"
 
 extern EmberMessageOptions tx_options;
 
@@ -29,7 +30,7 @@ status_radio_t radioMessageSend(uint8_t destination, uint8_t messageLength, uint
  *****************************************************************************/
 void emberAfIncomingMessageCallback(EmberIncomingMessage *message)
 {
-  if(message->payload[0] == LRCMD_SEND_KEY && (application.Status_Operation == WAIT_REGISTRATION || application.Status_Operation == PERIOD_INSTALATION)){
+  if(message->payload[0] == LRCMD_SEND_KEY && application.Status_Operation == WAIT_REGISTRATION){
       EmberKeyData encrypted_key;
 
       memcpy(encrypted_key.contents,message->payload + 1,EMBER_ENCRYPTION_KEY_SIZE);
@@ -48,7 +49,7 @@ void emberAfIncomingMessageCallback(EmberIncomingMessage *message)
         if(application.Status_Operation == WAIT_REGISTRATION){
             privcallback_Radio_Receive(message->payload,message->length);
             application.radio.RSSI = -(message->rssi);
-        }else if(application.Status_Operation == PERIOD_INSTALATION || application.Status_Operation == OPERATION_MODE){
+        }else if(application.Status_Operation == OPERATION_MODE){
             privcallback_Radio_Receive(message->payload,message->length);
             application.radio.RSSI = -(message->rssi);
         }

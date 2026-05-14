@@ -59,9 +59,6 @@
 extern EmberKeyData security_key;
 /// Connect security key id
 extern psa_key_id_t security_key_id;
-extern EmberEventControl *report_control;
-extern EmberEventControl *radio_control;
-extern EmberEventControl *CheckState_control;
 
 // -----------------------------------------------------------------------------
 //                                Static Variables

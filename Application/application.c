@@ -33,10 +33,10 @@ void CheckState_handler(void){
   get_state(&application.state_real);
   if(application.state_real != application.state_before){
       application.state_before = application.state_real;
-      if(application.Module_mode == ALARM){
+      if(application.Module_mode == ALARM_MODE){
           app_log_info("Change status");
 
-          sendRadio.cmd = LRCMD_GATE_CHANGE_STATUS;
+          sendRadio.cmd = LRCMD_CHANGE_STATUS_GATE;
           sendRadio.len = 6;
           sendRadio.data[0] = application.state_real;         //Status portao
           sendRadio.data[1] = 0xFF;                              //NULL
@@ -45,8 +45,8 @@ void CheckState_handler(void){
           sendRadio.data[4] = application.radio.RSSI;
 
           status = radio_send_packet(&sendRadio, false);
-      }else if(application.Module_mode == RECEPTOR){
-          sendRadio.cmd = LRCMD_GATE_CHANGE_STATUS;
+      }else if(application.Module_mode == STANDALONE_RECEPTOR){
+          sendRadio.cmd = LRCMD_CHANGE_STATUS_GATE;
           sendRadio.data[0] = application.state_before;
           sendRadio.len = 2;
           status = radio_send_packet(&sendRadio, false);
@@ -79,7 +79,7 @@ void radio_handler(void){
       emberEventControlSetActive(*report_control);
       break;
     case LRCMD_BUTTON:
-      if(application.Module_mode == RECEPTOR){
+      if(application.Module_mode == STANDALONE_RECEPTOR){
           if(receive->data[0] == 1){
               gate_cmd(ACIONARMOTOR);
           }else if(receive->data[0] == 2){
@@ -92,7 +92,8 @@ void radio_handler(void){
           }
       }
       break;
-    case LRCMD_SEND_KEY:
+    case LRCMD_WRITE_CONTROL_CERCA:
+      cerca_cmd(receive->data[0]);
       break;
   }
 
@@ -102,11 +103,11 @@ void radio_handler(void){
 EmberStatus radio_send_packet(packet_void_t *pck, bool retrying){
   uint8_t buffer_send[8];
   EmberStatus status;
-  uint8_t ID_node;
+  uint8_t ID_node = 0;
 
-  if(application.Module_mode == ALARM){
+  if(application.Module_mode == ALARM_MODE){
       ID_node = 0;
-  }else if(application.Module_mode == RECEPTOR){
+  }else if(application.Module_mode == STANDALONE_RECEPTOR){
       ID_node = 1;
   }
 

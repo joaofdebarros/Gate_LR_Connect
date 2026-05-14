@@ -30,7 +30,6 @@ void rx_done_callback(UARTDRV_Handle_t handle,
                        Ecode_t          status,
                        uint8_t         *data,
                        UARTDRV_Count_t  len);
-void packet_receive_PGM(uint8_t *byte_receive);
 /*******************************************************************************
  **************************   GLOBAL FUNCTIONS   *******************************
  ******************************************************************************/
@@ -40,9 +39,7 @@ void packet_receive_PGM(uint8_t *byte_receive);
 /***************************************************************************//**
  * Initialize example.
  ******************************************************************************/
-static volatile uint32_t irq_flag = 0;
 EmberEventControl *TimeoutStatus_control;
-EmberEventControl *Timeout_Connect_control;
 
 void connect_init(void)
 {
@@ -54,16 +51,9 @@ void connect_init(void)
                     &ConnectLR.byte_receive, 1, rx_done_callback);
 
   emberAfAllocateEvent(&TimeoutStatus_control, &TimeoutStatus_handler);
-  emberAfAllocateEvent(&Timeout_Connect_control, &Timeout_Connect_handler);
-
-  emberEventControlSetDelayMS(*Timeout_Connect_control,5000);
-}
-
-void Timeout_Connect_handler(void){
-  application.Gate_mode = RX;
-  emberEventControlSetInactive(*Timeout_Connect_control);
   emberEventControlSetDelayMS(*TimeoutStatus_control,300);
 }
+
 
 void TimeoutStatus_handler(void){
   GPIO_PinOutSet(gpioPortA, 5);
@@ -71,21 +61,20 @@ void TimeoutStatus_handler(void){
   gate_get_status();
 
   emberEventControlSetDelayMS(*TimeoutStatus_control,300);
-  emberEventControlSetDelayMS(*Timeout_Connect_control,5000);
 }
 
 
 void gate_cmd(uint8_t cmd){
 
-  if(application.Gate_mode == PROG){
+  if(application.Gate_method == PROG){
       uint8_t buffer_size = 10;
       uint8_t Buffer_TX[40];
       uint8_t data[4] = {cmd,0,0,0};
-      montar_pacote(Buffer_TX, buffer_size, 0x02, 0x00,'C', data, 4, true);
+      montar_pacote(Buffer_TX, buffer_size, 0x02, 0x00,'C', data, 4, GATE);
 
       gate_packet_transmit(Buffer_TX, buffer_size);
       USTIMER_Delay(10000);
-  }else if(application.Gate_mode == RX){
+  }else if(application.Gate_method == RX){
       GPIO->USARTROUTE[0].ROUTEEN &= ~GPIO_USART_ROUTEEN_TXPEN;
       GPIO->USARTROUTE[0].ROUTEEN &= ~GPIO_USART_ROUTEEN_RXPEN;
 
@@ -99,35 +88,46 @@ void gate_cmd(uint8_t cmd){
   }
 }
 
+void cerca_cmd(cerca_cmd_t cmd){
+  uint8_t Buffer_TX[40];
+  uint8_t buffer_size;
+  buffer_size = 8;
+  montar_pacote(Buffer_TX, buffer_size, 0x00, 0x00,cmd, 0X00, 0, CERCA);
+
+  gate_packet_transmit(Buffer_TX, buffer_size);
+
+  USTIMER_Delay(10000);
+}
+
 void gate_get_status(){
-  if(application.Gate_mode == PROG){
+  if(application.Gate_method == PROG){
       uint8_t buffer_size = 10;
       uint8_t Buffer_TX[40];
       buffer_size = 6;
-      montar_pacote(Buffer_TX, buffer_size, 0x02, 0x00,'H', 0X00, 0, true);
+      montar_pacote(Buffer_TX, buffer_size, 0x02, 0x00,'H', 0X00, 0, GATE);
 
       gate_packet_transmit(Buffer_TX, buffer_size);
 
       USTIMER_Delay(10000);
-  }else if(application.Gate_mode == RX){
+  }else if(application.Gate_method == RX){
 
   }
 }
 
 void get_state(uint8_t *state){
-  if(application.Gate_mode == RX){
+  if(application.Gate_method == RX){
       *state = GPIO_PinInGet(gpioPortC, 1);
-  }else if(application.Gate_mode == PROG){
+  }else if(application.Gate_method == PROG){
       *state = ConnectLR.gate_info.state;
   }
 }
 
 uint8_t calculate_checksum(uint8_t *buffer, uint8_t payload_size,
-                           bool automatizador) {
+                           device_type_t device_type) {
   uint8_t sum = 0;
   uint8_t header_size = 0;
 
-  if (automatizador) {
+  if (device_type == GATE) {
     header_size = 4;
   } else {
     header_size = 5;
@@ -142,10 +142,10 @@ uint8_t calculate_checksum(uint8_t *buffer, uint8_t payload_size,
 
 uint8_t montar_pacote(uint8_t *tx, uint8_t size, uint8_t id, uint8_t adrs,
                       uint8_t fnct, uint8_t *data, uint8_t payload_size,
-                      bool automatizador) {
+                      device_type_t device_type) {
   uint8_t total_size = 0;
 
-  if (automatizador) {
+  if (device_type == GATE) {
     total_size = payload_size + 6;
 
     tx[0] = start_byte;
@@ -157,24 +157,37 @@ uint8_t montar_pacote(uint8_t *tx, uint8_t size, uint8_t id, uint8_t adrs,
       tx[4 + i] = data[i];
     }
 
-    tx[4 + payload_size] = calculate_checksum(tx, payload_size, automatizador);
+    tx[4 + payload_size] = calculate_checksum(tx, payload_size, device_type);
     tx[5 + payload_size] = stop_byte;
-  } else {
-    total_size = payload_size + 7;
+  } else if(device_type == CERCA){
+      total_size = payload_size + 5;
 
-    tx[0] = start_byte;
-    tx[1] = size;
-    tx[2] = id;
-    tx[3] = adrs;
-    tx[4] = fnct;
+      tx[0] = start_byte;
+      tx[1] = size;
+      tx[2] = 0x4a;
+      tx[3] = 0x54;
+      tx[4] = fnct;
+      tx[5] = 0;
+      tx[6] = 0;
+      tx[7] = 0x51;
+  }else{
+      total_size = payload_size + 7;
 
-    for (int i = 0; i < payload_size; i++) {
-      tx[5 + i] = data[i];
-    }
+      tx[0] = start_byte;
+      tx[1] = size;
+      tx[2] = id;
+      tx[3] = adrs;
+      tx[4] = fnct;
 
-    tx[5 + payload_size] = calculate_checksum(tx, payload_size, automatizador);
-    tx[6 + payload_size] = stop_byte;
+      for (int i = 0; i < payload_size; i++) {
+          tx[5 + i] = data[i];
+      }
+
+      tx[5 + payload_size] = calculate_checksum(tx, payload_size, device_type);
+      tx[6 + payload_size] = stop_byte;
   }
+
+  return total_size;
 }
 
 packet_errorGATE_e gate_packet_demount(uint8_t *datain, uint16_t len,
@@ -234,6 +247,70 @@ packet_errorGATE_e gate_packet_demount(uint8_t *datain, uint16_t len,
   return GATE_PACKET_OK;
 }
 
+packet_errorCERCA_e cerca_packet_demount(uint8_t *datain, uint16_t len,
+                                    cerca_packet_t *packet){
+  uint8_t checksum_validate;
+  uint16_t i, size, lHold;
+
+  if (datain == NULL || packet == NULL) {
+      return CERCA_PACKET_FAIL_UNKNOWN;
+  }
+  lHold = (len - 5);
+  checksum_validate = 0x7E;
+  // Transport all bytes to the struct
+  size = 0;
+  memset(packet, 0, sizeof(cerca_packet_t));
+
+  for (i = 0; i < PACKET_LENGTH_LEN; i++) {
+      packet->len = (datain[size++]);
+  }
+
+  checksum_validate ^= packet->len;
+
+  for (i = 0; i < PACKET_FUNCTION_LEN; i++) {
+      packet->id = datain[size++];
+  }
+  checksum_validate ^= packet->id;
+
+  if (lHold > (8)) {
+      return CERCA_PACKET_FAIL_UNKNOWN;  // pacote inválido
+  }
+
+  memcpy(&packet->Status_1, &datain[size], sizeof(packet->Status_1));
+  size++;
+
+  memcpy(&packet->Status_2, &datain[size], sizeof(packet->Status_2));
+  size++;
+
+  memcpy(&packet->Status_3, &datain[size], sizeof(packet->Status_3));
+  size++;
+
+  memcpy(&packet->tx, &datain[size], sizeof(packet->tx));
+  size += sizeof(packet->tx);
+
+  memcpy(&packet->wifi, &datain[size], sizeof(packet->wifi));
+  size++;
+
+//  for (i = 0; i < lHold; i++) {
+//      checksum_validate ^= packet->data[i];
+//  }
+
+  for (i = 0; i < PACKET_CHECKSUM_LEN; i++) {
+      packet->checksum = (datain[size++]);
+  }
+  checksum_validate = ~checksum_validate;
+
+  for (i = 0; i < PACKET_TAIL_LEN; i++) {
+      packet->tail = (datain[size++]);
+  }
+
+//  if (checksum_validate != packet->checksum) {
+//      return GATE_PACKET_FAIL_CHECKSUM;
+//  }
+
+  return CERCA_PACKET_OK;
+}
+
 void packet_receive(uint8_t *byte_receive){
   uint8_t lenght;
   uint8_t id;
@@ -280,11 +357,11 @@ void packet_receive(uint8_t *byte_receive){
 
   case DATA_ST:
     ConnectLR.state = START_ST;
-    ConnectLR.packetError =
+    ConnectLR.packetError_Gate =
         gate_packet_demount(ConnectLR.data, ConnectLR.data[0], &ConnectLR.gate_packet);
 
-    if (ConnectLR.packetError == GATE_PACKET_OK) {
-        application.Gate_mode = PROG;
+    if (ConnectLR.packetError_Gate == GATE_PACKET_OK) {
+        application.Gate_method = PROG;
         emberEventControlSetDelayMS(*TimeoutStatus_control,300);
         if(ConnectLR.gate_packet.function == 'H'){
             ConnectLR.gate_info.state = ConnectLR.gate_packet.data[5];
@@ -317,6 +394,15 @@ void packet_receive(uint8_t *byte_receive){
         }else if(ConnectLR.gate_packet.function == 'C'){
             ConnectLR.gate_info.action = ConnectLR.gate_packet.data[0];
         }
+    }else{
+        ConnectLR.packetError_Cerca =
+                cerca_packet_demount(ConnectLR.data, ConnectLR.data[0], &ConnectLR.cerca_packet);
+
+        if (ConnectLR.packetError_Cerca == CERCA_PACKET_OK) {
+            application.Status1_cerca.Status1_cerca_byte = ConnectLR.cerca_packet.Status_1;
+            application.Status2_cerca.Status2_cerca_byte = ConnectLR.cerca_packet.Status_2;
+            application.Status3_cerca.Status3_cerca_byte = ConnectLR.cerca_packet.Status_3;
+        }
     }
     UARTDRV_Receive(sl_uartdrv_usart_central_handle,
                         &ConnectLR.byte_receive, 1, rx_done_callback);
@@ -328,6 +414,7 @@ void packet_receive(uint8_t *byte_receive){
 
 void gate_packet_transmit(uint8_t *byte_transmit,uint8_t len){
   UARTDRV_Transmit(sl_uartdrv_usart_central_handle, byte_transmit, len, NULL);
+  USTIMER_Delay(1000);
 }
 
 void rx_done_callback(UARTDRV_Handle_t handle,
@@ -335,5 +422,10 @@ void rx_done_callback(UARTDRV_Handle_t handle,
                              uint8_t *data,
                              UARTDRV_Count_t  len)
 {
+  (void) handle;
+  (void) status;
+  (void) data;
+  (void) len;
+
   packet_receive(&ConnectLR.byte_receive);
 }

@@ -55,6 +55,8 @@
 //                              Macros and Typedefs
 // -----------------------------------------------------------------------------
 #define MAX_TX_FAILURES     (10U)
+#define TICKS_5S  160000
+#define TICKS_10S 320000
 // -----------------------------------------------------------------------------
 //                          Static Function Declarations
 // -----------------------------------------------------------------------------
@@ -80,15 +82,14 @@ extern EmberKeyData connect_network_key;
 network_scan_t network_scan_result[12];
 uint8_t network_count = 0;
 
+uint8_t cerca_func = 1;
 
-extern packet_void_t sendRadio;
 extern send_queue_t radioQueue[MAX_QUEUE_PACKETS];
 
 // -----------------------------------------------------------------------------
 //                                Static Variables
 // -----------------------------------------------------------------------------
 /// Destination of the currently processed sink node
-static EmberNodeId sink_node_id = EMBER_COORDINATOR_ADDRESS;
 bool register_control;
 uint32_t press_start_time = 0;
 bool button_is_pressed = false;
@@ -97,6 +98,8 @@ uint32_t timer_counter = 200;
 bool ok_to_blink = true;
 bool initialized = false;
 bool joining = false;
+
+
 // -----------------------------------------------------------------------------
 //                          Public Function Definitions
 // -----------------------------------------------------------------------------
@@ -130,43 +133,45 @@ void sl_button_on_change(const sl_button_t *handle)
 
     if (sl_button_get_state(handle) == SL_SIMPLE_BUTTON_RELEASED) {
        if(&sl_button_btn0 == handle){
+           //BOTAO PRESSIONADO
            press_start_time = sl_sleeptimer_get_tick_count();
            button_is_pressed = true;
        }
     }
 
     if(sl_button_get_state(handle) == SL_SIMPLE_BUTTON_PRESSED){
+        //BOTAO SOLTO
         uint32_t current_time = sl_sleeptimer_get_tick_count();
         button_is_pressed = false;
 
-        uint32_t elapsed_time = current_time - press_start_time;
+        uint32_t press_elapsed_time = current_time - press_start_time;
 
-        if(((elapsed_time) > 100000) && ((elapsed_time) < 200000)){
+        if(((press_elapsed_time) > TICKS_5S) && ((press_elapsed_time) < TICKS_10S)){
             //RESET NETWORK
             emberResetNetworkState();
             reset_parameters();
 
-        }else if((elapsed_time) > 200000){
+        }else if((press_elapsed_time) > TICKS_10S){
             //CHANGE MODE
-            if(application.Module_mode == ALARM){
-                application.Module_mode = RECEPTOR;
+            if(application.Module_mode == ALARM_MODE){
+                application.Module_mode = STANDALONE_RECEPTOR;
                 memory_write(MODULE_MODE_MEMORY_KEY, &application.Module_mode, sizeof(application.Module_mode));
-                led_blink(VERMELHO, 5, FAST_SPEED_BLINK);
+                led_blink(VERDE, 5, FAST_SPEED_BLINK);
 
-            }else if(application.Module_mode == RECEPTOR){
-                application.Module_mode = ALARM;
+            }else if(application.Module_mode == STANDALONE_RECEPTOR){
+                application.Module_mode = ALARM_MODE;
                 memory_write(MODULE_MODE_MEMORY_KEY, &application.Module_mode, sizeof(application.Module_mode));
-                led_blink(VERMELHO, 5, FAST_SPEED_BLINK);
+                led_blink(VERDE, 5, FAST_SPEED_BLINK);
             }
 
-        }else if((elapsed_time) <= 100000){
+        }else if((press_elapsed_time) <= TICKS_5S){
             //ACTION
             if(application.Status_Operation == WAIT_REGISTRATION){
-                if(application.Module_mode == ALARM){
+                if(application.Module_mode == ALARM_MODE){
                     startActiveScanCommand();
                     ok_to_blink = false;
                     sl_led_turn_on(&sl_led_blue);
-                }else if(application.Module_mode == RECEPTOR){
+                }else if(application.Module_mode == STANDALONE_RECEPTOR){
                     joining = true;
                     form_network();
                     led_blink(VERMELHO, 5, SLOW_SPEED_BLINK);
@@ -195,7 +200,7 @@ void report_handler(void)
   packet_void_t sendRadio;
   volatile Register_Sensor_t Register_Sensor;
 
-  switch (application.Status_Operation) {
+  switch (application.Status_Operation){
     case WAIT_REGISTRATION:
 
       Register_Sensor.Status.Type = GATE;
@@ -210,10 +215,10 @@ void report_handler(void)
       break;
 
     case OPERATION_MODE:
-      if(application.radio.LastCMD == LRCMD_GATE_CHANGE_STATUS){
+      if(application.radio.LastCMD == LRCMD_CHANGE_STATUS_GATE){
           get_state(&application.state_real);
 
-          sendRadio.cmd = LRCMD_GATE_CHANGE_STATUS;
+          sendRadio.cmd = LRCMD_CHANGE_STATUS_GATE;
           sendRadio.len = 6;
           sendRadio.data[0] = application.state_real;         //Status portao
           sendRadio.data[1] = 0xFF;                              //NULL
@@ -275,10 +280,6 @@ void emberAfMessageSentCallback(EmberStatus status,
 
   application.radio.RSSI = -(message->ackRssi);
 }
-void emberAfChildJoinCallback(EmberNodeType nodeType,
-                              EmberNodeId nodeId){
-
-}
 
 /**************************************************************************//**
  * This function is called when the stack status changes.
@@ -325,29 +326,34 @@ void emberAfTickCallback(void)
 {
 
   uint32_t current_time = sl_sleeptimer_get_tick_count();
-  uint32_t elapsed_time = current_time - press_start_time;
-  if(((elapsed_time) > 100000) && button_is_pressed && ((elapsed_time) <= 200000)){
+  uint32_t press_elapsed_time = current_time - press_start_time;
+  if(((press_elapsed_time) > TICKS_5S) && button_is_pressed && ((press_elapsed_time) <= TICKS_10S)){
+      //BOTAO PRESSIONADO ENTRE 5s e 10s
       sl_led_turn_off(&sl_led_red);
       sl_led_turn_off(&sl_led_green);
       sl_led_turn_off(&sl_led_blue);
-  }else if(button_is_pressed && ((elapsed_time) > 200000)){
-      hGpio_ledTurnOn(&sl_led_red, false);
+  }else if(button_is_pressed && ((press_elapsed_time) > TICKS_10S)){
+      //BOTAO PRESSIONADO POR MAIS DE 10s
+      hGpio_ledTurnOn(&sl_led_green, false);
   }else{
       if(initialized){
-          if(application.Module_mode == ALARM){
+          if(application.Module_mode == ALARM_MODE){
+              //CONFIGURADO PARA FUNCIONAR NO ALARME
               if(emberStackIsUp()){
                   hGpio_ledTurnOn(&sl_led_green, false);
               }else {
                   if(ok_to_blink){
                       if((current_time - timer_counter) > 7800){
                           timer_counter = current_time;
-                          sl_led_toggle(&sl_led_blue);
-                          sl_led_turn_off(&sl_led_red);
-                          sl_led_turn_off(&sl_led_green);
+//                          sl_led_toggle(&sl_led_blue);
+//                          sl_led_turn_off(&sl_led_red);
+//                          sl_led_turn_off(&sl_led_green);
+                          hGpio_ledTurnOn(&sl_led_blue, false);
                       }
                   }
               }
-          }else if(application.Module_mode == RECEPTOR){
+          }else if(application.Module_mode == STANDALONE_RECEPTOR){
+              //CONFIGURADO PARA FUNCIONAR COMO RECEPTOR AVULSO
               if(emberStackIsUp()){
                   if(!joining){
                       sl_led_turn_on(&sl_led_red);
@@ -374,7 +380,20 @@ void startActiveScanCommand(void){
   }
 }
 
-void emberAfIncomingBeaconCallback(panId, source, rssi, permitJoining, beaconFieldsLength, beaconFields, beaconPayloadLength, beaconPayload){
+void emberAfIncomingBeaconCallback(EmberPanId panId,
+                                   EmberMacAddress *source,
+                                   int8_t rssi,
+                                   bool permitJoining,
+                                   uint8_t beaconFieldsLength,
+                                   uint8_t *beaconFields,
+                                   uint8_t beaconPayloadLength,
+                                   uint8_t *beaconPayload){
+  (void) source;
+  (void) beaconFields;
+  (void) beaconFieldsLength;
+  (void) beaconPayload;
+  (void) beaconPayloadLength;
+
   network_scan_result[network_count].PanID = panId;
   network_scan_result[network_count].rssi = rssi;
   network_scan_result[network_count].permitJoining = permitJoining;
