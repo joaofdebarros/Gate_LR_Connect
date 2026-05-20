@@ -39,7 +39,7 @@ void emberAfIncomingMessageCallback(EmberIncomingMessage *message)
         if (set_security_key(connect_network_key.contents, (size_t)EMBER_ENCRYPTION_KEY_SIZE) == true) {
             memory_write(SECURITY_KEY_MEMORY_KEY, connect_network_key.contents, sizeof(connect_network_key.contents));
             if(application.Status_Operation == WAIT_REGISTRATION && initialized){
-                emberEventControlSetDelayMS(*report_control, 1000);
+                emberEventControlSetActive(*report_control);
             }
   //          app_log_info("Connect: set the random key as network key succeed\n");
         } else {

@@ -13,7 +13,7 @@ DocumentNamespace: https://silabs.com
 
 ## Creation Information
 Creator: Organization: Silicon Laboratories, Inc.
-Created: 2026-04-24T17:52:27Z
+Created: 2026-05-20T12:57:26Z
 ## Relationships
 Relationship: SPDXRef-DOCUMENT DESCRIBES SPDXRef-simplicity_sdk-2025.6.2
 
@@ -55,6 +55,7 @@ Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-20
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-restrictions_profile_connect_ofdm
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-si70xx_driver
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-simple_button
+Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-simple_led
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-sl_main
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-sl_rail_util_pti
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-sl_sensor_sink_core
@@ -66,6 +67,7 @@ Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-20
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-device_manager
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-power_manager
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-radio_config_simple_connect_singlephy_device_family_fgm23
+Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-led
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-emlib_eusart
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-bit
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-psa_driver_common
@@ -133,6 +135,7 @@ Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-20
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-emlib_gpio
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-token_manager_nvm3
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-emlib_rmu
+Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-simple_led_core
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-device_init_core
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-mbedtls_aes
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-power_manager_core
@@ -194,9 +197,7 @@ Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-20
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-sl_main_init
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-sl_main_process_action
 Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-gpio
-Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-simple_led
-Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-led
-Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-simple_led_core
+Relationship: SPDXRef-simplicity_sdk-2025.6.2 CONTAINS SPDXRef-simplicity_sdk-2025.6.2-hal_wdog
 
 ## Package Information
 PackageName: FGM230SA27HGN
@@ -543,6 +544,17 @@ PackageLicenseConcluded: Zlib
 Relationship: SPDXRef-simplicity_sdk-2025.6.2-simple_button CONTAINED_BY SPDXRef-simplicity_sdk-2025.6.2
 
 ## Package Information
+PackageName: Simple LED
+SPDXID: SPDXRef-simplicity_sdk-2025.6.2-simple_led
+PackageVersion: 2025.6.2
+PrimaryPackagePurpose: LIBRARY
+PackageDownloadLocation: NOASSERTION
+PackageSupplier: Organization: Silicon Laboratories, Inc.
+PackageLicenseConcluded: Zlib
+## Relationships
+Relationship: SPDXRef-simplicity_sdk-2025.6.2-simple_led CONTAINED_BY SPDXRef-simplicity_sdk-2025.6.2
+
+## Package Information
 PackageName: System Setup (sl_main)
 SPDXID: SPDXRef-simplicity_sdk-2025.6.2-sl_main
 PackageVersion: 2025.6.2
@@ -662,6 +674,17 @@ PackageSupplier: Organization: Silicon Laboratories, Inc.
 PackageLicenseConcluded: Zlib
 ## Relationships
 Relationship: SPDXRef-simplicity_sdk-2025.6.2-radio_config_simple_connect_singlephy_device_family_fgm23 CONTAINED_BY SPDXRef-simplicity_sdk-2025.6.2
+
+## Package Information
+PackageName: Generic LED API
+SPDXID: SPDXRef-simplicity_sdk-2025.6.2-led
+PackageVersion: 2025.6.2
+PrimaryPackagePurpose: LIBRARY
+PackageDownloadLocation: NOASSERTION
+PackageSupplier: Organization: Silicon Laboratories, Inc.
+PackageLicenseConcluded: Zlib
+## Relationships
+Relationship: SPDXRef-simplicity_sdk-2025.6.2-led CONTAINED_BY SPDXRef-simplicity_sdk-2025.6.2
 
 ## Package Information
 PackageName: EUSART
@@ -1485,6 +1508,17 @@ PackageLicenseConcluded: Zlib
 Relationship: SPDXRef-simplicity_sdk-2025.6.2-emlib_rmu CONTAINED_BY SPDXRef-simplicity_sdk-2025.6.2
 
 ## Package Information
+PackageName: Simple LED Core
+SPDXID: SPDXRef-simplicity_sdk-2025.6.2-simple_led_core
+PackageVersion: 2025.6.2
+PrimaryPackagePurpose: LIBRARY
+PackageDownloadLocation: NOASSERTION
+PackageSupplier: Organization: Silicon Laboratories, Inc.
+PackageLicenseConcluded: Zlib
+## Relationships
+Relationship: SPDXRef-simplicity_sdk-2025.6.2-simple_led_core CONTAINED_BY SPDXRef-simplicity_sdk-2025.6.2
+
+## Package Information
 PackageName: Core
 SPDXID: SPDXRef-simplicity_sdk-2025.6.2-device_init_core
 PackageVersion: 2025.6.2
@@ -2269,34 +2303,12 @@ PackageLicenseConcluded: Zlib
 Relationship: SPDXRef-simplicity_sdk-2025.6.2-gpio CONTAINED_BY SPDXRef-simplicity_sdk-2025.6.2
 
 ## Package Information
-PackageName: Simple LED
-SPDXID: SPDXRef-simplicity_sdk-2025.6.2-simple_led
+PackageName: WDOG
+SPDXID: SPDXRef-simplicity_sdk-2025.6.2-hal_wdog
 PackageVersion: 2025.6.2
 PrimaryPackagePurpose: LIBRARY
 PackageDownloadLocation: NOASSERTION
 PackageSupplier: Organization: Silicon Laboratories, Inc.
 PackageLicenseConcluded: Zlib
 ## Relationships
-Relationship: SPDXRef-simplicity_sdk-2025.6.2-simple_led CONTAINED_BY SPDXRef-simplicity_sdk-2025.6.2
-
-## Package Information
-PackageName: Generic LED API
-SPDXID: SPDXRef-simplicity_sdk-2025.6.2-led
-PackageVersion: 2025.6.2
-PrimaryPackagePurpose: LIBRARY
-PackageDownloadLocation: NOASSERTION
-PackageSupplier: Organization: Silicon Laboratories, Inc.
-PackageLicenseConcluded: Zlib
-## Relationships
-Relationship: SPDXRef-simplicity_sdk-2025.6.2-led CONTAINED_BY SPDXRef-simplicity_sdk-2025.6.2
-
-## Package Information
-PackageName: Simple LED Core
-SPDXID: SPDXRef-simplicity_sdk-2025.6.2-simple_led_core
-PackageVersion: 2025.6.2
-PrimaryPackagePurpose: LIBRARY
-PackageDownloadLocation: NOASSERTION
-PackageSupplier: Organization: Silicon Laboratories, Inc.
-PackageLicenseConcluded: Zlib
-## Relationships
-Relationship: SPDXRef-simplicity_sdk-2025.6.2-simple_led_core CONTAINED_BY SPDXRef-simplicity_sdk-2025.6.2
+Relationship: SPDXRef-simplicity_sdk-2025.6.2-hal_wdog CONTAINED_BY SPDXRef-simplicity_sdk-2025.6.2

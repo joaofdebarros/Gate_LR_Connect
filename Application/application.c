@@ -36,7 +36,7 @@ void CheckState_handler(void){
       get_state_gate(&application.state_gate);
       if(application.state_gate != application.state_gate_before){
           application.state_gate_before = application.state_gate;
-          if(application.Module_mode == ALARM_MODE){
+          if(application.Module_mode == ALARM_MODE && application.Status_Operation == OPERATION_MODE){
               app_log_info("Change status");
 
               sendRadio.cmd = LRCMD_CHANGE_STATUS_GATE;
@@ -65,7 +65,7 @@ void CheckState_handler(void){
                   && application.All_status_cerca.Status3_cerca_bits.STTS)){
               application.All_status_cerca_before = application.All_status_cerca;
 
-              if(application.Module_mode == ALARM_MODE){
+              if(application.Module_mode == ALARM_MODE && application.Status_Operation == OPERATION_MODE){
                   app_log_info("Change status");
 
                   sendRadio.cmd = LRCMD_CHANGE_STATUS_CERCA;
@@ -123,6 +123,10 @@ void radio_handler(void){
                       cerca_cmd(ARMA_CHOQUE);
                   }else if(receive->data[0] == 2){
                       cerca_cmd(DESARMA_CHOQUE);
+                  }else if(receive->data[0] == 3){
+                      cerca_cmd(LIGA_PGM);
+                  }else if(receive->data[0] == 4){
+                      cerca_cmd(DESLIGA_PGM);
                   }
               }
           }else if(!application.device_info.device_type_identified && application.Gate_method == RX){
@@ -156,7 +160,7 @@ EmberStatus radio_send_packet(packet_void_t *pck,uint16_t ID_node, bool retrying
   }
 
   if(pck->cmd == LRCMD_JOINED_NETWORK_GATE || pck->cmd == LRCMD_JOINED_NETWORK_CERCA || pck->cmd == LRCMD_SEND_KEY){
-      tx_options = EMBER_OPTIONS_NONE;
+      tx_options = EMBER_OPTIONS_ACK_REQUESTED;
   }else{
       tx_options = EMBER_OPTIONS_SECURITY_ENABLED | EMBER_OPTIONS_ACK_REQUESTED;
   }

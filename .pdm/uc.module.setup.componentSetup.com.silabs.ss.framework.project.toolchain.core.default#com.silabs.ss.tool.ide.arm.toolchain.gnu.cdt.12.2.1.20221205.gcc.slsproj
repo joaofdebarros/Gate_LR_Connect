@@ -552,12 +552,14 @@
           <file name="sl_hal_sysrtc_compat.h" uri="studio:/sdk/platform/peripheral/inc/sl_hal_sysrtc_compat.h"/>
           <file name="peripheral_sysrtc.h" uri="studio:/sdk/platform/peripheral/inc/peripheral_sysrtc.h"/>
           <file name="peripheral_sysrtc_compat.h" uri="studio:/sdk/platform/peripheral/inc/peripheral_sysrtc_compat.h"/>
+          <file name="sl_hal_wdog.h" uri="studio:/sdk/platform/peripheral/inc/sl_hal_wdog.h"/>
         </folder>
         <folder name="src">
           <file name="sl_hal_eusart.c" uri="studio:/sdk/platform/peripheral/src/sl_hal_eusart.c"/>
           <file name="sl_hal_gpio.c" uri="studio:/sdk/platform/peripheral/src/sl_hal_gpio.c"/>
           <file name="sl_hal_prs.c" uri="studio:/sdk/platform/peripheral/src/sl_hal_prs.c"/>
           <file name="sl_hal_sysrtc.c" uri="studio:/sdk/platform/peripheral/src/sl_hal_sysrtc.c"/>
+          <file name="sl_hal_wdog.c" uri="studio:/sdk/platform/peripheral/src/sl_hal_wdog.c"/>
         </folder>
       </folder>
       <folder name="security">

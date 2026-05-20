@@ -51,6 +51,7 @@
 #include "API/hNetwork.h"
 #include "Application/application.h"
 #include "API/packet/pckDataStructure.h"
+#include "sl_hal_wdog.h"
 // -----------------------------------------------------------------------------
 //                              Macros and Typedefs
 // -----------------------------------------------------------------------------
@@ -126,13 +127,14 @@ void Init_handler(){
   memory_read(MODULE_MODE_MEMORY_KEY, &application.Module_mode);
   memory_read(STATUSOP_MEMORY_KEY, &application.Status_Operation);
   memory_read(SECURITY_KEY_MEMORY_KEY, &connect_network_key.contents);
-//  memory_read(DEVICE_TYPE_MEMORY_KEY, &application.device_info);
   memory_read(PAN_ID_MEMORY_KEY, &SL_SENSOR_SINK_PAN_ID_RANDOM);
 
   application.device_info.device_type = 0;
   application.device_info.device_type_identified = false;
 
   emberEventControlSetDelayMS(*CheckState_control,2000);
+
+  app_wdog_init();
 
   initialized = true;
 
@@ -337,7 +339,7 @@ void emberAfMessageSentCallback(EmberStatus status,
                   }
               }else if(application.Module_mode == STANDALONE_RECEPTOR){
                   radioQueue[i].slot_used = false;
-                                radioQueue[i].attempts = 0;
+                  radioQueue[i].attempts = 0;
               }
           }
       }
@@ -400,16 +402,19 @@ void emberAfTickCallback(void)
   uint32_t current_time = sl_sleeptimer_get_tick_count();
   uint32_t press_elapsed_time = current_time - press_start_time;
 
-  if(((press_elapsed_time) > TICKS_5S) && button_is_pressed && ((press_elapsed_time) <= TICKS_10S)){
-      //BOTAO PRESSIONADO ENTRE 5s e 10s
-      sl_led_turn_off(&sl_led_red);
-      sl_led_turn_off(&sl_led_green);
-      sl_led_turn_off(&sl_led_blue);
-  }else if(button_is_pressed && ((press_elapsed_time) > TICKS_10S)){
-      //BOTAO PRESSIONADO POR MAIS DE 10s
-      hGpio_ledTurnOn(&sl_led_green, false);
-  }else{
-      if(initialized){
+  if(initialized){
+      sl_hal_wdog_feed(WDOG0);
+
+      if(((press_elapsed_time) > TICKS_5S) && button_is_pressed && ((press_elapsed_time) <= TICKS_10S)){
+          //BOTAO PRESSIONADO ENTRE 5s e 10s
+          sl_led_turn_off(&sl_led_red);
+          sl_led_turn_off(&sl_led_green);
+          sl_led_turn_off(&sl_led_blue);
+      }else if(button_is_pressed && ((press_elapsed_time) > TICKS_10S)){
+          //BOTAO PRESSIONADO POR MAIS DE 10s
+          hGpio_ledTurnOn(&sl_led_green, false);
+      }else{
+
           if(application.Module_mode == ALARM_MODE){
               //CONFIGURADO PARA FUNCIONAR NO ALARME
               if(emberStackIsUp()){
@@ -446,8 +451,6 @@ void emberAfTickCallback(void)
                   hGpio_ledTurnOff(&sl_led_blue);
               }
           }
-      }else{
-
       }
   }
 }
@@ -527,4 +530,27 @@ void emberAfActiveScanCompleteCallback(){
 
   // Limpa o contador para o próximo scan
   network_count = 0;
+}
+
+void app_wdog_init(void)
+{
+  sl_clock_manager_enable_bus_clock(SL_BUS_CLOCK_WDOG0);
+
+  sl_hal_wdog_init_t init = SL_HAL_WDOG_INIT_DEFAULT;
+
+  // Para Sleepy End Device: WDOG congela durante sleep
+  init.em2_run          = false;
+  init.em3_run          = false;
+  init.period_select    = SL_WDOG_PERIOD_513;         // ~2s com ULFRCO
+  init.warning_time_select = SL_WDOG_WARNING_TIME75;  // Aviso em 75%
+
+  sl_hal_wdog_init(WDOG0, &init);
+
+  sl_hal_wdog_clear_interrupts(WDOG0, WDOG_IF_WARN);
+  sl_hal_wdog_enable_interrupts(WDOG0, WDOG_IF_WARN);
+
+  sl_interrupt_manager_clear_irq_pending(WDOG0_IRQn);
+  sl_interrupt_manager_enable_irq(WDOG0_IRQn);
+
+  sl_hal_wdog_enable(WDOG0);
 }

@@ -65,7 +65,7 @@ void join_sleepy(uint16_t panId)
   // set default PAN ID or the one passed as parameter
   parameters.panId = panId;
 
-  emberJoinNetwork(EMBER_STAR_RANGE_EXTENDER, &parameters);
+  emberJoinNetwork(EMBER_STAR_END_DEVICE, &parameters);
   //app_log_info("join sleepy 0x%02X\n", status);
 }
 

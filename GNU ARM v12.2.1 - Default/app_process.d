@@ -233,7 +233,8 @@ app_process.o: ../app_process.c \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_cmu_compat.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_gpio.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\sli_em_cmu.h \
- ../API/packet/pckDataStructure.h
+ ../API/packet/pckDataStructure.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\peripheral\inc\sl_hal_wdog.h
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\legacy_hal\inc\platform-header.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_core.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\common\inc\sl_code_classification.h:
@@ -470,3 +471,4 @@ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\em_gpio.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emlib\inc\sli_em_cmu.h:
 ../API/packet/pckDataStructure.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\peripheral\inc\sl_hal_wdog.h:

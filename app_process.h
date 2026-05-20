@@ -64,4 +64,5 @@ void app_init();
 void Init_handler();
 void startActiveScanCommand(void);
 void Network_join_timeout();
+void app_wdog_init(void);
 #endif  // APP_PROCESS_H

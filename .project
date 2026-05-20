@@ -396,6 +396,11 @@
 			<locationURI>STUDIO_SDK_LOC/platform/peripheral/inc/sl_hal_sysrtc_compat.h</locationURI>
 		</link>
 		<link>
+			<name>simplicity_sdk_2025.6.2/platform/peripheral/inc/sl_hal_wdog.h</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/platform/peripheral/inc/sl_hal_wdog.h</locationURI>
+		</link>
+		<link>
 			<name>simplicity_sdk_2025.6.2/platform/peripheral/src/sl_hal_eusart.c</name>
 			<type>1</type>
 			<locationURI>STUDIO_SDK_LOC/platform/peripheral/src/sl_hal_eusart.c</locationURI>
@@ -414,6 +419,11 @@
 			<name>simplicity_sdk_2025.6.2/platform/peripheral/src/sl_hal_sysrtc.c</name>
 			<type>1</type>
 			<locationURI>STUDIO_SDK_LOC/platform/peripheral/src/sl_hal_sysrtc.c</locationURI>
+		</link>
+		<link>
+			<name>simplicity_sdk_2025.6.2/platform/peripheral/src/sl_hal_wdog.c</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/platform/peripheral/src/sl_hal_wdog.c</locationURI>
 		</link>
 		<link>
 			<name>simplicity_sdk_2025.6.2/protocol/flex/app-framework-common/app_framework_callback.h</name>
