@@ -30,6 +30,11 @@ typedef enum SensorCmd_e{
   LRCMD_JOINED_NETWORK_GATE = 28,
   LRCMD_WRITE_CONTROL_GATE = 29,
   LRCMD_CHANGE_STATUS_GATE = 30,
+
+  LRCMD_JOINED_NETWORK_CERCA = 35,
+  LRCMD_WRITE_CONTROL_CERCA = 36,
+  LRCMD_CHANGE_STATUS_CERCA = 37,
+
   LRCMD_ADD_PARTITION_SENSOR = 40,
   LRCMD_SETUP_IVP = 41,
   LRCMD_KEEP_ALIVE = 42,
@@ -38,15 +43,15 @@ typedef enum SensorCmd_e{
   LRCMD_MODULE_CONNECTED = 45,
   LRCMD_GET_KEY = 46,
   LRCMD_SEND_KEY = 47,
-  LRCMD_WRITE_CONTROL_CERCA = 50,
-  LRCMD_CHANGE_STATUS_CERCA = 51,
+
+  LRCMD_CLOSE_NETWORK = 49,
 
   CMD_UNKNOWN = 0xFF
 }ModuleLRCmd_e;
 
 typedef struct{
   ModuleLRCmd_e cmd;
-		uint8_t data[8];
+		uint8_t data[20];
 		uint8_t len;
 }packet_void_t;
 

@@ -63,5 +63,5 @@ void reset_parameters();
 void app_init();
 void Init_handler();
 void startActiveScanCommand(void);
-
+void Network_join_timeout();
 #endif  // APP_PROCESS_H

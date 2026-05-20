@@ -30,9 +30,22 @@
 #define stop_byte 0x81
 
 typedef enum{
-  GATE,
-  CERCA,
-} device_type_t;
+  NAO_PROGRAMAVEL,
+  TRIFLEX_IND,
+  TRIFLEX_CONNECT,
+  LOGIC_DOOR,
+  FACILITY = 16, //16 e 17
+  CERCA_20_22K = 68,
+  CERCA_CR2S = 69,
+  CERCA_18K = 70,
+  CERCA_battery = 71,
+  CERCA_economy = 72,
+  CERCA_power = 73,
+  CERCA_CR2S_smartOn = 74,
+  CERCA_CR2S_smartOn_22k = 75,
+  Cerca_Impacto_10K = 76,
+  Cerca_Impacto_10K_WiFi = 77
+} Connect_ID_e;
 
 typedef enum{
   ABERTO = 1,
@@ -63,6 +76,7 @@ typedef enum{
   DESARMA_SETOR,
   LIGAR_PANICO,
   DESLIGAR_PANICO,
+  LIBERA_LED_WIFI = 14,
   LIGA_PGM = 17,
   DESLIGA_PGM = 18,
   STTS_ON = 21,
@@ -136,18 +150,9 @@ void connect_init(void);
 void TimeoutStatus_handler(void);
 void Timeout_Connect_handler(void);
 
-packet_errorGATE_e gate_packet_demount(uint8_t *datain, uint16_t len,
-                                           gate_packet_t *packet);
-packet_errorCERCA_e cerca_packet_demount(uint8_t *datain, uint16_t len,
-                                         cerca_packet_t *packet);
-uint8_t montar_pacote(uint8_t *tx, uint8_t size, uint8_t id, uint8_t adrs,
-                      uint8_t fnct, uint8_t *data, uint8_t payload_size,
-                      device_type_t device_type);
-uint8_t calculate_checksum(uint8_t *buffer, uint8_t payload_size,
-                           device_type_t device_type);
-void get_state(uint8_t *state);
+void get_state_gate(uint8_t *state);
 void gate_packet_transmit(uint8_t *byte_transmit,uint8_t len);
 void gate_cmd(uint8_t cmd);
 void cerca_cmd(cerca_cmd_t cmd);
-void gate_get_status();
+void connect_get_status();
 #endif /* API_CONNECT_CONNECT_H_ */

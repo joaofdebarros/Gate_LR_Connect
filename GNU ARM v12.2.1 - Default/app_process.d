@@ -202,8 +202,6 @@ app_process.o: ../app_process.c \
  ../API/hNetwork.h ../Application/application.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/packet.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/pckDataStructure.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/privAPI/Radio.h \
- c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\ember-types.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/Connect/Connect.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_simple_led_instances.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\leddrv\inc\sl_simple_led.h \
@@ -222,6 +220,9 @@ app_process.o: ../app_process.c \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\peripheral\inc\sl_hal_timer.h \
  c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\ustimer\inc\ustimer.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/ustimer_config.h \
+ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\ember-types.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/Application/application.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/privAPI/Radio.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/memory/memory.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/boards/chipset/efr32.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hDriver.h \
@@ -437,8 +438,6 @@ c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\service\devic
 ../Application/application.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/packet.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/pckDataStructure.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/privAPI/Radio.h:
-c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\ember-types.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/Connect/Connect.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_simple_led_instances.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\driver\leddrv\inc\sl_simple_led.h:
@@ -457,6 +456,9 @@ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\autogen/sl_ua
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\peripheral\inc\sl_hal_timer.h:
 c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\platform\emdrv\ustimer\inc\ustimer.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/ustimer_config.h:
+c:\users\joao.victor\simplicitystudio\sdks\simplicity_sdk\protocol\flex\stack\include\ember-types.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/Application/application.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/privAPI/Radio.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/memory/memory.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/boards/chipset/efr32.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hDriver.h:

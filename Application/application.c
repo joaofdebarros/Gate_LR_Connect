@@ -20,6 +20,9 @@ EmberKeyData connect_network_key;
 extern bool joining;
 extern bool ok_to_blink;
 
+uint32_t join_timeout = 0;
+bool sensor_joining = false;
+
 packet_void_t sendRadio;
 send_queue_t radioQueue[MAX_QUEUE_PACKETS];
 
@@ -29,27 +32,60 @@ uint8_t blink_target = 0;
 uint8_t led_target;
 
 void CheckState_handler(void){
-  EmberStatus status;
-  get_state(&application.state_real);
-  if(application.state_real != application.state_before){
-      application.state_before = application.state_real;
-      if(application.Module_mode == ALARM_MODE){
-          app_log_info("Change status");
+  if(application.device_info.device_type == GATE){
+      get_state_gate(&application.state_gate);
+      if(application.state_gate != application.state_gate_before){
+          application.state_gate_before = application.state_gate;
+          if(application.Module_mode == ALARM_MODE){
+              app_log_info("Change status");
 
-          sendRadio.cmd = LRCMD_CHANGE_STATUS_GATE;
-          sendRadio.len = 6;
-          sendRadio.data[0] = application.state_real;         //Status portao
-          sendRadio.data[1] = 0xFF;                              //NULL
-          sendRadio.data[2] = 0xFF;                              //NULL
-          sendRadio.data[3] = 0xFF;                              //NULL
-          sendRadio.data[4] = application.radio.RSSI;
+              sendRadio.cmd = LRCMD_CHANGE_STATUS_GATE;
+              sendRadio.len = 6;
+              sendRadio.data[0] = application.state_gate;         //Status portao
+              sendRadio.data[1] = 0xFF;                              //NULL
+              sendRadio.data[2] = 0xFF;                              //NULL
+              sendRadio.data[3] = 0xFF;                              //NULL
+              sendRadio.data[4] = application.radio.RSSI;
 
-          status = radio_send_packet(&sendRadio, false);
-      }else if(application.Module_mode == STANDALONE_RECEPTOR){
-          sendRadio.cmd = LRCMD_CHANGE_STATUS_GATE;
-          sendRadio.data[0] = application.state_before;
-          sendRadio.len = 2;
-          status = radio_send_packet(&sendRadio, false);
+              radio_send_packet(&sendRadio, 0, false);
+          }else if(application.Module_mode == STANDALONE_RECEPTOR){
+              sendRadio.cmd = LRCMD_CHANGE_STATUS_GATE;
+              sendRadio.data[0] = application.state_gate_before;
+              sendRadio.len = 2;
+              radio_send_packet(&sendRadio, 1, false);
+          }
+      }
+  }else if(application.device_info.device_type == CERCA){
+      if(application.All_status_cerca.byte != application.All_status_cerca_before.byte){
+          if((!application.All_status_cerca.Status3_cerca_bits.Choque
+              && !application.All_status_cerca.Status3_cerca_bits.Setor
+              && !application.All_status_cerca.Status3_cerca_bits.STTS)
+              || (application.All_status_cerca.Status3_cerca_bits.Choque
+                  && application.All_status_cerca.Status3_cerca_bits.Setor
+                  && application.All_status_cerca.Status3_cerca_bits.STTS)){
+              application.All_status_cerca_before = application.All_status_cerca;
+
+              if(application.Module_mode == ALARM_MODE){
+                  app_log_info("Change status");
+
+                  sendRadio.cmd = LRCMD_CHANGE_STATUS_CERCA;
+                  sendRadio.len = 6;
+                  sendRadio.data[0] = application.All_status_cerca.byte; //Status cerca
+                  sendRadio.data[1] = 0xFF;                              //NULL
+                  sendRadio.data[2] = 0xFF;                              //NULL
+                  sendRadio.data[3] = 0xFF;                              //NULL
+                  sendRadio.data[4] = application.radio.RSSI;
+
+                  radio_send_packet(&sendRadio, 0, false);
+              }else if(application.Module_mode == STANDALONE_RECEPTOR){
+                  sendRadio.cmd = LRCMD_CHANGE_STATUS_CERCA;
+                  sendRadio.data[0] = application.All_status_cerca.byte;
+                  sendRadio.len = 2;
+                  radio_send_packet(&sendRadio, 1, false);
+              }
+          }else{
+
+          }
       }
   }
 
@@ -57,7 +93,6 @@ void CheckState_handler(void){
 }
 
 void radio_handler(void){
-  EmberStatus status;
   volatile packet_void_t *receive;
 
   receive = &application.radio.Packet;
@@ -66,9 +101,9 @@ void radio_handler(void){
 
   switch(receive->cmd){
     case LRCMD_WRITE_CONTROL_GATE:
-      if(application.state_real == ABERTO){
+      if(application.state_gate == ABERTO){
           gate_cmd(FECHAR);
-      }else if(application.state_real == FECHADO){
+      }else if(application.state_gate == FECHADO){
           gate_cmd(ABRIR);
       }else{
           gate_cmd(ACIONARMOTOR);
@@ -80,15 +115,18 @@ void radio_handler(void){
       break;
     case LRCMD_BUTTON:
       if(application.Module_mode == STANDALONE_RECEPTOR){
-          if(receive->data[0] == 1){
+          if(application.device_info.device_type_identified){
+              if(application.device_info.device_type == GATE){
+                  gate_cmd(ACIONARMOTOR);
+              }else if(application.device_info.device_type == CERCA){
+                  if(receive->data[0] == 1){
+                      cerca_cmd(ARMA_CHOQUE);
+                  }else if(receive->data[0] == 2){
+                      cerca_cmd(DESARMA_CHOQUE);
+                  }
+              }
+          }else if(!application.device_info.device_type_identified && application.Gate_method == RX){
               gate_cmd(ACIONARMOTOR);
-          }else if(receive->data[0] == 2){
-              sendRadio.cmd = LRCMD_STATUS_CENTRAL;
-              sendRadio.data[0] = application.state_real;
-              sendRadio.len = 2;
-              status = radio_send_packet(&sendRadio, false);
-          }else if(receive->data[0] == 4){
-
           }
       }
       break;
@@ -100,15 +138,12 @@ void radio_handler(void){
   emberEventControlSetInactive(*radio_control);
 }
 
-EmberStatus radio_send_packet(packet_void_t *pck, bool retrying){
+EmberStatus radio_send_packet(packet_void_t *pck,uint16_t ID_node, bool retrying){
   uint8_t buffer_send[8];
   EmberStatus status;
-  uint8_t ID_node = 0;
 
   if(application.Module_mode == ALARM_MODE){
       ID_node = 0;
-  }else if(application.Module_mode == STANDALONE_RECEPTOR){
-      ID_node = 1;
   }
 
   if(!retrying){
@@ -120,7 +155,7 @@ EmberStatus radio_send_packet(packet_void_t *pck, bool retrying){
       buffer_send[i+1] = pck->data[i];
   }
 
-  if(pck->cmd == LRCMD_JOINED_NETWORK_GATE){
+  if(pck->cmd == LRCMD_JOINED_NETWORK_GATE || pck->cmd == LRCMD_JOINED_NETWORK_CERCA || pck->cmd == LRCMD_SEND_KEY){
       tx_options = EMBER_OPTIONS_NONE;
   }else{
       tx_options = EMBER_OPTIONS_SECURITY_ENABLED | EMBER_OPTIONS_ACK_REQUESTED;

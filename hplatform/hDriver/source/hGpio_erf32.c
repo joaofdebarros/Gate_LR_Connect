@@ -42,7 +42,7 @@ void hGpio_toggle(uint32_t gpio, uint32_t pin){
 }
 
 void hGpio_ledToggle(const sl_led_t *led_handle, bool uEconomic){
-  if(uEconomic){
+  if(!uEconomic){
       sl_led_toggle(led_handle);
   }else{
       sl_led_turn_off(led_handle);

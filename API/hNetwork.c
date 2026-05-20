@@ -21,7 +21,9 @@
 //                          Variables Definitions
 // -----------------------------------------------------------------------------
 int16_t tx_power = 150;
+uint16_t SL_SENSOR_SINK_PAN_ID_RANDOM;
 
+extern uint32_t join_timeout;
 // -----------------------------------------------------------------------------
 //                          Function Definitions
 // -----------------------------------------------------------------------------
@@ -79,11 +81,13 @@ void form_network(){
   memset(&parameters, 0, sizeof(EmberNetworkParameters));
   parameters.radioTxPower = tx_power;
   parameters.radioChannel = 0;
-  parameters.panId = SL_SENSOR_SINK_PAN_ID_PROT;
+  parameters.panId = SL_SENSOR_SINK_PAN_ID_RANDOM;
 
   status = emberFormNetwork(&parameters);
 
   emberClearSelectiveJoinPayload();
+
+  join_timeout = 10 * 24;
 
   status = emberPermitJoining(10);
 }

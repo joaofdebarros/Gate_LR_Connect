@@ -45,7 +45,8 @@ typedef enum{
   CONTROL = 0,
   MOTION_DETECT,
   OPEN_CLOSE_DETECT,
-  CONNECT
+  GATE,
+  CERCA
 }Type;
 
 typedef enum{
@@ -117,7 +118,7 @@ typedef enum{
 }LED_t;
 
 typedef union{
-  uint8_t Status1_cerca_byte;
+  uint8_t byte;
 
   struct{
     uint8_t Retorno              :1;
@@ -132,7 +133,7 @@ typedef union{
 }Status1_cerca_t;
 
 typedef union{
-  uint8_t Status2_cerca_byte;
+  uint8_t byte;
 
   struct{
     uint8_t JP_Setor             :1;
@@ -147,7 +148,7 @@ typedef union{
 }Status2_cerca_t;
 
 typedef union{
-  uint8_t Status3_cerca_byte;
+  uint8_t byte;
 
   struct{
     uint8_t JP_JB                :1;
@@ -158,20 +159,51 @@ typedef union{
   }Status3_cerca_bits;
 }Status3_cerca_t;
 
+typedef union{
+  uint8_t byte;
+
+  struct{
+    uint8_t Retorno               :1;
+    uint8_t Setor                 :1;
+    uint8_t Choque                :1;
+    uint8_t Sirene                :1;
+    uint8_t Panico                :1;
+    uint8_t PGM                   :1;
+    uint8_t STTS                  :1;
+    uint8_t AC                    :1;
+  }Status3_cerca_bits;
+}All_Status_cerca_t;
+
+typedef union{
+  Status1_cerca_t Status1;
+  Status2_cerca_t Status2;
+  Status3_cerca_t Status3;
+}Status_certa_u;
+
+typedef struct{
+  Type device_type;
+  bool device_type_identified;
+}device_info_t;
+
 typedef struct{
   Module_mode_t Module_mode;
 
   Gate_communication_method_t Gate_method;
+  device_info_t device_info;
+
+  Connect_ID_e Connect_ID;
 
   application_radio_t radio;
   Status_Operation_t Status_Operation;
 
-  gate_status_t state_real;
-  gate_status_t state_before;
+  gate_status_t state_gate;
+  gate_status_t state_gate_before;
 
-  Status1_cerca_t Status1_cerca;
-  Status2_cerca_t Status2_cerca;
-  Status3_cerca_t Status3_cerca;
+  Status_certa_u Status_cerca;
+  All_Status_cerca_t All_status_cerca;
+  All_Status_cerca_t All_status_cerca_before;
+
+
 }application_t;
 
 extern application_t application;
@@ -180,7 +212,7 @@ extern application_t application;
  * Prototypes
  */
 void app_init(void);
-EmberStatus radio_send_packet(packet_void_t *pck, bool retrying);
+EmberStatus radio_send_packet(packet_void_t *pck,uint16_t ID_node, bool retrying);
 void CheckState_handler(void);
 void radio_handler(void);
 void timeout_handler(void);

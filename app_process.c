@@ -71,20 +71,22 @@ EmberEventControl *report_control;
 EmberEventControl *radio_control;
 EmberEventControl *CheckState_control;
 EmberEventControl *Init_control;
+extern EmberEventControl *TimeoutStatus_control;
 /// report timing period
 uint16_t sensor_report_period_ms =  (1 * MILLISECOND_TICKS_PER_SECOND);
 /// TX options set up for the network
 EmberMessageOptions tx_options = EMBER_OPTIONS_ACK_REQUESTED | EMBER_OPTIONS_SECURITY_ENABLED;
 
 extern EmberKeyData connect_network_key;
+extern uint8_t transport_key[16];
 
 //NETWORK_SCAN
 network_scan_t network_scan_result[12];
 uint8_t network_count = 0;
 
-uint8_t cerca_func = 1;
-
 extern send_queue_t radioQueue[MAX_QUEUE_PACKETS];
+
+extern uint16_t SL_SENSOR_SINK_PAN_ID_RANDOM;
 
 // -----------------------------------------------------------------------------
 //                                Static Variables
@@ -99,6 +101,10 @@ bool ok_to_blink = true;
 bool initialized = false;
 bool joining = false;
 
+extern bool sensor_joining;
+extern uint32_t join_timeout;
+
+bool CHOQUE = false;
 
 // -----------------------------------------------------------------------------
 //                          Public Function Definitions
@@ -111,7 +117,7 @@ void app_init(){
   emberAfAllocateEvent(&Init_control, &Init_handler);
   connect_init();
 
-  emberEventControlSetDelayMS(*Init_control, 1000);
+  emberEventControlSetDelayMS(*Init_control, 100);
 }
 
 void Init_handler(){
@@ -120,6 +126,11 @@ void Init_handler(){
   memory_read(MODULE_MODE_MEMORY_KEY, &application.Module_mode);
   memory_read(STATUSOP_MEMORY_KEY, &application.Status_Operation);
   memory_read(SECURITY_KEY_MEMORY_KEY, &connect_network_key.contents);
+//  memory_read(DEVICE_TYPE_MEMORY_KEY, &application.device_info);
+  memory_read(PAN_ID_MEMORY_KEY, &SL_SENSOR_SINK_PAN_ID_RANDOM);
+
+  application.device_info.device_type = 0;
+  application.device_info.device_type_identified = false;
 
   emberEventControlSetDelayMS(*CheckState_control,2000);
 
@@ -157,12 +168,13 @@ void sl_button_on_change(const sl_button_t *handle)
                 application.Module_mode = STANDALONE_RECEPTOR;
                 memory_write(MODULE_MODE_MEMORY_KEY, &application.Module_mode, sizeof(application.Module_mode));
                 led_blink(VERDE, 5, FAST_SPEED_BLINK);
-
             }else if(application.Module_mode == STANDALONE_RECEPTOR){
                 application.Module_mode = ALARM_MODE;
                 memory_write(MODULE_MODE_MEMORY_KEY, &application.Module_mode, sizeof(application.Module_mode));
                 led_blink(VERDE, 5, FAST_SPEED_BLINK);
             }
+            emberResetNetworkState();
+            reset_parameters();
 
         }else if((press_elapsed_time) <= TICKS_5S){
             //ACTION
@@ -172,23 +184,67 @@ void sl_button_on_change(const sl_button_t *handle)
                     ok_to_blink = false;
                     sl_led_turn_on(&sl_led_blue);
                 }else if(application.Module_mode == STANDALONE_RECEPTOR){
-                    joining = true;
-                    form_network();
-                    led_blink(VERMELHO, 5, SLOW_SPEED_BLINK);
+                    if(!joining){
+                        joining = true;
+                        form_network();
+                    }else{
+                        Network_join_timeout();
+                    }
                 }
-
+            }else{
+                if(!CHOQUE){
+                    CHOQUE = true;
+                    application.radio.Packet.cmd = LRCMD_WRITE_CONTROL_CERCA;
+                    application.radio.Packet.data[0] = LIGA_PGM;
+                    emberEventControlSetDelayMS(*radio_control, 100);
+                    emberEventControlSetDelayMS(*TimeoutStatus_control,2000);
+                }else{
+                    CHOQUE = false;
+                    application.radio.Packet.cmd = LRCMD_WRITE_CONTROL_CERCA;
+                    application.radio.Packet.data[0] = DESLIGA_PGM;
+                    emberEventControlSetDelayMS(*radio_control, 100);
+                    emberEventControlSetDelayMS(*TimeoutStatus_control,2000);
+                }
             }
         }
     }
 }
 
 void reset_parameters(){
+  memory_read(MODULE_MODE_MEMORY_KEY, &application.Module_mode);
   memory_erase(STATUSOP_MEMORY_KEY);
   memory_erase(SECURITY_KEY_MEMORY_KEY);
+  memory_erase(DEVICE_TYPE_MEMORY_KEY);
+  memory_erase(PAN_ID_MEMORY_KEY);
+
+  psa_status_t psa_status;
+  sl_se_command_context_t cmd_ctx;
+  sl_status_t status;
+
+  psa_status = psa_generate_random(connect_network_key.contents, EMBER_ENCRYPTION_KEY_SIZE);
+
+  if (psa_status == PSA_SUCCESS) {
+      if (set_security_key(connect_network_key.contents, (size_t)EMBER_ENCRYPTION_KEY_SIZE) == true) {
+          memory_write(SECURITY_KEY_MEMORY_KEY, connect_network_key.contents, sizeof(connect_network_key.contents));
+      } else {
+  //      app_log_error("Connect: set the random key as network key failed\n");
+      }
+  } else {
+  //      app_log_error("PSA: generate random network key failed (status: %ld)\n", psa_status);
+  }
+
+  status = sl_se_get_random(&cmd_ctx, &SL_SENSOR_SINK_PAN_ID_RANDOM, sizeof(SL_SENSOR_SINK_PAN_ID_RANDOM));
+
+  if(status == SL_STATUS_OK){
+      memory_write(PAN_ID_MEMORY_KEY, (uint8_t *)&SL_SENSOR_SINK_PAN_ID_RANDOM, sizeof(SL_SENSOR_SINK_PAN_ID_RANDOM));
+  }
 
   application.Status_Operation = WAIT_REGISTRATION;
 
+  application.device_info.device_type_identified = false;
+
   memory_write(STATUSOP_MEMORY_KEY, &application.Status_Operation, sizeof(application.Status_Operation));
+  memory_write(DEVICE_TYPE_MEMORY_KEY, (uint8_t *)&application.device_info, sizeof(application.device_info));
 }
 
 /**************************************************************************//**
@@ -203,46 +259,50 @@ void report_handler(void)
   switch (application.Status_Operation){
     case WAIT_REGISTRATION:
 
-      Register_Sensor.Status.Type = GATE;
+      Register_Sensor.Status.Type = application.device_info.device_type;
       Register_Sensor.Status.range = LONG_RANGE;
 
-      sendRadio.cmd = LRCMD_JOINED_NETWORK_GATE;
-      sendRadio.len = 2;
-      sendRadio.data[0] = Register_Sensor.Registerbyte;
+      if(Register_Sensor.Status.Type == CERCA){
+          sendRadio.cmd = LRCMD_JOINED_NETWORK_CERCA;
+      }else if(Register_Sensor.Status.Type == GATE){
+          sendRadio.cmd = LRCMD_JOINED_NETWORK_GATE;
+      }
 
+      sendRadio.len = 3;
+      sendRadio.data[0] = Register_Sensor.Registerbyte;
+      sendRadio.data[1] = application.Connect_ID;
       application.radio.LastCMD = sendRadio.cmd;
-      radio_send_packet(&sendRadio, false);
+      radio_send_packet(&sendRadio, 0, false);
       break;
 
     case OPERATION_MODE:
       if(application.radio.LastCMD == LRCMD_CHANGE_STATUS_GATE){
-          get_state(&application.state_real);
+          get_state_gate(&application.state_gate);
 
           sendRadio.cmd = LRCMD_CHANGE_STATUS_GATE;
           sendRadio.len = 6;
-          sendRadio.data[0] = application.state_real;         //Status portao
+          sendRadio.data[0] = application.state_gate;         //Status portao
           sendRadio.data[1] = 0xFF;                              //NULL
           sendRadio.data[2] = 0xFF;                              //NULL
           sendRadio.data[3] = 0xFF;                              //NULL
           sendRadio.data[4] = application.radio.RSSI;
-          radio_send_packet(&sendRadio, false);
+          radio_send_packet(&sendRadio, 0, false);
       }
 
       if(application.radio.LastCMD == LRCMD_STATUS_CENTRAL){
-          get_state(&application.state_real);
+          get_state_gate(&application.state_gate);
 
           sendRadio.cmd = LRCMD_STATUS_CENTRAL;
           sendRadio.len = 6;
-          sendRadio.data[0] = application.state_real;         //Status portao
+          sendRadio.data[0] = application.state_gate;         //Status portao
           sendRadio.data[1] = 0xFF;                              //NULL
           sendRadio.data[2] = 0xFF;                              //NULL
           sendRadio.data[3] = 0xFF;                              //NULL
           sendRadio.data[4] = application.radio.RSSI;
-          radio_send_packet(&sendRadio, false);
+          radio_send_packet(&sendRadio, 0, false);
       }
       break;
   }
-
   emberEventControlSetInactive(*report_control);
 }
 
@@ -253,7 +313,7 @@ void report_handler(void)
 void emberAfMessageSentCallback(EmberStatus status,
                                 EmberOutgoingMessage *message)
 {
-  if(message->payload[0] == LRCMD_JOINED_NETWORK_GATE && application.Status_Operation == WAIT_REGISTRATION && status == EMBER_SUCCESS){
+  if((message->payload[0] == LRCMD_JOINED_NETWORK_GATE || message->payload[0] == LRCMD_JOINED_NETWORK_CERCA) && application.Status_Operation == WAIT_REGISTRATION && status == EMBER_SUCCESS){
       //Estado inicial do sensor apos cadastro
       application.Status_Operation = OPERATION_MODE;
 
@@ -266,13 +326,18 @@ void emberAfMessageSentCallback(EmberStatus status,
               radioQueue[i].slot_used = false;
               radioQueue[i].attempts = 0;
           }else{
-              if(radioQueue[i].attempts == MAX_QUEUE_PACKET_ATTEMPTS){
+              if(application.Module_mode == ALARM_MODE){
+                  if(radioQueue[i].attempts == MAX_QUEUE_PACKET_ATTEMPTS){
+                      radioQueue[i].slot_used = false;
+                      radioQueue[i].attempts = 0;
+                  }else{
+                      radioQueue[i].slot_used = true;
+                      radioQueue[i].attempts++;
+                      radio_send_packet(&radioQueue[i].packet, message->destination, true);
+                  }
+              }else if(application.Module_mode == STANDALONE_RECEPTOR){
                   radioQueue[i].slot_used = false;
-                  radioQueue[i].attempts = 0;
-              }else{
-                  radioQueue[i].slot_used = true;
-                  radioQueue[i].attempts++;
-                  radio_send_packet(&radioQueue[i].packet, true);
+                                radioQueue[i].attempts = 0;
               }
           }
       }
@@ -318,15 +383,23 @@ void emberAfStackStatusCallback(EmberStatus status)
   }
 }
 
+void Network_join_timeout(){
+  emberPermitJoining(0);
+  joining = false;
+  join_timeout = 0;
+
+  emberSetUnencryptedPacketsAcceptance(false);
+}
+
 /**************************************************************************//**
  * This callback is called in each iteration of the main application loop and
  * can be used to perform periodic functions.
  *****************************************************************************/
 void emberAfTickCallback(void)
 {
-
   uint32_t current_time = sl_sleeptimer_get_tick_count();
   uint32_t press_elapsed_time = current_time - press_start_time;
+
   if(((press_elapsed_time) > TICKS_5S) && button_is_pressed && ((press_elapsed_time) <= TICKS_10S)){
       //BOTAO PRESSIONADO ENTRE 5s e 10s
       sl_led_turn_off(&sl_led_red);
@@ -345,27 +418,57 @@ void emberAfTickCallback(void)
                   if(ok_to_blink){
                       if((current_time - timer_counter) > 7800){
                           timer_counter = current_time;
-//                          sl_led_toggle(&sl_led_blue);
-//                          sl_led_turn_off(&sl_led_red);
-//                          sl_led_turn_off(&sl_led_green);
-                          hGpio_ledTurnOn(&sl_led_blue, false);
+                          hGpio_ledToggle(&sl_led_blue, false);
+                          hGpio_ledTurnOff(&sl_led_red);
+                          hGpio_ledTurnOff(&sl_led_green);
                       }
                   }
               }
           }else if(application.Module_mode == STANDALONE_RECEPTOR){
               //CONFIGURADO PARA FUNCIONAR COMO RECEPTOR AVULSO
-              if(emberStackIsUp()){
-                  if(!joining){
-                      sl_led_turn_on(&sl_led_red);
+              if (emberStackIsUp()) {
+                  if(join_timeout > 1){
+                      if((current_time - timer_counter) > 7800){
+                          timer_counter = current_time;
+                          hGpio_ledToggle(&sl_led_blue, false);
+                          hGpio_ledTurnOff(&sl_led_red);
+                          hGpio_ledTurnOff(&sl_led_green);
+                      }
+                      join_timeout--;
+                  }else if(join_timeout == 1){
+                      Network_join_timeout();
                   }else{
-
+                      hGpio_ledTurnOn(&sl_led_green, false);
                   }
-              }else{
-
+              }else {
+                  hGpio_ledTurnOff(&sl_led_red);
+                  hGpio_ledTurnOff(&sl_led_green);
+                  hGpio_ledTurnOff(&sl_led_blue);
               }
           }
+      }else{
+
       }
   }
+}
+
+void emberAfChildJoinCallback(EmberNodeType nodeType,
+                              EmberNodeId nodeId)
+{
+  app_log_info("Sensor joined with node ID 0x%04X, node type: 0x%02X\n", nodeId, nodeType);
+
+  packet_void_t sendRadio;
+  EmberKeyData encrypted_key;
+
+  aes_ecb_encrypt_key(transport_key, connect_network_key.contents, encrypted_key.contents);
+
+  sendRadio.cmd = LRCMD_SEND_KEY;
+  sendRadio.len = 17;
+  memcpy(sendRadio.data,encrypted_key.contents,EMBER_ENCRYPTION_KEY_SIZE);
+
+  radio_send_packet(&sendRadio,nodeId,false);
+
+  Network_join_timeout();
 }
 
 void startActiveScanCommand(void){

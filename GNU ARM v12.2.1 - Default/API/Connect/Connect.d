@@ -208,8 +208,8 @@ API/Connect/Connect.o: ../API/Connect/Connect.c ../API/Connect/Connect.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/Application/application.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/packet.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/pckDataStructure.h \
- C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/privAPI/Radio.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/Connect/Connect.h \
+ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/privAPI/Radio.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/memory/memory.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/boards/chipset/efr32.h \
  C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hDriver.h \
@@ -431,8 +431,8 @@ C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect\config/app_lo
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/Application/application.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/packet.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/packet/pckDataStructure.h:
-C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/privAPI/Radio.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/Connect/Connect.h:
+C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/privAPI/Radio.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/API/memory/memory.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/boards/chipset/efr32.h:
 C:\Users\joao.victor\SimplicityStudio\v5_workspace\Gate_LR_Connect/hplatform/hDriver/hDriver.h:

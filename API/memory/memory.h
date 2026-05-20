@@ -17,6 +17,8 @@
 #define ID_PARTITION_MEMORY_KEY   6
 #define BATTERY_MEMORY_KEY        7
 #define SECURITY_KEY_MEMORY_KEY   8
+#define DEVICE_TYPE_MEMORY_KEY    9
+#define PAN_ID_MEMORY_KEY         10
 
 void memory_write(uint32_t key, uint8_t *value, uint8_t len);
 void memory_read(uint32_t key, void *buffer);
